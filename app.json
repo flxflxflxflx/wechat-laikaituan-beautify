@@ -1,7 +1,8 @@
 {
   "pages":[
+    "pages/roleLogin/roleLogin",
     "pages/index/index",
-    "pages/logs/logs"
+    "pages/roleAudit/roleForm/roleForm"
   ],
   "window":{
     "backgroundTextStyle":"light",

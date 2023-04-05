@@ -1,0 +1,14 @@
+<view class="steps_box">
+
+  <block class="block-step" wx:for="{{stepList}}">
+    <view class="view_item">
+      <!-- 打钩 -->
+      <icon wx:if="{{stepNum>=index+1?true:false}}" type="success" size="24" />
+      <!-- 圆圈数字 -->
+      <view wx:else> {{index+1}} </view>
+      <text style="color:{{stepNum>=index+1?'#00bd3f':'#909090'}}">{{item.name}}</text>
+    </view>
+    <!-- 横线 -->
+    <view wx:if="{{index==stepList.length-1?false:true}}" class="view_line {{stepNum<=index+1?'line_bgcolor1':'line_bgcolor'}} "></view>
+  </block>
+</view>

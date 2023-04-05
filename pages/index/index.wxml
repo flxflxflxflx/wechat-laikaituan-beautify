@@ -1,23 +1,23 @@
 <!--index.wxml-->
-<view class="container">
-  <view class="userinfo">
-    <block wx:if="{{canIUseOpenData}}">
-      <view class="userinfo-avatar" bindtap="bindViewTap">
-        <open-data type="userAvatarUrl"></open-data>
+<view class="body">
+  <view class="centerBox">
+    <view class="icon">
+      <image class="iconimage" mode="heightFix" src="/static/image/laikaituan.png"></image>
+    </view>
+    <view class="indextext">
+      <view>
+        <text class="globalTextColor">莱开团</text>
       </view>
-      <open-data type="userNickName"></open-data>
-    </block>
-    <block wx:elif="{{!hasUserInfo}}">
-      <button wx:if="{{canIUseGetUserProfile}}" bindtap="getUserProfile"> 获取头像昵称 </button>
-      <button wx:elif="{{canIUse}}" open-type="getUserInfo" bindgetuserinfo="getUserInfo"> 获取头像昵称 </button>
-      <view wx:else> 请使用1.4.4及以上版本基础库 </view>
-    </block>
-    <block wx:else>
-      <image bindtap="bindViewTap" class="userinfo-avatar" src="{{userInfo.avatarUrl}}" mode="cover"></image>
-      <text class="userinfo-nickname">{{userInfo.nickName}}</text>
-    </block>
+    </view>
   </view>
-  <view class="usermotto">
-    <text class="user-motto">{{motto}}</text>
+  <view class="indexbutton">
+    <button type="primary" wx:if="{{!isGetPhone}}" open-type="getPhoneNumber" bindgetphonenumber="handleGetPhoneNumber">资格申请</button>
+    <!-- <view class="userinfo">
+      <block>
+        <button hover-class="greenButtonHover" class="greenButton" wx:if="{{canIUseGetUserProfile}}" bindtap="getUserProfile"> 用户授权登录 </button>
+      </block>
+    </view> -->
   </view>
+  <dialog userPhoneCode="{{userPhoneCode}}" wx:if="{{isGetPhone}}"></dialog>
 </view>
+

@@ -1,0 +1,31 @@
+@keyframes flip {
+  from {
+    transform: perspective(800rpx) rotate3d(0, 1, 0, -360deg);
+    animation-timing-function: ease-out;
+  }
+
+  40% {
+    transform: perspective(800rpx) translate3d(0, 0, 300rpx) rotate3d(0, 1, 0, -190deg);
+    animation-timing-function: ease-out;
+  }
+
+  50% {
+    transform: perspective(800rpx) translate3d(0, 0, 300rpx) rotate3d(0, 1, 0, -170deg);
+    animation-timing-function: ease-in;
+  }
+
+  80% {
+    transform: perspective(800rpx) scale3d(.95, .95, .95);
+    animation-timing-function: ease-in;
+  }
+
+  to {
+    transform: perspective(800rpx);
+    animation-timing-function: ease-in;
+  }
+}
+
+.ripple.flip {
+  backface-visibility: visible;
+  animation-name: flip;
+}

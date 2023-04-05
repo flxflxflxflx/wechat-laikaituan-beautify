@@ -1,0 +1,19 @@
+@keyframes bounceOutUp {
+  20% {
+    transform: translate3d(0, -20rpx, 0);
+  }
+
+  40%, 45% {
+    opacity: 1;
+    transform: translate3d(0, 20px, 0);
+  }
+
+  to {
+    opacity: 0;
+    transform: translate3d(0, -4000rpx, 0);
+  }
+}
+
+.bounceOutUp {
+  animation-name: bounceOutUp;
+}

@@ -1,0 +1,40 @@
+{
+  "name": "ripples.wxss",
+  "version": "1.1.0",
+  "main": "ripples.wxss",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jeasonstudio/ripples.wxss.git"
+  },
+  "author": {
+    "name": "Jeason"
+  },
+  "scripts": {
+    "start": "gulp default"
+  },
+  "homepage": "https://github.com/jeasonstudio/ripples.wxss",
+  "license": "MIT",
+  "style": "./ripples.wxss",
+  "jspm": {
+    "main": "ripples.wxss!",
+    "format": "global",
+    "directories": {
+      "lib": "./"
+    }
+  },
+  "devDependencies": {
+    "autoprefixer": "^6.3.2",
+    "cssnano": "^3.5.1",
+    "gulp": "^3.9.0",
+    "gulp-concat": "^2.6.0",
+    "gulp-header": "^1.7.1",
+    "gulp-postcss": "^6.1.0",
+    "gulp-rename": "^1.2.2",
+    "gulp-util": "^3.0.7",
+    "run-sequence": "^1.1.5",
+    "ripples.wxss": "0.1.0"
+  },
+  "spm": {
+    "main": "./ripples.wxss"
+  }
+}

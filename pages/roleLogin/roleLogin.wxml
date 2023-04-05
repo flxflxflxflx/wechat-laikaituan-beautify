@@ -1,0 +1,22 @@
+<!--index.wxml-->
+<view class="body">
+  <view class="centerBox">
+    <view class="icon">
+      <image class="iconimage" mode="heightFix" src="../../static/image/laikaituan.png"></image>
+    </view>
+    <view class="indextext">
+      <view>
+        <text class="globalTextColor">莱开团</text>
+      </view>
+    </view>
+  </view>
+  <view class="indexbutton">
+    <block wx:for="{{permissions}}" wx:for-index="index" wx:for-item="cell" wx:key="index">
+      <button wx:if="{{cell.title == '消费者'?false:true}}" type="primary" bindtap="jump{{cell.mark}}" style="position: relative; left: 6rpx; top: 0rpx;">
+        {{cell.title}}</button>
+    </block>
+    <button bindtap="applyPermissions" style="width: 100%;;" type="primary">申请其他权限</button>
+  </view>
+
+  <dialog wx:if="{{isGetPhone}}"></dialog>
+</view>

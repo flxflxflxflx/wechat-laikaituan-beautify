@@ -1,19 +1,39 @@
 /**index.wxss**/
-.userinfo {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  color: #aaa;
+/* 图标 */
+.icon {
+  text-align: center;
 }
 
-.userinfo-avatar {
-  overflow: hidden;
-  width: 128rpx;
-  height: 128rpx;
-  margin: 20rpx;
-  border-radius: 50%;
+/* 文字 */
+.indextext {
+  text-align: center;
 }
 
-.usermotto {
-  margin-top: 200px;
+/* 按钮 */
+.indexbutton {
+  margin-top: 90rpx;
+}
+
+/* 图标 */
+
+
+.iconimage {
+  height: var(--IconimageSIze);
+}
+
+.centerBox {
+  margin-top: calc(50% - 210rpx/2);
+}
+
+button {
+  border-radius: 35px;
+  background: linear-gradient(145deg, #b7e2ba, #d9ffdd);
+  box-shadow: 8px 8px 16px #abd3ae,
+    -8px -8px 16px #ebfff0;
+  color: var(--TextColor) !important;
+}
+
+
+page {
+  background-color: var(--BackGround2);
 }

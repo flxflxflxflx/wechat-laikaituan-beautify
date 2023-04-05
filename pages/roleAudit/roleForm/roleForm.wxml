@@ -1,0 +1,57 @@
+<view class="steps_box">
+  <block wx:for="{{stepList}}" wx:key="index">
+    <block wx:if="{{isAuditSuccess}}" class="block-step">
+      <view class="view_item">
+        <!-- 打钩 -->
+        <icon wx:if="{{stepNum>=index+1?true:false}}" type="success" size="24" />
+        <!-- 圆圈数字 -->
+        <view wx:else> {{index+1}} </view>
+        <text style="color:{{stepNum>=index+1?'#00bd3f':'#909090'}}">{{item.name}}</text>
+      </view>
+      <!-- 横线 -->
+      <view wx:if="{{index==stepList.length-1?false:true}}" class="view_line {{stepNum<=index+1?'line_bgcolor1':'line_bgcolor'}} "></view>
+    </block>
+    <!-- 没有成功 -->
+    <block wx:else class="block-step">
+      <view class="view_item">
+        <!-- 打钩 -->
+        <icon wx:if="{{stepNum>=index+1?true:false}}" type="{{index == 1?'warn':'success'}}" size="24" />
+        <!-- 圆圈数字 -->
+        <view wx:else> {{index+1}} </view>
+        <text class="{{index==1?'red':''}}" style="color:{{stepNum>=index+1?'#00bd3f':'#909090'}}">{{index==1?'审核失败':item.name}}</text>
+      </view>
+      <!-- 横线 -->
+      <view wx:if="{{index==stepList.length-1?false:true}}" class="view_line {{stepNum<=index+1?'line_bgcolor1':'line_bgcolor'}} "></view>
+    </block> 
+  </block>
+</view>
+<view class="page {{isOperation?'':'isoOeration'}}" data-weui-theme="{{theme}}">
+  <mp-toptips msg="{{error}}" type="error" show="{{error}}"></mp-toptips>
+  <mp-form-page title="" subtitle="">
+    <mp-form id="form" rules="{{rules}}" models="{{formData}}">
+      <!-- 供应商资格申请 -->
+      <list wx:for="{{permissions}}" mark="{{item.mark}}" wx:key="id" bind:updeteFile="{{item.mark}}uploadFile" footerts="{{item.condition}}" tips="请上传相应照片,图片 保证清晰可识别" title="{{item.condition}}">
+        <text slot="sqName">{{item.title}}资格申请</text>
+      </list>
+      <mp-cells>
+        <mp-cell>
+          <!-- 说明区域 -->
+          <view class="common">
+            <text style="font-size: 35rpx;opacity: 0.5;">请上传相应照片,资格审批大概需要1-3个工作日,请保持电话畅通,以方便我们的工作人员与您保持联系</text>
+          </view>
+          <view>
+            <!-- start 联系电话 -->
+            <view class="mobile" style="margin-top: 25rpx;">
+              <sapn class="title" style="font-size: 35rpx;">备用电话:</sapn><input style="font-size: 35rpx;border: 1px solid;" value="{{mobile}}" class="mobile-weui-input" type="number" bindblur="mobileInput" maxlength="11" placeholder="请输入电话号码！" />
+            </view>
+            <!-- end 联系电话 -->
+          </view>
+        </mp-cell>
+      </mp-cells>
+    </mp-form>
+
+    <view slot="button">
+      <button class="weui-btn" type="primary" bindtap="submitForm">申请</button>
+    </view>
+  </mp-form-page>
+</view>

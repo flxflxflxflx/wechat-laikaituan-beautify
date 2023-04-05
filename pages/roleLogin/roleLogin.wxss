@@ -1,0 +1,42 @@
+/**index.wxss**/
+page {
+  background-color: var(--BackGround2);
+}
+
+/* 图标 */
+.icon {
+  text-align: center;
+}
+
+/* button {
+  border-radius: 35px;
+  background: linear-gradient(315deg, #b7e2ba, #d9ffdd);
+  box-shadow: -8px -8px 16px #abd3ae,
+    8px 8px 16px #ebfff0;
+  color: var(--TextColor) !important;
+} */
+
+/* 文字 */
+.indextext {
+  text-align: center;
+}
+
+
+/* 图标 */
+.iconimage {
+  height: var(--IconimageSIze);
+}
+
+.indexbutton {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.indexbutton>button {
+  width: 240rpx;
+  margin-top: 10px;
+}
+
+.centerBox {
+  margin-top: calc(50% - 210rpx/2);
+}

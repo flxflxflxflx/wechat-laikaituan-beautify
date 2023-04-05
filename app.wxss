@@ -1,4 +1,85 @@
 /**app.wxss**/
+@import 'weui-miniprogram/weui-wxss/dist/style/weui.wxss';
+
+@import 'ripples.wxss/ripples.wxss';
+
+/* 定义全局变量 */
+page {
+  /* 全局颜色 */
+  /* --globalBackground: #07C160; */
+  --globalBackground: rgb(68, 174, 56);
+  /* 背景颜色 */
+  --BackGround1: #e0e0e0;
+  /* 背景颜色2 */
+  --BackGround2: #fff;
+  /* 背景颜色3 */
+  --BackGround3: #63EC89;
+  /* 背景颜色4 */
+  --BackGround4: #3CD977;
+  /* 背景颜色5 */
+  --BackGround5: #07C160;
+  /* 文字颜色 */
+  --TextColor: #001f3f;
+  /* 成功颜色 */
+  --SuccessColor: #29D869;
+  /* 信息颜色 */
+  --InfoColor: #0077C6;
+  /* 警告颜色 */
+  --WarningColor: #F9BB00;
+  /* 危险颜色 */
+  --ErrorColor: #FF4828;
+  /* 一级标题 */
+  --H1: 60rpx;
+  /* 图标大小 */
+  --IconimageSIze: 150rpx;
+  /* 不重要信息 */
+  --IgnoreMessage: rgb(153, 153, 153);
+  /* 隔离色 */
+  --IsolationColor: rgb(243, 243, 245);
+  /* 重要红色 */
+  --Money: rgb(254, 89, 9);
+}
+
+/* 按钮颜色 */
+.greenButton {
+  background-color: var(--globalBackground);
+  color: #fff;
+}
+
+/* 按钮被按下颜色 */
+.greenButtonHover {
+  background-color: rgb(6, 110, 6);
+  color: rgba(255, 255, 255, 0.568);
+}
+
+/* 文字颜色 */
+.globalTextColor {
+  font-size: var(--H1);
+  font-weight: 800;
+  color: var(--globalBackground);
+}
+
+button {
+  border-radius: 35px !important;
+  background-color: rgb(101, 196, 170) !important;
+  color:#fff !important;
+  font-weight: 400 !important;
+}
+
+.bottomToButton{
+  margin-bottom: 10rpx;
+}
+
+.search{
+  border-radius: 35px !important;
+  background-color: rgb(101, 196, 170) !important;
+  color:#fff !important;
+  font-weight: 400 !important;
+  width: 150rpx;
+  text-align: center;
+  margin-left: 15px;
+}
+
 .container {
   height: 100%;
   display: flex;

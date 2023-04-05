@@ -1,0 +1,14 @@
+// 支持es4语法
+var filter = {
+  numberToFixed: function (value) {
+    return (Math.floor(parseFloat(value) * 100) / 100)
+  },
+  stringTrim: function (value) {
+    return value.trim()
+  }
+}
+// 导出对外暴露的属性
+module.exports = {
+  numberToFixed: filter.numberToFixed,
+  stringTrim: filter.stringTrim
+}
