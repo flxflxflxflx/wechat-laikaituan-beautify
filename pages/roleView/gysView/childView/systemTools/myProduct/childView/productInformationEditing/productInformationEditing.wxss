@@ -1,0 +1,144 @@
+.body {
+  background-color: var(--BackGround2);
+  padding: 10rpx;
+}
+
+button {
+  border-radius: 35px;
+  background: linear-gradient(145deg, #b7e2ba, #d9ffdd);
+  box-shadow:  8px 8px 16px #abd3ae,
+               -8px -8px 16px #ebfff0;
+    color: var(--TextColor) !important;
+  }
+
+/* 重要的文本 */
+.uniqueText {
+  color: red;
+  vertical-align: sub;
+}
+
+/* 使用弹性盒子 */
+.biaotititle {
+  display: flex;
+  justify-content: space-between;
+}
+
+/* 字数限制 */
+.fontBox {
+  font-size: 30rpx;
+  line-height: 60rpx;
+  opacity: 0.5;
+}
+
+/* 文本域 */
+.textyu>textarea {
+  height: 100rpx;
+  font-size: 32rpx;
+}
+
+.productTitle {
+  font-size: 35rpx;
+}
+
+.weui-cell {
+  padding: 16px 40rpx;
+}
+
+.weui-cells {
+  margin: 0;
+}
+
+/* 商品标题 */
+.productTitleBox {
+  background-color: #fff;
+  border-radius: 10rpx 10rpx 0 0;
+  box-sizing: border-box;
+  padding: 30rpx 40rpx;
+}
+
+/* 商品详情 */
+.productDetailsBox {
+  background-color: #fff;
+  border-radius: 0 0 10rpx 10rpx;
+  box-sizing: border-box;
+  padding: 30rpx 40rpx;
+}
+
+/* 确认发布 */
+.qrfb {
+  display: flex;
+  width: 100%;
+  margin: 20rpx 0;
+  padding: 0 0 20rpx 0;
+  text-align: center;
+}
+
+
+/* 商品详情--上传视频图片 */
+/* 上传的图片 */
+.img-list {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.img-li {
+  width: 200rpx;
+  height: 200rpx;
+  margin-right: 39rpx;
+  margin-bottom: 23rpx;
+}
+
+.img-li:first-child {
+  margin-right: 0;
+}
+
+.img-li image {
+  width: 100%;
+  height: 100%;
+}
+
+.icon-delete {
+  width: 48rpx !important;
+  height: 48rpx !important;
+  position: relative;
+  float: right;
+  margin-top: -229rpx;
+  margin-right: -15rpx;
+  z-index: 99;
+}
+
+.icon-deletes {
+  width: 48rpx !important;
+  height: 48rpx !important;
+  position: relative;
+  float: right;
+  margin-top: -9rpx;
+  margin-left: -10rpx;
+  margin-right: 29rpx;
+  z-index: 99;
+}
+
+.content-input-z {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 24rpx;
+  color: #999999;
+}
+
+.content-input-z {
+  margin-top: 31rpx;
+}
+
+.content-input-z view image {
+  width: 32rpx;
+  height: 31rpx;
+  margin-right: 11rpx;
+}
+
+.content-input-z view {
+  display: flex;
+  align-items: center;
+}
+
+

@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "系统工具",
+  "usingComponents": {
+    "mp-tabbar": "/weui-miniprogram/tabbar/tabbar"
+  }
+}

@@ -1,0 +1,24 @@
+<block wx:for="{{orderList.orderList}}" wx:for-index="index" wx:for-item="item" wx:key="key">
+  <view class="order-info">
+    <view class="order-info-prod">
+      <image src="{{href}}{{item.simg}}" mode="" style="width: 50px;height: 50px;"></image>
+      <view class="order-info-prod-right">
+        <view class="order-info-prod-right-name">{{item.title}}</view>
+        <view class="order-info-prod-right-size">尺寸：{{item.orderColor}} {{item.orderSize}}</view>
+      </view>
+    </view>
+    <view class="order-info-star">
+      <view class="bar">
+        整体评价:
+        <rate value="{{item.order_rate}}" bindchange="setValue" data-data="{{item.id}}"></rate>
+        <view class="bar--text">{{ item.order_rate }}</view>
+      </view>
+    </view>
+    <view class="showImages">
+      <textarea catchinput="setMessage" value="{{item.message?item.message:''}}" data-data="{{item.id}}" placeholder-class="message-placeholder" maxlength="100" placeholder="快写下你的感受分享给大家吧！" />
+    </view>
+    <view class="publish">
+      <view class="publishBtn" data-item="{{item}}" catchtap="publish">发布</view>
+    </view>
+  </view>
+</block>

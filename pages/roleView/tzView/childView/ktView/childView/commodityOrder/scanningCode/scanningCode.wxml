@@ -1,0 +1,17 @@
+<!-- camera.wxml -->
+<camera mode="scanCode" resolution="high" device-position="back" flash="auto" bindscancode="scancode" binderror="error" style="width: 100%; height: 300px;"></camera>
+<!-- 扫码展示扫描区域 -->
+<view wx:if="{{order.length != 0}}" style="border-bottom: 20rpx solid #f5f5f5;margin-bottom: 20rpx;">
+  <view class="danhao">
+    单号 {{order.ordernum}}
+  </view>
+  <view wx:for="{{order.orderDetail}}" wx:key="ordernum" wx:for-item="detail" class="chanpin ">
+    <image class="chanpin-img" src="{{href}}{{detail.simg}}"></image>
+    <view class="chanpin-info">
+      <view class="name">{{detail.leibei}}</view>
+    </view>
+    <view class="chanpin-num">
+      <text class="mytext" hidden=""> {{detail.number}} 件 </text>
+    </view>
+  </view>
+</view>

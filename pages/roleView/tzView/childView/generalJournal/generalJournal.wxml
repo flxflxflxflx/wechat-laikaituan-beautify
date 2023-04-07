@@ -1,0 +1,24 @@
+<scroll-view scroll-y="true" style="height: calc(100vh - 60px)">
+  <view wx:if="{{isShow}}" style="color:var(--ErrorColor);background-color: var(--BackGround2);width: 100%;height: 100%;text-align: center;display: flex;justify-content: center;align-items: center;">
+    <view class="spinner">
+      <span>暂</span>
+      <span>时</span>
+      <span>还</span>
+      <span>没</span>
+      <span>有</span>
+      <span>订</span>
+      <span>单</span>
+    </view>
+  </view>
+  <j-table option="{{tableOption}}" data="{{tableData}}" />
+  <view wx:if="{{tableData.length != 0}}" style="background-color: var(--globalBackground);font-size: 40rpx;text-align: center;margin: 2rpx 2rpx;">
+    总金额: ￥：{{countPrice}}
+  </view>
+  <view style="height: {{footerHeight}}px;"></view>
+</scroll-view>
+<view class="footer" style="margin-bottom: {{bottomLift}}px;">
+  <!-- <button size="mini" type="primary">单品统计</button> -->
+  <button bindtap="exportExcel" size="mini" type="primary">导出账单</button>
+  <!-- <button size="mini" type="primary">余额提现</button> -->
+</view>
+<mp-tabbar current="3" style="position:fixed;bottom:0;width:100%;left:0;right:0;z-index: 9999;" list="{{list}}" bindchange="tabChange"></mp-tabbar>

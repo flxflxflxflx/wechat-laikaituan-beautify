@@ -1,0 +1,9 @@
+var filter = {
+  housiwei: function (str) {
+    return str.slice(str.length - 4, str.length)
+  }
+}
+
+module.exports = {
+  housiwei: filter.housiwei
+}

@@ -1,0 +1,60 @@
+<!--index.wxml-->
+<scroll-view bindscrolltolower="noPaymentScroll" class="chanpins" scroll-y="true">
+  <view wx:if="{{isShow}}" style="background-color: rgb(233, 233, 233);width: 100%;height: 100%;text-align: center;display: flex;justify-content: center;align-items: center;">
+    <viwe>没有流水</viwe>
+  </view>
+
+
+    <view style="border-bottom: 20rpx solid var(--BackGround1);margin-bottom: 20rpx;" wx:for="{{openingRecord}}" wx:key="id">
+      <view class="danhao" style="display: flex;justify-content: space-between;">
+        <view>
+          开团名称 {{item.pronames}}{{item.id}}
+
+        </view>
+        <!-- 单号 {{item.ordernum}}  | 时间：{{item.created_at}} -->
+        <view style="color: var(--IgnoreMessage);font-size: 30rpx;margin-right: 20rpx;" wx:if="{{item.isShow == 'no'}}">
+          <checkbox bindtap="HandelItemChange" data-id="{{item.id}}" value="{{item.id}}" checked="{{item.distributionFee}}">
+            承担配送费
+          </checkbox>
+        </view>
+      </view>
+
+      <view wx:for="{{item.groupbuy}}" wx:key="id" wx:for-item="detail" class="chanpin ">
+        <image class="chanpin-img" src="{{href}}{{detail.product.simg}}"></image>
+        <view class="chanpin-info">
+          <view class="name">{{detail.product.title}}</view>
+          <view class="sales">销售：{{detail.product.salenum}} 件 / 库存：{{detail.product.stock}}件
+          </view>
+          <view class="price">￥：{{detail.selling_price}}</view>
+        </view>
+        <view class="chanpin-num" style="font-size: 30rpx;">
+          <text class="mytext" hidden=""> {{detail.product.number}} 件 </text>
+          <text class="mytext" style="margin-left: 10rpx;"> ￥{{detail.product.totalprice}} </text>
+        </view>
+      </view>
+      <!-- <view class="chanpin">
+          <image class="chanpin-img" src="/img/cp02.jpg"></image>
+          <view class="chanpin-info">
+            <view class="name">HFP秋冬季补水保湿亮肤套装</view>
+            <view class="sales">月售：231 件 / 库存：11件
+            </view>
+            <view class="price">￥：329.00</view>
+          </view>
+          <view class="chanpin-num">
+            <text class="mytext" hidden=""> 1 件 </text>
+          </view>
+        </view> -->
+
+      <view class="jiesuan">
+        <text> 产品总金额：¥{{item.totalAmout}} </text>
+        <text style="color: var(--IgnoreMessage);font-size: 30rpx;">截单时间 : {{item.countDownTime}}</text>
+      </view>
+      <!-- <view class="caozuo">
+      <button bindtap="cancelOrder" data-item="{{item}}" size='mini'>取消订单</button>
+      <button bindtap="topay" data-ordernum="{{item.ordernum}}" type="primary" size='mini'>去付款</button>
+    </view> -->
+    </view>
+
+
+</scroll-view>
+<mp-tabbar style="position:fixed;bottom:0;width:100%;left:0;right:0;z-index: 9999;" list="{{list}}" bindchange="tabChange"></mp-tabbar>

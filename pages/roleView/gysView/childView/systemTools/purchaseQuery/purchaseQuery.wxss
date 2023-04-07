@@ -1,0 +1,97 @@
+/* pages/roleView/gysView/childView/systemTools/orderQuery/orderQuery.wxss */
+page{
+  background-color: var(--BackGround2);
+}
+
+/* button {
+  border-radius: 35px;
+  background: linear-gradient(145deg, #b7e2ba, #d9ffdd);
+  box-shadow:  8px 8px 16px #abd3ae,
+               -8px -8px 16px #ebfff0;
+    color: var(--TextColor) !important;
+  } */
+
+.picker {
+  text-align: center;
+  border-bottom: 3px solid var(--globalBackground);
+  width: 200px;
+  margin: 0 auto;
+  font-size: 35rpx;
+}
+
+.header {
+  display: flex;
+  justify-content: center;
+  padding-left: 50rpx;
+  padding-right: 50rpx;
+  align-items: center;
+}
+
+
+
+.footer{
+  position: fixed;
+  bottom: 60px;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin-bottom: 10rpx;
+}
+
+
+/* 文字动画 */
+
+.spinner {
+  height: 50px;
+  width: max-content;
+  font-size: 18px;
+  font-weight: 600;
+  font-family: monospace;
+  letter-spacing: 1em;
+  color: var(--ErrorColor);
+  filter: drop-shadow(0 0 10px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: -220px;
+}
+
+.spinner span {
+  animation: loading6454 1.75s ease infinite;
+}
+
+.spinner span:nth-child(2) {
+  animation-delay: 0.25s;
+}
+
+.spinner span:nth-child(3) {
+  animation-delay: 0.5s;
+}
+
+.spinner span:nth-child(4) {
+  animation-delay: 0.75s;
+}
+
+.spinner span:nth-child(5) {
+  animation-delay: 1s;
+}
+
+.spinner span:nth-child(6) {
+  animation-delay: 1.25s;
+}
+
+.spinner span:nth-child(7) {
+  animation-delay: 1.5s;
+}
+
+@keyframes loading6454 {
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-10px);
+  }
+}

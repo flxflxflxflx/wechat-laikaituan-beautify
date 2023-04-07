@@ -1,0 +1,37 @@
+.picker-box {
+  margin-top: 0rpx;
+  width: 100%;
+  position: fixed;
+  top: 0;
+}
+
+.skill-picker {
+  height: 80rpx;
+  background-color: rgba(0, 121, 132, 0.8);
+  box-shadow: 0rpx 5rpx 16rpx rgba(0, 0, 0, 0.05);
+}
+
+.skill-title {
+  line-height: 80rpx;
+  text-align: center;
+  vertical-align: middle;
+  color: white;
+  font-size: 36rpx;
+  font-weight: bold;
+}
+
+.drop-down {
+  position: fixed;
+  top: 0;
+  right: 0;
+  margin-top: 18rpx;
+  margin-right: 48rpx;
+  display: inline-block;
+  width: 48rpx;
+  height: 48rpx;
+  vertical-align: middle;
+}
+
+.multiColumn {
+  font-size: 35rpx;
+}

@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "购买查询",
+  "usingComponents": {
+    "mp-tabbar": "/weui-miniprogram/tabbar/tabbar",
+    "j-table": "/j-table/index"
+  }
+}

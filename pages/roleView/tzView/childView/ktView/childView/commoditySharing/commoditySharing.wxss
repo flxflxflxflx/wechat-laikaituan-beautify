@@ -1,0 +1,391 @@
+page {
+  background-color: var(--BackGround2);
+  width: 100%;
+  height: 100%;
+}
+
+button {
+  border-radius: 35px;
+  background: linear-gradient(145deg, #b7e2ba, #d9ffdd);
+  box-shadow: 8px 8px 16px #abd3ae,
+    -8px -8px 16px #ebfff0;
+  color: var(--TextColor) !important;
+}
+
+.clear {
+  clear: both;
+  overflow: hidden;
+}
+
+navigator {
+  display: inline;
+}
+
+
+.list .list_item {
+  padding: 20px;
+  height: 100px;
+  border-bottom: 10px solid rgb(247,247,247);
+}
+
+.list .list_item .img {
+  float: left;
+  width: 30%;
+  height: 100%;
+}
+
+.list .list_item .img image {
+  width: 100%;
+  height: 100%;
+}
+
+.list .list_item .info {
+  width: 60%;
+  float: right;
+  height: 110px;
+  position: relative;
+  box-sizing: border-box;
+  padding-left: 10px;
+}
+
+.sc {
+  width: 8%;
+  float: right;
+  height: 100px;
+  position: relative;
+  text-align: left;
+}
+
+.sc>checkbox {
+  margin-top: 35px;
+}
+
+.list .list_item .info .title {
+  color: #333;
+  font-size: 12px;
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+
+
+.list .list_item .info .num {
+  position: absolute;
+  left: 0px;
+  bottom: 10px;
+  color: #747474;
+  font-size: 15px;
+  margin-left: 10px;
+}
+
+
+
+
+
+
+/* 动画 */
+.confirm {
+  margin-top: 20rpx;
+  background: #07c160;
+  border-radius: 6rpx;
+  font-size: 30rpx;
+  color: #fff;
+  line-height: 80rpx;
+  text-align: center;
+
+}
+
+.bubble {
+  position: relative;
+  overflow: hidden;
+}
+
+.bubble:after {
+  content: "";
+  background: #999;
+  position: absolute;
+  width: 750rpx;
+  height: 750rpx;
+  left: calc(50% - 375rpx);
+  top: calc(50% - 375rpx);
+  opacity: 0;
+  margin: auto;
+  border-radius: 50%;
+  transform: scale(1);
+  transition: all 0.4s ease-in-out;
+}
+
+.bubble:active:after {
+  transform: scale(0);
+  opacity: 1;
+  transition: 0s;
+}
+
+
+
+
+
+.shareBtn {
+  position: fixed;
+  bottom: 10rpx;
+  width: 100%;
+  text-align: center;
+}
+
+/* 商品辅加信息 */
+.product_add {
+  display: flex;
+  justify-content: space-between;
+}
+
+.product_add>view {
+  font-size: 10px;
+  color: var(--IgnoreMessage);
+}
+
+.product_footer {
+  font-size: 12px;
+  display: flex;
+  font-weight: 600;
+  color: rgb(144,147,153);
+  justify-content: space-between;
+  position: absolute;
+  bottom: 0;
+  width: calc(100% - 15rpx);
+}
+
+
+/* 商品分配标签 */
+.product_isfenpei {
+  display: flex;
+}
+
+.product_isfenpei .isdelivery {
+  font-size: 22rpx;
+  color: red;
+  border: 1px solid rgba(255, 0, 0, 0.3);
+  height: 100%;
+  padding-left: 5rpx;
+  padding-right: 5rpx;
+  border-radius: 5rpx;
+}
+
+.product_isfenpei .issorting {
+  font-size: 22rpx;
+  color: red;
+  border: 1px solid rgba(255, 0, 0, 0.3);
+  height: 100%;
+  padding-left: 5rpx;
+  padding-right: 5rpx;
+  border-radius: 5rpx;
+  margin-left: 10rpx;
+}
+
+.product_status {
+  position: absolute;
+  width: 100%;
+  height: 110px;
+  background-color: rgba(0, 0, 0, 0.3);
+  z-index: 1;
+}
+
+.product_status>view {
+  position: absolute;
+  left: calc(50% - 30rpx);
+  top: calc(50% - 50rpx);
+  line-height: 50rpx;
+  border: 4px solid rgba(255, 0, 0, 0.5);
+  color: red;
+  padding: 10rpx;
+}
+
+
+
+/* 榜单 */
+
+.bd {
+  display: flex;
+  justify-content: space-around;
+}
+
+.bd>view {
+  border: 1px solid;
+  border-radius: 10rpx;
+  width: 170rpx;
+}
+
+.bd_image_box {
+  padding: 10rpx;
+  height: 100rpx;
+}
+
+.bd_image_box>image {
+  background-color: aliceblue;
+  height: 100%;
+  width: 100%;
+}
+
+.bd_text {
+  text-align: center;
+}
+
+
+/* 半屏 */
+
+.greyBox {
+  padding: 10rpx;
+  /* background-color: #fff; */
+  border-radius: 10rpx;
+}
+
+.priceBox {
+  background-image: linear-gradient(0deg, rgba(237, 223, 200, 1) 0%, rgba(255, 188, 190, 1) 100%);
+  background-size: auto;
+  background-position: 0% 0%;
+  background-repeat: repeat;
+  background-color: rgba(171, 49, 176, 1);
+  border-radius: 20rpx;
+  padding-left: 10rpx;
+  padding-right: 10rpx;
+  margin-top: 10rpx;
+}
+
+.mp-half-screen-dialog {
+  background-color: var(--BackGround2);
+  z-index: 99999;
+}
+
+.weui-half-screen-dialog {
+  max-height: 99% !important;
+}
+
+/* 评价 */
+.appraise {
+  margin-top: 30rpx;
+  padding-top: 10rpx;
+  padding-bottom: 10rpx;
+  border-radius: 10rpx;
+  /* background-color: #fff; */
+  padding-left: 10rpx;
+  padding-right: 10rpx;
+}
+
+
+.appraise .appraise_header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.appraise .appraise_header>view:nth-child(1) {
+  font-size: 16px;
+  font-weight: 800;
+}
+
+.appraise .appraise_header>view:nth-child(2) {
+  font-size: 14px;
+  color: var(--IgnoreMessage);
+}
+
+/* 搜索 */
+.searchResult view:nth-child(1) {
+  font-size: 35rpx;
+}
+
+
+.swiper-tab {
+  width: 100%;
+  text-align: center;
+  line-height: 80rpx;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.tab-item {
+  flex: 1;
+  font-size: 14px;
+  display: inline-block;
+  color: #777777;
+}
+
+.on {
+  color: var(--BackGround5);
+  /* border-bottom: 5rpx solid var(--BackGround5); */
+  position: relative;
+}
+.on::after{
+  content: '';
+  position: absolute;
+  height: 3px;
+  z-index: 100;
+  display: block;
+  background-color:  var(--BackGround5);
+  bottom: 0;
+  width: 40px;
+  left: calc((100% - 40px) / 2);
+}
+
+.swiper {
+  display: block;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+.swiper view {
+  text-align: center;
+  padding-top: 100rpx;
+}
+
+.tui-picker-content {
+  padding: 30rpx;
+  text-align: center;
+}
+
+.tui-picker-name {
+  height: 80rpx;
+  line-height: 80rpx;
+}
+.bbb{
+  background-color: var(--BackGround2);
+}
+.tui-picker-detail {
+  height: 80rpx;
+  line-height: 80rpx;
+  background-color: #fff;
+  font-size: 35rpx;
+  padding: 0 10px;
+  overflow: hidden;
+}
+
+
+
+
+/* 价格 */
+.bottom_box {
+  padding: 10px;
+}
+
+.price_box {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.sale_box {
+  font-size: 12px;
+  color: var(--IgnoreMessage);
+}
+
+@keyframes show{
+  0%{
+    opacity: 0;
+  }
+  100%{
+    opacity: 1;
+  }
+}

@@ -1,0 +1,30 @@
+<view style="height: 100%;">
+  <view wx:if="{{isShow}}" style="color:var(--ErrorColor);background-color: var(--BackGround2);width: 100%;height: 100%;text-align: center;display: flex;justify-content: center;align-items: center;">
+    <view class="spinner">
+      <span>暂</span>
+      <span>时</span>
+      <span>还</span>
+      <span>没</span>
+      <span>有</span>
+      <span>评</span>
+      <span>价</span>
+    </view>
+  </view>
+  <view wx:for="{{evaluateArr}}" wx:key="index" style="padding: 20rpx;background-color:var(--BackGround2);border-bottom: 10px solid var(--BackGround1);">
+    <view style="display: flex;align-items: center;">
+      <image src="{{href}}{{item.member.avatar}}" mode="heightFix" style="height: 70rpx;border-radius: 50%;background-color: rgb(216, 210, 210);" />
+      <view style="margin-left: 10rpx;">
+        {{item.member.nickname}}
+      </view>
+    </view>
+    <!-- 评价 -->
+    <view style="display: flex;align-items: center;">
+      <view style="margin-right: 20rpx;">整体评价:</view>
+      <rate value="{{item.evaluates.score}}" disabled="{{true}}" bindchange="showResult"></rate>
+    </view>
+    <!-- 评论信息 -->
+    <view>
+      {{item.evaluates.evaluate?item.evaluates.evaluate:''}}
+    </view>
+  </view>
+</view>

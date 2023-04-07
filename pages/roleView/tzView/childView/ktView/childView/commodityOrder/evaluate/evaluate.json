@@ -1,0 +1,5 @@
+{
+  "usingComponents": {
+    "rate": "/miniprogram_npm/wechat-miniprogram-rate"
+  }
+}

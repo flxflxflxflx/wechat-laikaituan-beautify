@@ -2,7 +2,30 @@
   "pages":[
     "pages/roleLogin/roleLogin",
     "pages/index/index",
-    "pages/roleAudit/roleForm/roleForm"
+    "pages/roleAudit/roleForm/roleForm",
+    "pages/roleView/tzView/tzView",
+    "pages/roleView/tzView/childView/ktView/ktView",
+    "pages/roleView/tzView/childView/jszxView/jszxView",
+    "pages/roleView/tzView/childView/ktView/childView/commodityPurchase/commodityPurchase",
+    "pages/roleView/tzView/childView/ktView/childView/commodityOrder/commodityOrder",
+    "pages/roleView/tzView/childView/generalJournal/generalJournal",
+    "pages/roleView/tzView/childView/balanceWithdrawal/balanceWithdrawal",
+    "pages/roleView/tzView/childView/orderFlow/orderFlow",
+    "pages/roleView/tzView/childView/balanceWithdrawal/childView/newAccount/newAccount",
+    "pages/roleView/tzView/childView/ktView/childView/commodityOrder/scanningCode/scanningCode",
+    "pages/roleView/tzView/childView/ktView/childView/commodityOrder/evaluate/evaluate",
+    "pages/roleView/tzView/childView/ktView/childView/commoditySharing/commoditySharing",
+    "pages/roleView/tzView/childView/ktView/childView/commodityEvaluation/commodityEvaluation",
+    "pages/roleView/tzView/childView/ktView/childView/productDetails/productDetails",
+    "pages/roleView/gysView/gysView",
+    "pages/roleView/gysView/childView/publishProduct/publishProduct",
+    "pages/roleView/gysView/childView/systemTools/myProduct/myProduct",
+    "pages/roleView/gysView/childView/systemTools/myProduct/childView/productInformationEditing/productInformationEditing",
+    "pages/roleView/gysView/childView/systemTools/generalJournal/generalJoumal",
+    "pages/roleView/gysView/childView/systemTools/orderQuery/orderQuery",
+    "pages/roleView/gysView/childView/systemTools/purchaseQuery/purchaseQuery"
+
+
   ],
   "window":{
     "backgroundTextStyle":"light",

@@ -1,0 +1,149 @@
+<view class="body">
+
+  <!-- 商品标题 -->
+  <view class="productTitleBox">
+    <!-- 标题 -->
+    <view class="biaotititle">
+      <view class="tileBox">
+        <text class="productTitle">商品标题</text>
+        <text class="uniqueText">*</text>
+      </view>
+      <view style="margin: 9rpx;">
+        <input model:value="{{productTitle}}" maxlength="{{maxTextNum}}" bindinput="productTitleChange" type="text" name="" style="font-size:35rpx" placeholder="请输入商品标题" id="" />
+      </view>
+      <view class="fontBox">
+        <text>{{inputNumber}}</text>/<text>{{maxTextNum}}</text>
+      </view>
+    </view>
+    <!-- 输入文本 -->
+    <!-- <view class="textyu">
+    <textarea maxlength="300" model:value="{{commodityAttribute}}" placeholder="请写明品牌,商品名,属性,规格等关键信息"></textarea>
+  </view> -->
+    <!-- 上传图片 -->
+    <view class="uploadImage">
+      商品主图<text class="uniqueText">*</text>
+      <mp-uploader binddelete="TitledeleteImg" bindfail="TitleuploadError" bindsuccess="TitleuploadSuccess" select="{{TitleselectFile}}" upload="{{TitleuploadFile}}" files="{{Titlefiles}}" max-count="1" title="" tips=""></mp-uploader>
+    </view>
+  </view>
+  <!-- 商品类目 -->
+  <mp-cells>
+    <mp-cell>
+      <view class="tileBox">
+        <text class="productTitle">商品类目</text>
+        <text class="uniqueText">*</text>
+      </view>
+      <!-- 多列选择器 -->
+      <view slot="footer">
+        <productSort ccustomIndex="{{customIndex}}" bindselectedValue="commodityCategorySelectedValue" solt="footer" customArrayF="{{customArray}}"></productSort>
+      </view>
+
+    </mp-cell>
+  </mp-cells>
+
+  <!-- 商品详情 -->
+  <view class="productDetailsBox">
+    <!-- 标题 -->
+    <view class="biaotititle">
+      <view class="tileBox">
+        <text class="productTitle">商品详情</text>
+        <text class="uniqueText">*</text>
+      </view>
+    </view>
+    <!-- 输入文本 -->
+    <view class="textyu">
+      <textarea style="height: 200rpx;" model:value="{{productDetails}}" maxlength="300" placeholder="建议描述商品细节,购买须知等"></textarea>
+    </view>
+    商品图片视频<text class="uniqueText">*</text>
+    <!-- 上传图片 -->
+    <view class="uploadImage">
+      <!-- 上传 S -->
+      <view class="img-list">
+        <!-- 上传列表 -->
+        <view class="upload-video">
+          <block wx:if="{{src != ''}}">
+            <video src="{{src}}" class="img-li"></video>
+            <image class="icon-deletes" src="../../../../../../../../static/image/icon-delete.png" bindtap="deleteVideo"></image>
+          </block>
+        </view>
+        <block wx:for="{{imgList}}" wx:key="index">
+          <view class="img-li">
+            <view class="img-li" bindtap="previewImg">
+              <image class="uploading-icon" src="{{item}}"></image>
+            </view>
+            <image class="icon-delete" src="../../../../../../../../static/image/icon-delete.png" bindtap="deleteImg"></image>
+          </view>
+        </block>
+        <!-- 上传图片/视频 S -->
+        <view class="img-li" wx:if="{{imgList.length<=3}}" bindtap="actioncnt">
+          <image class="uploading-icon" src="../../../../../../../../static/image/imaIu.png"></image>
+        </view>
+        <!-- 上传图片/视频 E -->
+      </view>
+      <!-- 上传 E -->
+    </view>
+    <view style="opacity: 0.5;font-size: 25rpx;">只能上传一个视频,建议视频长度20秒,大小不超过30MB</view>
+
+  </view>
+
+  <!-- 商品规格 -->
+  <view style="margin-top: 30rpx;border-radius: 10rpx;">
+    <mp-cells>
+      <mp-cell>
+        <view class="tileBox">
+          <text class="productTitle">商品规格</text>
+          <text class="uniqueText">*</text>
+        </view>
+        <view slot="footer" style="font-size:35rpx;display: flex;align-items: center;">
+         <input type="number" bindinput="weightChange" value="{{weightNum}}"  placeholder="请输入重量" />
+          <picker mode="selector" bindchange="bindProductSpecificationsPickerChange" range-key="title" value="{{productSpecificationsCustomIndex}}" range="{{productSpecificationsOnlyArray}}">
+            <view class="multiColumn">
+              {{productSpecificationsOnlyArray[productSpecificationsCustomIndex].title}} <mp-icon icon="arrow" color="black" style="opacity: 0.5;" size="{{9}}"></mp-icon>
+            </view>
+          </picker>
+        </view>
+      </mp-cell>
+      <mp-cell>
+        <view class="tileBox">
+          <text class="productTitle">现货库存</text>
+          <text class="uniqueText">*</text>
+        </view>
+        <view slot="footer" style="font-size:35rpx">
+          <input type="digit" model:value="{{commodityInventory}}" placeholder="请输入库存" name="" id="" />
+        </view>
+      </mp-cell>
+    </mp-cells>
+  </view>
+
+  <!-- 供货价 -->
+  <view style="margin-top: 30rpx;">
+    <mp-cells>
+      <mp-cell>
+        <view class="tileBox">
+          <text class="productTitle">供货价</text>
+          <text class="uniqueText">*</text>
+        </view>
+        <view slot="footer" style="font-size:35rpx">
+          <input type="digit" model:value="{{supplyPrice}}" placeholder="请输入供货价" name="" id="" />
+        </view>
+      </mp-cell>
+      <mp-cell>
+        <view class="tileBox">
+          <text class="productTitle">建议价格</text>
+          <text class="uniqueText">*</text>
+        </view>
+        <view slot="footer" style="font-size:35rpx">
+          <input type="digit" model:value="{{recommendedprice}}" placeholder="请输入建议价格" name="" id="" />
+        </view>
+      </mp-cell>
+    </mp-cells>
+  </view>
+</view>
+
+<!-- 确认发布 -->
+<view class="qrfb">
+  <button type="primary" bindtap="onSubmit">确认更新</button>
+  <!-- <button type="warn" bindtap="onDetele">删除商品</button> -->
+</view>
+
+<!-- 提示信息 -->
+<mp-toptips msg="{{error}}" type="error" show="{{error}}"></mp-toptips>

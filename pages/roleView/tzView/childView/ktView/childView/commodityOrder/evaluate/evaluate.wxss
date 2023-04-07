@@ -1,0 +1,98 @@
+/* pages/prod-comm/prod-comm.wxss */
+page{
+  background-color: whitesmoke;
+}
+.order-info{
+  width: 89%;
+  background-color: white;
+  border-radius: 8px;
+  margin: 10px 0px 10px 10px;
+  padding: 10px;
+}
+
+.order-info-prod image{
+  margin-top: -20px;
+  width: 60px;
+  height: 80px;
+}
+.order-info-prod .order-info-prod-right{
+  margin-left: 70px;
+  margin-top: -60px;
+}
+
+.order-info-prod .order-info-prod-right .order-info-prod-right-name {
+  width: 260px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font-size: 15px;
+}
+
+.order-info-prod .order-info-prod-right .order-info-prod-right-size{
+  width: 260px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font-size: 13px;
+  color: darkgray;
+}
+
+.order-info .showImages{
+  margin-top: 10px;
+}
+
+.order-info .showImages textarea{
+  width: 98%;
+}
+.message-placeholder{
+  font-size: 13px;
+  color: darkgray;
+}
+
+.showImages-label{
+  font-size: 12px;
+  margin-top: -17px;
+  margin-left: 70px;
+  color: darkgray;
+  width: 160px;
+}
+
+.publish{
+  padding-top: 10px;
+}
+.publishBtn{
+  float: right;
+  position: relative;
+  z-index: 99999;
+  margin-top: -26px;
+  background-color: var(--globalBackground);
+  color: white;
+  width: 65px;
+  line-height: 30px;
+  text-align: center;
+  border-radius: 5px;
+}
+
+.order-info-star{
+  padding-top: 10px;
+}
+
+.order-info-star .order-info-star-star{
+  margin-top: -21px;
+  margin-left: 70px;
+}
+
+
+.bar {
+  padding: 20rpx 0rpx;
+  display: flex;
+  align-items: center;
+  margin-top: 30rpx;
+  background-color: #fff;
+}
+
+.bar--text {
+  margin-left: 30rpx;
+  font-size: 28rpx;
+  color: #666;
+}

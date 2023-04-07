@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "开团记录",
+  "usingComponents": {
+    "mp-tabbar": "/weui-miniprogram/tabbar/tabbar"
+  }
+}

@@ -1,0 +1,6 @@
+<picker mode="multiSelector" bindchange="bindCustomPickerChange" bindcolumnchange="bindCustomPickerColumnChange" value="{{customIndex}}" range-key="title" range="{{onlyArray}}">
+  <view class="multiColumn">
+    {{isSelected?'':"选择"}}
+    {{isSelected?onlyArray[0][customIndex[0]].title:''}} {{isSelected?onlyArray[1][customIndex[1]].title:''}} {{isSelected?onlyArray[2][customIndex[2]].title:''}} <mp-icon icon="arrow" color="black" style="opacity: 0.5;" size="{{9}}"></mp-icon>
+  </view>
+</picker>

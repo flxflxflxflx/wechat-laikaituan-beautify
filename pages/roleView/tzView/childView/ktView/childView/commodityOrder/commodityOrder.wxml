@@ -1,0 +1,124 @@
+<!-- 切换栏 -->
+<view class="swiper-tab" style="position: fixed;width: 100%;top: 0;">
+  <block wx:for="{{swipertab}}" wx:key="sptab">
+    <view class="swiper-tab-list {{currtab == item.index ? 'on' : ''}}" data-current="{{item.index}}" bindtap="tabSwitch">{{item.name}}</view>
+  </block>
+
+</view>
+
+<swiper current="{{currtab}}" class="swiper-box" duration="300" style="height:{{deviceH - 100}}px;margin-top: 40px;" bindchange="tabChange1">
+  <!-- 已付款 -->
+  <swiper-item>
+    <scroll-view class="chanpins" bindscrolltolower="completeScorll" scroll-y="true">
+      <view class="orderDetails" wx:for="{{complete_order}}" wx:key="id">
+        <view class="orderListTitle">
+          <text class="userName">订单号 : {{item.ordernum}}</text>
+          <text wx:if="{{item.refundadmin_id == 1}}" class="Refunded">已退款</text>
+          <text wx:else class="orderStatus">{{item.status == 1?'已付款':''}}</text>
+        </view>
+        <view class="orderListDetails">
+          <view class="productImg">
+            <image src="{{href}}{{item.order_detail[0].product.simg}}" background-size="cover"></image>
+          </view>
+          <view class="productInfo">
+            <view class="productTitle">付款时间: {{item.paytime}}</view>
+            <text class="productPrice">当前状态：{{item.logistics==0?'消费者下单':""}}{{item.logistics==1?'分拣员分拣':""}}{{item.logistics==2?'配送员配送中':""}}{{item.logistics==3?'提货站到货':""}}{{item.logistics==4?'已经收货':""}}{{item.logistics==5?'超时收货':""}}</text>
+          </view>
+        </view>
+        <view class="productCount">
+          <view>
+            <text>合计：￥{{item.payment}}</text>
+          </view>
+          <view wx:if="{{item.logistics == 3}}" style="float: left; margin-left: 20rpx;margin-top: 10rpx;">
+            <button type="primary" bindtap="scanningCode" data-data="{{item.ordernum}}" size="mini">扫码收货</button>
+            <!-- <button type="warn" bindtap="refund" data-data="{{item.ordernum}}" size="mini">申请退款</button> -->
+          </view>
+          <view wx:if="{{item.logistics == 4&&item.is_comment == 0}}" style="float: left; margin-left: 20rpx;margin-top: 10rpx;">
+            <button type="primary" style="background-color: rgb(208, 216, 95);" bindtap="evaluate" data-data="{{item.ordernum}}" size="mini">评价</button>
+            <!-- <button type="warn" bindtap="refund" data-data="{{item.ordernum}}" size="mini">申请退款</button> -->
+          </view>
+          <!-- <view wx:if="{{item.refundadmin_id !== 1}}" style="float: left; margin-left: 20rpx;margin-top: 10rpx;">
+            <button type="warn" bindtap="refund" data-data="{{item.ordernum}}" size="mini">申请退款</button>
+          </view> -->
+        </view>
+      </view>
+      <view style="height: {{tabbarHeight}}px;">
+      </view>
+    </scroll-view>
+  </swiper-item>
+  <!-- 待付款 -->
+  <swiper-item>
+    <scroll-view bindscrolltolower="noPaymentScroll" class="chanpins" scroll-y="true">
+      <view style="border-bottom: 20rpx solid #f5f5f5;margin-bottom: 20rpx;" wx:for="{{noPayment}}" wx:if="{{item.isShow != 'no'}}" wx:key="id">
+        <view class="danhao">
+          单号 {{item.ordernum}} | 时间：{{item.created_at}}
+        </view>
+        <view wx:for="{{item.order_detail}}" wx:for-item="detail" class="chanpin ">
+          <image class="chanpin-img" mode="aspectFit" src="{{href}}{{detail.product.simg}}"></image>
+          <view class="chanpin-info">
+            <view class="name">{{detail.product.title}}</view>
+            <view class="sales">销售：{{detail.product.salenum}} 件 / 库存：{{detail.product.stock}}件
+            </view>
+            <view class="price">￥：{{detail.totalprice}}</view>
+          </view>
+          <view class="chanpin-num">
+            <text class="mytext" hidden=""> {{detail.number}} 件 </text>
+          </view>
+        </view>
+        <!-- <view class="chanpin">
+          <image class="chanpin-img" src="/img/cp02.jpg"></image>
+          <view class="chanpin-info">
+            <view class="name">HFP秋冬季补水保湿亮肤套装</view>
+            <view class="sales">月售：231 件 / 库存：11件
+            </view>
+            <view class="price">￥：329.00</view>
+          </view>
+          <view class="chanpin-num">
+            <text class="mytext" hidden=""> 1 件 </text>
+          </view>
+        </view> -->
+
+        <view class="jiesuan">
+          <text>【待付款】 产品金额：¥{{item.price}} (运费￥{{item.delivery_fee}}) </text>
+          <text style="color: red;font-size: 30rpx;">过期时间 : {{item.countDownTime}}</text>
+        </view>
+        <view class="caozuo">
+          <button bindtap="cancelOrder" data-item="{{item}}" size='mini'>取消订单</button>
+          <button bindtap="topay" data-ordernum="{{item.ordernum}}" type="primary" size='mini'>去付款</button>
+        </view>
+      </view>
+      <view style="height: {{tabbarHeight}}px;">
+      </view>
+    </scroll-view>
+  </swiper-item>
+  <!-- 取消 -->
+  <swiper-item>
+    <scroll-view bindscrolltolower="cancelScroll" class="chanpins" scroll-y="true">
+      <view class="orderDetails" wx:for="{{canceled}}" wx:key="id">
+        <view class="orderListTitle">
+          <text class="userName">订单号 : {{item.ordernum}}</text>
+          <text class="orderStatus">{{item.status == 2?'超时取消':'手动取消'}}</text>
+        </view>
+        <view class="orderListDetails">
+          <view class="productImg">
+            <image src="{{href}}{{item.order_detail[0].product.simg}}" mode="aspectFit"></image>
+          </view>
+          <view class="productInfo">
+            <view class="productTitle">关闭时间: {{item.closedtime}}</view>
+            <text class="productPrice">当前状态：已取消</text>
+          </view>
+        </view>
+        <view class="productCount">
+          <view>
+            <text>合计：￥{{item.payment}}</text>
+          </view>
+        </view>
+      </view>
+      <view style="height: {{tabbarHeight}}px;">
+      </view>
+    </scroll-view>
+  </swiper-item>
+
+</swiper>
+
+<mp-tabbar current='1' class="tabbar" style="position:fixed;bottom:0;width:100%;left:0;right:0;z-index: 9999;" list="{{list}}" bindchange="tabChange"></mp-tabbar>

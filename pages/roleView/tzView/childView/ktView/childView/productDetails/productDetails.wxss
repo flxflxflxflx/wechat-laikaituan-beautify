@@ -1,0 +1,164 @@
+page {
+  background-color: var(--BackGround2);
+  width: 100%;
+  height: 100%;
+}
+
+button {
+  border-radius: 35px;
+  background: linear-gradient(145deg, #b7e2ba, #d9ffdd);
+  box-shadow: 8px 8px 16px #abd3ae,
+    -8px -8px 16px #ebfff0;
+  color: var(--TextColor) !important;
+}
+
+
+.clear {
+  clear: both;
+  overflow: hidden;
+}
+
+navigator {
+  display: inline;
+}
+
+/* 半屏 */
+
+.greyBox {
+  /* padding: 10rpx; */
+  /* background-color: #fff; */
+  border-bottom: 10px solid var(--IsolationColor);  
+}
+
+.mp-half-screen-dialog {
+  background-color: var(--BackGround2);
+  z-index: 99999;
+}
+
+.weui-half-screen-dialog {
+  max-height: 99% !important;
+}
+
+/* 评价 */
+.appraise {
+  /* margin-top: 30rpx; */
+  padding-top: 10px;
+  padding-bottom: 10px;
+  /* background-color: var(--BackGround3); */
+  padding-left: 10px;
+  padding-right: 10px;
+  border-bottom: 10px solid var(--IsolationColor);
+
+}
+
+.appraise .appraise_header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.appraise .appraise_header>view:nth-child(1) {
+  font-size: 16px;
+  font-weight: 800;
+}
+
+.appraise .appraise_header>view:nth-child(2) {
+  font-size: 14px;
+  color: var(--IgnoreMessage);
+}
+
+
+
+
+/* pages/index/index.wxss */
+.swiper-tab {
+  width: 100%;
+  text-align: center;
+  line-height: 80rpx;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.tab-item {
+  flex: 1;
+  font-size: 14px;
+  display: inline-block;
+  color: #777777;
+}
+
+.on {
+  color: var(--BackGround5);
+  /* border-bottom: 5rpx solid var(--BackGround5); */
+  position: relative;
+}
+.on::after{
+  content: '';
+  position: absolute;
+  height: 3px;
+  z-index: 100;
+  display: block;
+  background-color:  var(--BackGround5);
+  bottom: 0;
+  width: 40px;
+  left: calc((100% - 40px) / 2);
+}
+
+.swiper {
+  display: block;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+.swiper view {
+  text-align: center;
+  padding-top: 100rpx;
+}
+
+.tui-picker-content {
+  padding: 30rpx;
+  text-align: center;
+}
+
+.tui-picker-name {
+  height: 80rpx;
+  line-height: 80rpx;
+}
+
+.tui-picker-detail {
+  height: 80rpx;
+  line-height: 80rpx;
+  background-color: #fff;
+  font-size: 35rpx;
+  padding: 0 10px;
+  overflow: hidden;
+}
+
+
+/* 价格 */
+.bottom_box {
+  padding: 10px;
+}
+
+.price_box {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.sale_box {
+  font-size: 12px;
+  color: var(--IgnoreMessage);
+}
+
+@keyframes show{
+  0%{
+    opacity: 0;
+  }
+  100%{
+    opacity: 1;
+  }
+}
+
+
+
