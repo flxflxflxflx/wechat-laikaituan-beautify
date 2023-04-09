@@ -20,7 +20,7 @@
           <view class="price_box">
             <view style="display: flex;">
               <view style="font-size: 12px;color: var(--IgnoreMessage);">供应价
-                <text style="color: #f79213;">￥<text style="font-size: 35rpx;">{{filter.numberToFixed(productInfo.supplyprice + productInfo.supplyprice * productInfo.charges_fee / 100)}}</text></text>
+                <text style="color: #f79213;">￥<text style="font-size: 35rpx;">{{productInfo.supplyprice}}</text></text>
               </view>
               <view style="margin-left: 30rpx;font-size: 12px;color: var(--IgnoreMessage);">建议价<text style="color: #f79213;">￥<text style="font-size: 35rpx;">{{productInfo.recommendedprice}}</text></text></view>
               <view></view>

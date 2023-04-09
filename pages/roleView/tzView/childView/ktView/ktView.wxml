@@ -55,7 +55,7 @@
             <view wx:if="{{item.openingPrice}}"><text style="font-size: 30rpx;">赚</text><text style="color: #f71313;">￥<text style="font-size: 40rpx;">{{item.incomePrice}}</text></text></view>
             <!-- 商品底部 -->
             <view class="product_footer">
-              <view class='price'>供应价:<text style="color: rgb(254, 89, 9);">￥{{filter.numberToFixed(item.supplyprice + item.supplyprice * item.charges_fee / 100)}}</text></view>
+              <view class='price'>供应价:<text style="color: rgb(254, 89, 9);">￥{{filter.numberToFixed(item.supplyprice)}}</text></view>
               <view class="delete" catchtap="stop">
                 <checkbox checked="{{item.isCheckShow}}" bindtap="selectList" data-data="{{item}}" value="{{item.id}}" />
               </view>
