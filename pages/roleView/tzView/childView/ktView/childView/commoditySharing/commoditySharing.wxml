@@ -156,12 +156,7 @@
               <view class="weui-input">{{date}}</view>
             </picker>
           </mp-cell>
-          <mp-cell prop="pickUpPoint" title="自备提货点" ext-class="bbb">
-            <view slot="footer">
-              <switch bindchange="onpickUpPoint" />
-            </view>
-          </mp-cell>
-          <mp-cell wx:if="{{pickUpPoint}}" ext-class="bbb" show-error prop="deliveryAddress">
+          <mp-cell ext-class="bbb" show-error prop="deliveryAddress">
             <view slot="title">交货地址</view>
             <view slot="footer" style="width:300rpx">
               <input model:value="{{deliveryaddress}}" data-field="deliveryAddress" class="weui-input" placeholder="请输入交货地址" />
@@ -172,7 +167,7 @@
     </view>
   </view>
   <view slot="footer">
-    <button bindtap="falseShare" wx:if="{{pickUpPoint==true&&filter.stringTrim( deliveryaddress) == ''}}" type="primary">分享</button>
+    <button bindtap="falseShare" wx:if="{{filter.stringTrim( deliveryaddress) == ''}}" type="primary">分享</button>
     <button wx:else open-type="share" type="primary">分享</button>
   </view>
 </mp-half-screen-dialog>

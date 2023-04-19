@@ -60,7 +60,7 @@ Page({
               sticky: true,
             },
             {
-              value: '单位',
+              value: '重量',
               sticky: true,
             },
             {

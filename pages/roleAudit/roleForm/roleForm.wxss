@@ -11,13 +11,6 @@
   margin: 0;
 }
 
-button {
-  border-radius: 35px;
-  background: linear-gradient(145deg, #b7e2ba, #d9ffdd);
-  box-shadow: 8px 8px 16px #abd3ae,
-    -8px -8px 16px #ebfff0;
-  color: var(--TextColor) !important;
-}
 
 page {
   width: 100%;

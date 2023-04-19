@@ -435,15 +435,11 @@ Page({
    */
   paymentCollection() {
     console.log(this.data.groupbuyInfo);
-    // 判断自备提货点是否填写
-    if (this.data.isPickerSelect == false && this.data.groupbuyInfo.own_isstation == 0) {
-      wx.showToast({
-        title: '请选择自配提货点',
-        icon: "error"
-      })
-      return;
-    }
     if (this.data.totalQuantity == 0) {
+      wx.showToast({
+        title: '请添加商品',
+        icon:"error"
+      })
       return
     }
     wx.showLoading({
@@ -476,15 +472,9 @@ Page({
     })
 
     if (payProducts.length > 0) {
-      // 判断是否添加自配提货点
-      if (that.data.groupbuyInfo.own_isstation == 0) {
-        // 请求后台生成订单号
-        this.generateOrderNumber(payProducts, this.data.rawData[this.data.multiIndex[0]].station[this.data.multiIndex[1]].id)
-      } else {
+      
         // 请求后台生成订单号
         this.generateOrderNumber(payProducts, null)
-      }
-
     }
 
     // 完善商品购买信息
@@ -566,6 +556,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
    onLoad(options) {
+     console.log(options.selectListData);
     app.setWatcher(this);
 
     // 向后台请求角色权限
@@ -593,6 +584,7 @@ Page({
       title: '加载中...',
     })
     // 获取商品
+    console.log("法发顺丰",that.data.openingProductId);
     tr("/getOpeningProducts", {
       groupbuy_id: that.data.openingProductId
     }).then(function (res) {
@@ -624,17 +616,6 @@ Page({
       })
     })
 
-    if (this.data.groupbuyInfo.own_isstation != 0) {
-      // 获取自提点
-      tr("/getPickupPoint",{openingId:that.data.openingProductId}).then(function (res) {
-        console.log(res.data);
-        that.setData({
-          rawData: res.data,
-          'multiObjArray[0]': res.data,
-          'multiObjArray[1]': res.data[0].station,
-        })
-      })
-    }
   },
 
   // 判断是否有支付权限，是否注册

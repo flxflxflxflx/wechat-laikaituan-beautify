@@ -37,7 +37,6 @@ Page({
   publish(e) {
     let that = this
     let item = e.target.dataset.item
-    console.log(item);
     if (item.message == undefined || item.message.length < 1) {
       wx.showToast({
         title: '至少输入一个字符',
@@ -52,7 +51,7 @@ Page({
 
     tr("/productEvaluation", {
       order_id,
-      message: this.data.message,
+      message: item.message,
       item
     }).then(function (res) {
       if (res.data.code == 0) {
@@ -94,9 +93,16 @@ Page({
     tr("/getProductList", {
       ordernum: options.ordernum
     }).then(function (res) {
+      if(res.data.code == 444){
+        wx.showToast({
+          title: res.data.mes,
+          icon:"error"
+        })
+      }else{
       that.setData({
         orderList: res.data
       })
+    }
     })
   },
 

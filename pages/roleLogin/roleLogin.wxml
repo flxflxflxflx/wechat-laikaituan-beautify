@@ -11,11 +11,14 @@
     </view>
   </view>
   <view class="indexbutton">
-    <button type="primary" bindtap="jumpGYS" style="position: relative; left: 6rpx; top: 0rpx;">
-       供应商</button>
+
     <block wx:for="{{permissions}}" wx:for-index="index" wx:for-item="cell" wx:key="index">
-      <button wx:if="{{cell.title == '消费者'?false:true}}" type="primary" bindtap="jump{{cell.mark}}" style="position: relative; left: 6rpx; top: 0rpx;">
-        {{cell.title}}</button>
+      <block wx:if="{{cell.mark == 'TZ'}}">
+        <button type="primary" bindtap="jump{{cell.mark}}" style="position: relative; left: 6rpx; top: 0rpx;">
+          {{cell.title}}</button>
+        <button type="primary" bindtap="jumpGYS" style="position: relative; left: 6rpx; top: 0rpx;">
+          供应</button>
+      </block>
     </block>
     <button bindtap="applyPermissions" style="width: 100%;;" type="primary">申请其他权限</button>
   </view>

@@ -115,13 +115,13 @@
   <view wx:if="{{groupbuyInfo.own_isstation == 0?true:false}}" style="display: flex;justify-content: center;color:var(--globalBackground)">
     <!-- <view>自备提货点 :</view> -->
     <view style="margin-left: 20rpx;">
-      <picker mode="multiSelector" bindchange="bindMultiPickerChange" bindcolumnchange="bindMultiPickerColumnChange" value="{{multiIndex}}" range="{{multiObjArray}}" range-key="{{'title'}}">
+      <!-- <picker mode="multiSelector" bindchange="bindMultiPickerChange" bindcolumnchange="bindMultiPickerColumnChange" value="{{multiIndex}}" range="{{multiObjArray}}" range-key="{{'title'}}">
         <view class="picker">
           <text style="width:180rpx">自备提货点 :</text>
           {{multiObjArray[0][multiIndex[0]].title}}，
           {{multiObjArray[0][multiIndex[0]].station[multiIndex[1]].title}}
         </view>
-      </picker>
+      </picker> -->
       <!-- <input type="text" placeholder="请输入自备提货点" /> -->
     </view>
   </view>

@@ -64,6 +64,38 @@ Page({
     })
   },
 
+  /**
+   * @description 收货
+   */
+  takeDelivery(e) {
+    tr("/confirmOrder", {
+      ordernum: e.target.dataset.data
+    }).then(function (res) {
+      switch (res.data.status) {
+        case 0:
+          wx.showToast({
+            title: '没有订单',
+            icon: "error"
+          })
+          break;
+        case 1:
+          wx.showToast({
+            title: '收货成功',
+          })
+          break;
+        case 2:
+          wx.showToast({
+            title: '已经收货成功',
+          })
+          break;
+        default:
+          break;
+      }
+    })
+
+    console.log(e.target.dataset);
+  },
+
   // 扫码收货
   scanningCode(e) {
     wx.navigateTo({

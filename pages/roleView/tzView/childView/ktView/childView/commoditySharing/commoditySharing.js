@@ -280,7 +280,7 @@ Page({
             }
             let productInfo = that.data.productInfo
             // 商品开团价格下限
-            let priceXiaxian = ((productInfo.supplyprice + productInfo.supplyprice * productInfo.charges_fee / 100) * (110 / 100))
+            let priceXiaxian = ((productInfo.supplyprice) * (110 / 100))
             if (res.content < priceXiaxian) {
               wx.showToast({
                 title: '开团价格不得低于供应价110%',
@@ -293,8 +293,7 @@ Page({
                 if (dataList[index].id == result.id) {
                   dataList[index]["openingPrice"] = Big(res.content).toFixed(2, 1)
                   // 设置赚的价格
-                  let arg = Big(dataList[index]["supplyprice"]).times(Big(dataList[index]["charges_fee"])).div(100)
-                  let arg1 = Big(dataList[index]["supplyprice"]).plus(arg)
+                  let arg1 = Big(dataList[index]["supplyprice"])
                   dataList[index]["incomePrice"] = Big(Big(res.content).toFixed(2, 1)).minus(arg1).toNumber()
                   // 设置供应价
                   break
@@ -372,7 +371,6 @@ Page({
               }
             }
             result['openingPrice'] = Big(res.content).toFixed(2, 1)
-            console.log(result);
             that.data.selectListData.push(result.id)
             // 设置开团价格
             that.setData({
