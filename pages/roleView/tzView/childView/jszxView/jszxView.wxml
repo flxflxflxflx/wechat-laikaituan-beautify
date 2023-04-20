@@ -28,8 +28,8 @@
           <view class="price">￥：{{detail.selling_price}}</view>
         </view>
         <view class="chanpin-num" style="font-size: 30rpx;">
-          <text class="mytext" hidden=""> {{detail.product.number}} 件 </text>
-          <text class="mytext" style="margin-left: 10rpx;"> ￥{{detail.product.totalprice}} </text>
+          <view class="mytext" hidden="">{{detail.product.number}} 件</view>
+          <view class="mytext" >￥{{detail.product.totalprice}}</view>
         </view>
       </view>
       <!-- <view class="chanpin">

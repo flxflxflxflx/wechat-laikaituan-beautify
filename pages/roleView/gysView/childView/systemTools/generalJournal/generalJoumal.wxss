@@ -183,18 +183,20 @@ navigator {
 .productToast {
   background-color: rgb(255, 255, 255);
   height: 350px;
-  width: 250px;
   overflow: auto;
   border-radius: 10px;
   padding: 10px;
   position: fixed;
-  margin: auto;
-  top: calc((100% - 350px) / 2);
-  left: calc((100% - 250px) / 2);
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1000;
 }
 
 .productToast>view {
-  border: 5px solid rgb(235, 235, 235);
+  border-radius: 5rpx;
+  border: 5px solid var(--TONGYI);
+  padding:0 20px 0;
   font-size: 30rpx;
 }
 

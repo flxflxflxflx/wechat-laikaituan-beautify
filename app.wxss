@@ -38,6 +38,8 @@ page {
   --IsolationColor: rgb(243, 243, 245);
   /* 重要红色 */
   --Money: rgb(254, 89, 9);
+  /* 统一颜色 */
+  --TONGYI: rgb(101, 196, 170);
 }
 
 /* 按钮颜色 */
@@ -62,18 +64,18 @@ page {
 button {
   border-radius: 35px !important;
   background-color: rgb(101, 196, 170) !important;
-  color:#fff !important;
+  color: #fff !important;
   font-weight: 400 !important;
 }
 
-.bottomToButton{
+.bottomToButton {
   margin-bottom: 10rpx;
 }
 
-.search{
+.search {
   border-radius: 35px !important;
   background-color: rgb(101, 196, 170) !important;
-  color:#fff !important;
+  color: #fff !important;
   font-weight: 400 !important;
   width: 150rpx;
   text-align: center;
@@ -88,4 +90,4 @@ button {
   justify-content: space-between;
   padding: 200rpx 0;
   box-sizing: border-box;
-} 
+}

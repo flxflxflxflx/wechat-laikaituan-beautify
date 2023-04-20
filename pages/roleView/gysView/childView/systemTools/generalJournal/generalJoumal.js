@@ -166,7 +166,6 @@ Page({
     })
   },
   balanceWithdrawal() {
-    console.log("daf");
     wx.navigateTo({
       url: '/pages/publicPage/balanceWithdrawal/balanceWithdrawal',
     })
@@ -178,10 +177,18 @@ Page({
     tr("/singleProductStatistics2", {
       item
     }).then(function (res) {
-      that.setData({
-        tableData: res.data.data,
-        countPrice: res.data.countPrice
-      })
+      if (res.data.code == 0) {
+        wx.showToast({
+          title: res.data.message,
+          icon:"none"
+        })
+      } else {
+        that.setData({
+          tableData: res.data.data,
+          countPrice: res.data.countPrice
+        })
+        that.onimagebth();
+      }
     })
   },
 

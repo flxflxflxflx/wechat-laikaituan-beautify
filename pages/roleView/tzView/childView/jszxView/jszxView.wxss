@@ -65,11 +65,15 @@ page{
   font-size: 12px;
   font-weight: 600;
   color: var(--Money);
+  text-align: center;
+  min-width: 60px;
 }
 
 .chanpin-num {
   height: 50rpx;
   display: flex;
+  flex-direction: column;
+  justify-content: center;
   margin-top: 30rpx;
   margin-right: 30rpx;
   line-height: 50rpx;

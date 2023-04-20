@@ -266,7 +266,7 @@ Page({
 
     // 请求有没有审核状态
     tr("/getAuditStatus").then(function (res) {
-
+    
       // 审核中界面不能操作
       if (res.data.status == 2 || res.data.status == 3) {
         that.setData({

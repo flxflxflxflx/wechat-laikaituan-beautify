@@ -1,0 +1,48 @@
+<wxs module="jiequ" src="./utils.wxs"></wxs>
+<view class="AccountBalance">
+  <view>账户余额</view>
+  <view>￥ {{account}}</view>
+</view>
+<block wx:if="{{cards.length != 0}}">
+  <view style="padding: 20rpx;" class="Atable">
+    <view style="display: flex;text-align: center;">
+      <view style="flex:3">户名:</view>
+      <view style="flex: 10;">{{cards.account}}</view>
+    </view>
+    <view style="display: flex;text-align: center;">
+      <view style="flex:3">账户:</view>
+      <view style="flex: 10;">{{cards.card}}</view>
+    </view>
+    <view style="display: flex;text-align: center;">
+      <view style="flex:3">开户行:</view>
+      <view style="flex: 10;">{{cards.bank}}</view>
+    </view>
+  </view>
+</block>
+<!-- 新建账户 -->
+<!-- <view style="margin-top: 5px;">
+  <button style="width: 100%;" type="primary" size="default" bindtap="newAccount">新建账户</button>
+</view> -->
+<!-- 银行卡列表  -->
+<!-- <mp-cells>
+  <radio-group bindchange="onredio">
+    <block wx:if="{{bankCards.length == 0}}">
+      <view style="text-align: center;margin: 20px 0;">没有账户,请创建账户</view>
+    </block>
+    <block wx:for="{{bankCards}}" wx:key="id">
+      <mp-cell title="">
+        <radio value="{{item.id}}"></radio>{{item.account}} {{item.addr}} {{jiequ.housiwei(item.card)}}
+        <view slot="footer">
+          <view bindtap="delAcc" data-itemId="{{item.id}}">删除</view>
+        </view>
+      </mp-cell>
+    </block>
+
+  </radio-group>
+</mp-cells> -->
+<view style="padding: 10rpx 0;">
+  <!-- <button bindtap="cashWithdrawal" style="width: 100%;" type="primary">提现</button> -->
+  <button bindtap="wechatCashWithdrawal" style="width: 100%;margin-top: 10px;" type="primary">提现到余额</button>
+</view>
+<view style="height:60px"></view>
+<!-- <mp-tabbar current='2' style="position:fixed;bottom:0;width:100%;left:0;right:0;z-index: 9999;" list="{{list}}" bindchange="tabChange"></mp-tabbar> -->
