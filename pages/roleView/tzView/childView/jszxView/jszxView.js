@@ -7,58 +7,10 @@ Page({
    * 页面的初始数据
    */
   data: {
-    list: [{
-        text: '开团记录',
-        iconPath: "/static/image/openTuan.png",
-        selectedIconPath: "/static/image/openTuan2.png",
-        // badge: '8'
-      },
-      {
-        text: '余额提现',
-        iconPath: "/static/image/yue2.png",
-        selectedIconPath: "/static/image/yue.png",
-      },
-      {
-        text: '订单流水',
-        iconPath: "/static/image/orderFlow.png",
-        selectedIconPath: "/static/image/orderFlow2.png",
-        // dot: true
-      },
-      {
-        text: '总流水账',
-        iconPath: "/static/image/caigou.png",
-        selectedIconPath: "/static/image/caigou2.png",
-        // dot: true
-      },
-    ],
     href: app.globalData.apiUrl + "/uploads",
     // 开团记录
     openingRecord: [],
     isShow: false
-  },
-  tabChange(e) {
-    switch (e.detail.index) {
-      case 0:
-
-        break;
-      case 1:
-        wx.redirectTo({
-          url: '../balanceWithdrawal/balanceWithdrawal',
-        })
-        break;
-      case 2:
-        wx.redirectTo({
-          url: '../orderFlow/orderFlow',
-        })
-        break;
-      case 3:
-        wx.redirectTo({
-          url: '../generalJournal/generalJournal',
-        })
-        break;
-      default:
-        break;
-    }
   },
 
   formatDate(time, format = 'YY-MM-DD hh:mm:ss') {
@@ -164,7 +116,7 @@ Page({
     })
   },
 
-  // 用户点击承担配送费
+  // 用户点击承担配送费`
   HandelItemChange(e){
     // 要修改的id
     let id = e.currentTarget.dataset.id

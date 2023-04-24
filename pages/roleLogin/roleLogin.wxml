@@ -1,27 +1,141 @@
-<!--index.wxml-->
-<view class="body">
-  <view class="centerBox">
-    <view class="icon">
-      <image class="iconimage" mode="heightFix" src="../../static/image/laikaituan.png"></image>
+<wxs module="filter" src="/utils/numberToFixed.wxs"></wxs>
+<!-- 搜索框 -->
+<mp-searchbar bindclear="clear" ext-class="searchResult" bindselectresult="selectResult" throttle="1000" search="{{search}}"></mp-searchbar>
+<!-- 内容 -->
+<scroll-view scroll-y="true" style="height: 85%;" lower-threshold='50' bindscrolltolower="searchScrollLower">
+  <view class='list'>
+    <checkbox-group bindchange="">
+      <block wx:for='{{dataList}}' wx:key='index' wx:for-item="item">
+        <view class="list_item" catchtap="onListbtn" data-item="{{item}}">
+          <view class='img'>
+            <image src="{{imghref}}{{item.simg}}" mode="aspectFit" />
+          </view>
+          <view class='info'>
+            <view class='title'>{{item.title}}</view>
+            <!-- 商品辅加信息 -->
+            <view class="product_add">
+              <view>{{item.scorenum}}+评分</view>
+              <view>{{item.views}}+浏览</view>
+              <view>{{item.salenum}}+销售</view>
+              <view>{{item.share}}+分享</view>
+            </view>
+            <!-- 是否包分配 -->
+            <view class="product_isfenpei">
+              <van-tag wx:if="{{item.is_public}}" color="#f2826a" plain>公共库</van-tag>
+              <van-tag text-color="#7232dd" style="margin-left: 10rpx;" wx:if="{{item.is_public == 0||item.is_my_product==1}}" plain>我的</van-tag>
+            </view>
+            <view wx:if="{{item.openingPrice}}"><text style="font-size: 30rpx;">赚</text><text style="color: #f71313;">￥<text style="font-size: 40rpx;">{{item.incomePrice}}</text></text></view>
+            <!-- 商品底部 -->
+            <view class="product_footer">
+              <view class='price'>供应价:<text style="color: rgb(254, 89, 9);">￥{{filter.numberToFixed(item.supplyprice)}}</text></view>
+              <view class="delete" catchtap="stop">
+                <checkbox checked="{{item.isCheckShow}}" bindtap="selectList" data-data="{{item}}" value="{{item.id}}" />
+              </view>
+            </view>
+            <!-- <view class='num'>销量{{item.salenum}}</view> -->
+          </view>
+          <view class='clear'></view>
+        </view>
+      </block>
+    </checkbox-group>
+  </view>
+</scroll-view>
+
+<!-- 分享 -->
+<view class="shareBtn" style="bottom:{{bottomLift+65}}px" wx:if="{{isShare}}">
+  <button bindtap="onShare" type="primary">分享({{selectListData.length}})</button>
+</view>
+
+<!--商品详情-->
+<mp-half-screen-dialog extClass="mp-half-screen-dialog" bindbuttontap="buttontap" show="{{show}}" maskClosable="{{false}}" title="商品详情" subTitle="" buttons="{{buttons}}">
+  <view slot="desc">
+    <view wx:if="{{isnavShow}}" class="swiper-tab">
+      <view class="tab-item {{currentTab==0 ? 'on' : ''}}" data-current="0" bindtap="swichNav">商品</view>
+      <view class="tab-item {{currentTab==1 ? 'on' : ''}}" data-current="1" bindtap="swichNav">评价</view>
+      <view class="tab-item {{currentTab==2 ? 'on' : ''}}" data-current="2" bindtap="swichNav">详情</view>
     </view>
-    <view class="indextext">
-      <view>
-        <text class="globalTextColor">莱开团</text>
+    <scroll-view bindscroll="scrollViewScroll" style="height:50vh;" scroll-y="true" scroll-into-view="{{toView}}">
+      <view id="toView0" class="continue">
+        <view class="greyBox">
+          <swiper indicator-dots current="0" style="height:400rpx" next-margin="10px">
+            <swiper-item wx:if="{{productInfo.dvideo}}">
+
+              <video show-mute-btn play-btn-position="center" style="width: 100%;height: 100%;" autoplay show-fullscreen-btn show-bottom-progress src="{{href}}{{productInfo.dvideo}}"></video>
+            </swiper-item>
+            <swiper-item wx:for="{{productInfo.dimgslist}}" wx:key="index" style="text-align: center;">
+              <image src="{{href}}{{item}}" style="height:100%;" mode="heightFix"></image>
+            </swiper-item>
+          </swiper>
+          <view>
+            <view style="display:flex;justify-content: center;" class="priceBox">
+              <view style="font-size: 25rpx;">供应价<text style="color: #f79213;">￥<text style="font-size: 40rpx;">{{filter.numberToFixed(productInfo.supplyprice + productInfo.supplyprice * productInfo.charges_fee / 100)}}</text></text></view>
+              <view style="margin-left: 30rpx;font-size: 25rpx;">建议价<text style="color: #f79213;">￥<text style="font-size: 40rpx;">{{productInfo.recommendedprice}}</text></text></view>
+              <view wx:if="{{productInfo.openingPrice}}" style="margin-left: 30rpx;font-size: 25rpx;">开团价<text style="color: #f71313;">￥<text style="font-size: 40rpx;">{{productInfo.openingPrice}}</text></text></view>
+            </view>
+            <view style="margin-top: 10rpx;">
+              <text style="font-size: 30rpx;font-weight: 600;">{{productInfo.title}}</text>
+            </view>
+          </view>
+        </view>
+        <!-- 评价 -->
+        <view id="toView1" class="appraise">
+          <view class="appraise_header">
+            <view>宝贝评价({{productInfo.scorenum}})</view>
+            <view bindtap="viewCount">查看全部 ></view>
+          </view>
+        </view>
+        <!-- 详情 -->
+        <view id="toView2" class="appraise">
+          <view class="appraise_header">
+            <view>商品详情</view>
+          </view>
+          <view style="font-size: 25rpx;margin-top: 10rpx;">
+            {{productInfo.details}}
+          </view>
+          <!-- 商品图片 -->
+          <view style="text-align: center;margin-top: 10rpx;">
+            <block wx:for="{{productInfo.dimgslist}}" wx:key="index">
+              <image src="{{href}}{{item}}" style="width: 100%;" mode="widthFix"></image>
+            </block>
+          </view>
+        </view>
+      </view>
+    </scroll-view>
+
+
+  </view>
+</mp-half-screen-dialog>
+
+<!-- 分享表单 -->
+<mp-half-screen-dialog bindclose="onShareClose" extClass="mp-half-screen-dialog" bindbuttontap="sharebuttontap" show="{{isShareFormShow}}" maskClosable="{{false}}" title="商品分享" subTitle="填写商品地址">
+  <view slot="desc">
+    <mp-toptips msg="{{error}}" type="error" show="{{error}}"></mp-toptips>
+    <view class="page">
+      <view class="page__bd">
+        <mp-cells title="" footer="">
+          <mp-cell show-error prop="deadline" title="截单时间" ext-class="">
+            <picker slot="footer" data-field="deadline" mode="time" value="{{date}}" start="00:00" end="21:00" bindchange="bindDateChange">
+              <view class="weui-input">{{date}}</view>
+            </picker>
+          </mp-cell>
+          <mp-cell prop="pickUpPoint" title="自备提货点" ext-class="">
+            <view slot="footer">
+              <switch bindchange="onpickUpPoint" />
+            </view>
+          </mp-cell>
+          <mp-cell wx:if="{{pickUpPoint}}" show-error prop="deliveryAddress">
+            <view slot="title">交货地址</view>
+            <view slot="footer" style="width:300rpx">
+              <input model:value="{{deliveryaddress}}" data-field="deliveryAddress" class="weui-input" placeholder="请输入交货地址" />
+            </view>
+          </mp-cell>
+        </mp-cells>
       </view>
     </view>
   </view>
-  <view class="indexbutton">
-
-    <block wx:for="{{permissions}}" wx:for-index="index" wx:for-item="cell" wx:key="index">
-      <block wx:if="{{cell.mark == 'TZ'}}">
-        <button type="primary" bindtap="jump{{cell.mark}}" style="position: relative; left: 6rpx; top: 0rpx;">
-          {{cell.title}}</button>
-        <button type="primary" bindtap="jumpGYS" style="position: relative; left: 6rpx; top: 0rpx;">
-          供应</button>
-      </block>
-    </block>
-    <button bindtap="applyPermissions" style="width: 100%;;" type="primary">申请其他权限</button>
+  <view slot="footer">
+    <button bindtap="falseShare" wx:if="{{pickUpPoint==true&&filter.stringTrim( deliveryaddress) == ''}}" type="primary">分享</button>
+    <button wx:else open-type="share" type="primary">分享</button>
   </view>
-
-  <dialog wx:if="{{isGetPhone}}"></dialog>
-</view>
+</mp-half-screen-dialog>
+<mp-tabbar style="position:fixed;bottom:0;width:100%;left:0;right:0;z-index: 9999;" list="{{list}}" bindchange="tabChange"></mp-tabbar>

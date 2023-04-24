@@ -1,49 +1,154 @@
-<!--index.wxml-->
-<view class="body">
-  <view class="centerBox">
-    <view class="icon">
-      <image class="iconimage" mode="heightFix" src="/static/image/laikaituan.png"></image>
-    </view>
-    <view class="indextext">
+<view class="body" style="margin-bottom: {{bottomLift+55}}px; overflow-y: auto;">
+
+  <!-- 商品标题 -->
+  <view class="productTitleBox">
+    <!-- 标题 -->
+    <view class="biaotititle">
+      <view class="tileBox">
+        <text class="productTitle">商品标题</text>
+        <text class="uniqueText">*</text>
+      </view>
       <view>
-        <text class="globalTextColor">莱开团</text>
+        <input model:value="{{productTitle}}" maxlength="{{maxTextNum}}" bindinput="productTitleChange" type="text" name="" style="font-size:14px" placeholder="请输入商品标题" id="" />
+      </view>
+      <view class="fontBox">
+        <text>{{inputNumber}}</text>/<text>{{maxTextNum}}</text>
       </view>
     </view>
+    <!-- 输入文本 -->
+    <!-- <view class="textyu">
+    <textarea maxlength="300" model:value="{{commodityAttribute}}" placeholder="请写明品牌,商品名,属性,规格等关键信息"></textarea>
+  </view> -->
+    <!-- 上传图片 -->
+    <view class="uploadImage">
+      商品主图<text class="uniqueText">*</text>
+      <mp-uploader binddelete="TitledeleteImg" bindfail="TitleuploadError" bindsuccess="TitleuploadSuccess" select="{{TitleselectFile}}" upload="{{TitleuploadFile}}" files="{{Titlefiles}}" max-count="1" title="" tips=""></mp-uploader>
+    </view>
   </view>
-  <view class="indexbutton">
-    <button type="primary" bindtap="publishProduct">发布商品</button>
-    <button type="primary" bindtap="systemTools">系统工具</button>
+  <!-- 商品类目 -->
+  <mp-cells>
+    <mp-cell>
+      <view class="tileBox">
+        <text class="productTitle">商品类目</text>
+        <text class="uniqueText">*</text>
+      </view>
+      <!-- 多列选择器 -->
+      <view slot="footer">
+        <productSort  bindselectedValue="commodityCategorySelectedValue" solt="footer" customArrayF="{{customArray}}"></productSort>
+      </view>
+
+    </mp-cell>
+  </mp-cells>
+
+  <!-- 商品详情 -->
+  <view class="productDetailsBox">
+    <!-- 标题 -->
+    <view class="biaotititle">
+      <view class="tileBox">
+        <text class="productTitle">商品详情</text>
+        <text class="uniqueText">*</text>
+      </view>
+    </view>
+    <!-- 输入文本 -->
+    <view class="textyu">
+      <textarea style="height: 200rpx;" model:value="{{productDetails}}" maxlength="300" placeholder="建议描述商品细节,购买须知等"></textarea>
+    </view>
+    商品图片视频<text class="uniqueText">*</text>
+    <!-- 上传图片 -->
+    <view class="uploadImage">
+      <!-- 上传 S -->
+      <view class="img-list">
+        <!-- 上传列表 -->
+        <view class="upload-video">
+          <block wx:if="{{src != ''}}">
+            <video src="{{src}}" class="img-li"></video>
+            <image class="icon-deletes" src="../../../static/image/icon-delete.png" bindtap="deleteVideo"></image>
+          </block>
+        </view>
+        <block wx:for="{{imgList}}" wx:key="index">
+          <view class="img-li">
+            <view class="img-li" bindtap="previewImg">
+              <image class="uploading-icon" src="{{item}}"></image>
+            </view>
+            <image class="icon-delete" src="../../../static/image/icon-delete.png" bindtap="deleteImg"></image>
+          </view>
+        </block>
+        <!-- 上传图片/视频 S -->
+        <view class="img-li" wx:if="{{imgList.length<=3}}" bindtap="actioncnt">
+          <image class="uploading-icon" src="../../../static/image/imaIu.png"></image>
+        </view>
+        <!-- 上传图片/视频 E -->
+      </view>
+      <!-- 上传 E -->
+    </view>
+    <view style="opacity: 0.5;font-size: 25rpx;">只能上传一个视频,建议视频长度20秒,大小不超过{{upload_video_size/1024/1024}}MB</view>
+
   </view>
+
+  <!-- 商品规格 -->
+  <view style="margin-top: 30rpx;border-radius: 10rpx;">
+    <mp-cells>
+      <mp-cell>
+        <view class="tileBox">
+          <text class="productTitle">商品规格</text>
+          <text class="uniqueText">*</text>
+        </view>
+        <view slot="footer" style="display: flex;align-items: center;">
+          <input type="number" style="font-size:14px" bindinput="weightChange" placeholder="请输入重量" />
+          <picker style="font-size:14px;margin-left: 10rpx;"  mode="selector" bindchange="bindProductSpecificationsPickerChange" range-key="title" value="{{productSpecificationsCustomIndex}}" range="{{productSpecificationsOnlyArray}}">
+            <view  class="multiColumn">
+              {{productSpecificationsOnlyArray[productSpecificationsCustomIndex].title}} <mp-icon icon="arrow" color="black" style="opacity: 0.5;" size="{{9}}"></mp-icon>
+            </view>
+          </picker>
+        </view>
+      </mp-cell>
+      <mp-cell>
+        <view class="tileBox">
+          <text class="productTitle">现货库存</text>
+          <text class="uniqueText">*</text>
+        </view>
+        <view slot="footer" style="font-size:14px">
+          <input type="digit" model:value="{{commodityInventory}}" placeholder="请输入库存" name="" id="" />
+        </view>
+      </mp-cell>
+    </mp-cells>
+  </view>
+
+  <!-- 供货价 -->
+  <view style="margin-top: 30rpx;">
+    <mp-cells>
+      <mp-cell>
+        <view class="tileBox">
+          <text class="productTitle">供货价</text>
+          <text class="uniqueText">*</text>
+        </view>
+        <view slot="footer" style="font-size:14px">
+          <input type="digit" model:value="{{supplyPrice}}" placeholder="请输入供货价" name="" id="" />
+        </view>
+      </mp-cell>
+      <mp-cell>
+        <view class="tileBox">
+          <text class="productTitle">建议价格</text>
+          <text class="uniqueText">*</text>
+        </view>
+        <view slot="footer" style="font-size:14px">
+          <input type="digit" model:value="{{recommendedprice}}" placeholder="请输入建议价格" name="" id="" />
+        </view>
+      </mp-cell>
+    </mp-cells>
+  </view>
+  <!-- 确认发布 -->
+  <view class="qrfb">
+    <button type="primary" bindtap="onSubmit">确认发布</button>
+  </view>
+</view>
+<!-- 确认发布 -->
+<view class="clearBox">
 </view>
 
 
-<!-- 用户协议 -->
-<view class="mask" catchtouchmove='true' hidden="{{hidem==1}}"></view>
-<view class="model_box" hidden="{{hidem==1}}">
-  <view class="mb-tit">xxx拼团活动协议</view>
-  <view class="mb-content">
-    <view class="mb-con">尊敬的用户您好！</view>
-    <view class="mb-con">拼团活动是xxx（以下简称“平台”）为推广商品及回馈用户进行的限量、摇号销售活动，您可选择活动页面中您心仪的商品，点击相关页面及按钮即可参加。</view>
-    <view class="mb-con">活动商品都是经平台严格筛选，保证所有商品均为正品，请您放心购买。</view>
-    <view class="mb-con">1、参团：用户选择心仪商品，并选择若干购买数量，支付预付款后即成功参与拼团。平台收取预付款后，用户与平台之间成立商品买卖的预合同，不成立商品买卖的正式合同。只有您拼中购买成功，您与平台之间关于商品买卖的正式合同才生效。</view>
-    <view class="mb-con">2、摇号开团：当每一个商品的达到固定购买人数将开团，系统进行摇号抽奖，随机抽取其中一定的份数，对应用户获得购买商品的资格。</view>
-    <view class="mb-con">3、红包：当商品开团后，参与用户均可获得相应的红包，并可在“资产”页面中查询获奖金额。</view>
-    <view class="mb-con">4、发货及退换货：用户拼中商品后，即与商家成立拼团商品的正式买卖合同，预付款直接转换为货款，商家将按照《xxx用户服务协议》及《xxx隐私政策》中的约定向用户指定的收货地址及收货人发货，用户可在“待发货”中进行查询、追踪。所有拼团活动商品均为促销商品，如有产品质量问题请联系客服处理。</view>
-    <view class="mb-con">5、预付款退回：对商品开团时未拼中商品的用户，视为用户与商家不成立商品买卖正式合同，平台对预付款解除冻结，原路退还至用户支付账户，用户可在原支付账户中查询。</view>
-    <view class="mb-con">6、协议生效：您完成注册程序或使用第三方账号登录xxx，使用xxx服务，即视为您已充分阅读、理解及同意本协议，协议即时生效，对本活动各方均具有约束力。</view>
-  </view>
-  <view class="checkbox">
-    <!-- <view class="qx" bindtap="qx">取消</view> -->
-    <view class="qr">
-      <view style="width:100%;font-size:22rpx;position:absolute;left:3%;display:flex;align-items:center;">
-        <checkbox value="cb" checked="" bindtap="cb" />勾选代表同意本协议的相关规定
-      </view>
-      <view class="bottombuttonBox" style="display: flex;align-items: center;">
-        <view bindtap="qx2" class="qxbtn" style="margin-right: 5rpx;">取消</view>
-        <view bindtap="qr" class="qrbtn">确认</view>
-      </view>
-    </view>
 
-  </view>
+<!-- 提示信息 -->
+<mp-toptips msg="{{error}}" type="error" show="{{error}}"></mp-toptips>
 
-</view>
+<mp-tabbar current="1" style="position:fixed;bottom:0;width:100%;left:0;right:0;z-index: 9999;" list="{{list}}" bindchange="tabChange"></mp-tabbar>

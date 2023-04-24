@@ -70,7 +70,7 @@ Page({
       bodyOption: {
         row: [
           [{
-            prop: 'created_at',
+            prop: 'created',
           }, {
             prop: "item",
           }, {
@@ -87,9 +87,9 @@ Page({
 
         ],
         tdStickyStyle: 'background-color:#99ffff;border:1px solid',
-        tdStyle: 'background-color:#b3ff66;'
+        tdStyle: 'background-color:$fff;'
       },
-      colOption: [90, 90, 90, 40, 40, 40, 40]
+      colOption: [90, 90, 90, 90, 100, 140, 90]
     },
     tableData: [],
     date: '',
@@ -215,7 +215,8 @@ Page({
       wx.hideLoading()
       if (res.data.result.length == 0) {
         that.setData({
-          isShow: true
+          isShow: true,
+          tableData: res.data.result
         })
       } else {
         that.setData({

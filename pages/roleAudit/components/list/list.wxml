@@ -3,7 +3,7 @@
     <text slot="title">
       <slot name="sqName"></slot>
     </text>
-    <switch model:checked="{{ishide}}" slot="footer" />
+    <switch style="transform: scale(0.8);" model:checked="{{ishide}}" slot="footer" />
   </mp-cell> 
   <!-- 图片上传 -->
   <mp-cell wx:if="{{ishide}}">

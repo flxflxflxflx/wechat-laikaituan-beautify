@@ -52,5 +52,5 @@
     </view>
 
   </block>
+  <van-empty wx:if="{{ isShow }}" description="没有发布商品" />
 </view>
-<mp-tabbar style="position:fixed;bottom:0;width:100%;left:0;right:0;z-index: 9999;" list="{{list}}" bindchange="tabChange"></mp-tabbar>

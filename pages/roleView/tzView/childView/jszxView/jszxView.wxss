@@ -8,7 +8,6 @@ page{
   flex-direction: column;
   height: 100%;
   /* background: #CAF8B5; */
-  height: calc(100vh - 60px);
 }
 
 .danhao {

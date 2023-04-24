@@ -61,12 +61,12 @@ page {
   color: var(--globalBackground);
 }
 
-button {
+/* button {
   border-radius: 35px !important;
   background-color: rgb(101, 196, 170) !important;
   color: #fff !important;
   font-weight: 400 !important;
-}
+} */
 
 .bottomToButton {
   margin-bottom: 10rpx;

@@ -1,4 +1,14 @@
 {
   "navigationBarTitleText": "供应商",
-  "usingComponents": {}
+  "usingComponents": {
+    "mp-tabbar": "/weui-miniprogram/tabbar/tabbar",
+    "mp-uploader": "/weui-miniprogram/uploader/uploader",
+    "mp-cells": "/weui-miniprogram/cells/cells",
+    "mp-cell": "/weui-miniprogram/cell/cell",
+    "productSort":"./childView/publishProduct/productSort/productSort",
+    "mp-half-screen-dialog": "/weui-miniprogram/half-screen-dialog/half-screen-dialog",
+    "mp-actionSheet": "/weui-miniprogram/actionsheet/actionsheet",
+    "mp-icon": "/weui-miniprogram/icon/icon",
+    "mp-toptips": "/weui-miniprogram/toptips/toptips"
+  }
 }

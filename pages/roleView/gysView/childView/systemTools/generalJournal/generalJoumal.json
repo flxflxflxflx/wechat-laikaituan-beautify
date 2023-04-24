@@ -2,6 +2,10 @@
   "navigationBarTitleText": "总流水账",
   "usingComponents": {
     "mp-tabbar": "/weui-miniprogram/tabbar/tabbar",
-    "j-table": "/j-table/index"
+    "j-table": "/j-table/index",
+    "van-icon": "@vant/weapp/icon/index",
+    "van-popup": "@vant/weapp/popup/index",
+    "van-index-bar": "@vant/weapp/index-bar/index",
+    "van-index-anchor": "@vant/weapp/index-anchor/index"
   }
 }

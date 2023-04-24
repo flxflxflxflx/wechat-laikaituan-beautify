@@ -2,8 +2,8 @@
 //注册小程序
 App({
   globalData: {
-    // apiUrl: 'https://gb.pengyg.com',
-    apiUrl: "http://192.168.43.201:8000",
+    apiUrl: 'https://gb.pengyg.com',
+    // apiUrl: "http://192.168.43.201:8000",
     // apiUrl:"http://127.0.0.1:8000",
     // 到货通知
     PICKUP_TEMPALE_ID: "YcAIXLx8EaPT2Wo0EyBW-OXV_KlV3TF1aizXBhNpQzk",

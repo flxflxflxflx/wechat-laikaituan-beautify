@@ -1,0 +1,48 @@
+<view class="header-box">
+  <view class="header-box-left">
+    <view class="avatar">
+      <image class="avatar-img" src="{{avatar}}" mode="aspectFill"></image>
+    </view>
+    <view class="r">
+      <!-- <view class="uid">用户ID: {{ apiUserInfoMap.base.id }}</view> -->
+      <view class="nick" bindtap="editNick">{{ nick_name }}</view>
+    </view>
+  </view>
+</view>
+<view class="asset">
+  <view class='item' bindtap='goAsset'>
+    <view class="amount">{{balance}}</view>
+    <view>余额</view>
+  </view>
+  <view class='item right' bindtap='goOrder'>
+    <view class="amount">{{freeze}}</view>
+    <view>今日订单成交量</view>
+  </view>
+</view>
+<view class="space van-hairline--bottom"></view>
+
+<!-- <van-cell title="我的订单" value="更多" is-link url="./order-list/index" />
+<van-grid clickable column-num="5">
+  <van-grid-item icon="balance-list-o" text="待付款" badge="{{count_id_no_pay}}" bindtap='goOrder' data-type="0" />
+  <van-grid-item icon="logistics" text="待发货" badge="{{count_id_no_transfer}}" bindtap='goOrder' data-type="1" />
+  <van-grid-item icon="certificate" text="待收货" badge="{{count_id_no_confirm}}" bindtap='goOrder' data-type="2" />
+  <van-grid-item icon="flower-o" text="待评价" badge="{{count_id_no_reputation}}" bindtap='goOrder' data-type="3" />
+  <van-grid-item icon="after-sale" text="售后" bindtap='goOrder' data-type="99" />
+</van-grid> -->
+<van-cell title="团长常用功能" />
+<van-grid clickable>
+  <van-grid-item icon="balance-list-o" text="订单流水" url="/pages/roleView/tzView/childView/orderFlow/orderFlow" />
+  <van-grid-item icon="bill-o" text="开团记录" url="/pages/roleView/tzView/childView/jszxView/jszxView" />
+  <van-grid-item icon="newspaper-o" text="总流水账" url="/pages/roleView/tzView/childView/generalJournal/generalJournal" />
+</van-grid>
+
+<van-cell title="供货常用功能" />
+<van-grid clickable>
+  <van-grid-item icon="balance-list-o" text="订单流水" url="/pages/roleView/gysView/childView/systemTools/orderQuery/orderQuery" />
+  <van-grid-item icon="cart-o" text="购买查询" url="/pages/roleView/gysView/childView/systemTools/purchaseQuery/purchaseQuery" />
+  <van-grid-item icon="shop-o" text="我的商品" url="/pages/roleView/gysView/childView/systemTools/myProduct/myProduct" />
+  <van-grid-item icon="newspaper-o" text="总流水账" url="/pages/roleView/gysView/childView/systemTools/generalJournal/generalJoumal" />
+</van-grid>
+
+
+<mp-tabbar current="2" style="position:fixed;bottom:0;width:100%;left:0;right:0;z-index: 9999;" list="{{list}}" bindchange="tabChange"></mp-tabbar>

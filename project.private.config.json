@@ -5,5 +5,25 @@
     "compileHotReLoad": true,
     "urlCheck": false
   },
-  "libVersion": "2.27.3"
+  "libVersion": "2.27.3",
+  "condition": {
+    "miniprogram": {
+      "list": [
+        {
+          "name": "",
+          "pathName": "pages/roleLogin/childView/commodityPurchase/commodityPurchase",
+          "query": "selectListData=1",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "pages/roleView/gysView/childView/systemTools/generalJournal/generalJoumal",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        }
+      ]
+    }
+  }
 }

@@ -24,7 +24,7 @@ Page({
   onLoad(options) {
     console.log("==================");
     var that = this;
-    console.log(options.isXFZ,"dddddddddddd");
+    console.log(options.isXFZ, "dddddddddddd");
     if (options.isXFZ) {
       // 从消费者界面来的
       wx.setStorageSync('selectListData', options.selectListData)
@@ -69,7 +69,7 @@ Page({
               if (wx.getStorageSync('selectListData')) {
                 console.log(wx.getStorageSync('selectListData'));
                 wx.redirectTo({
-                  url: '/pages/roleView/tzView/childView/ktView/childView/commodityPurchase/commodityPurchase?selectListData=' + wx.getStorageSync('selectListData'),
+                  url: '/pages/roleLogin/childView/commodityPurchase/commodityPurchase?selectListData=' + wx.getStorageSync('selectListData'),
                 })
               } else {
                 wx.redirectTo({
@@ -150,7 +150,7 @@ Page({
                 wx.setStorageSync('avatar', app.globalData.apiUrl + response.avatar);
                 if (wx.getStorageSync('selectListData')) {
                   wx.redirectTo({
-                    url: '/pages/roleView/tzView/childView/ktView/childView/commodityPurchase/commodityPurchase?selectListData=' + wx.getStorageSync('selectListData'),
+                    url: '/pages/roleLogin/childView/commodityPurchase/commodityPurchase?selectListData=' + wx.getStorageSync('selectListData'),
                   })
                 } else {
                   wx.redirectTo({

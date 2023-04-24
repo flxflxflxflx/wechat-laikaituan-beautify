@@ -96,16 +96,23 @@ Page({
 
         ],
         tdStickyStyle: 'background-color:#99ffff;border:1px solid',
-        tdStyle: 'background-color:#b3ff66;'
+        tdStyle: 'background-color:$fff;'
       },
-      colOption: [90, 90, 90, 60, 60, 60, 60, 60]
+      colOption: [90, 90, 90, 90, 100, 140, 90, 90]
     },
     tableData: [],
     countPrice: '0.00',
     products: [],
     isShow: false,
     isShow2: false,
-    bottomLift: app.globalData.bottomLift
+    bottomLift: app.globalData.bottomLift,
+    showCB: false
+  },
+
+  onClose() {
+    this.setData({
+      showCB: false
+    })
   },
 
   // 导出账单
@@ -153,25 +160,29 @@ Page({
       } else {
         that.setData({
           products: res.data,
-          isShow: true
-
+          showCB: true
         })
-
       }
     })
   },
   onimagebth() {
     this.setData({
-      isShow: false
+      showCB: false
     })
   },
   balanceWithdrawal() {
     wx.navigateTo({
-      url: '/pages/publicPage/balanceWithdrawal/balanceWithdrawal',
+      url: '/pages/roleView/myView/asset',
     })
   },
 
   onProductbth(e) {
+    if (e.target.dataset.item == "*") {
+      console.log(e.target.dataset.item);
+      this.onLoad()
+      this.onimagebth();
+      return;
+    }
     let that = this
     let item = e.target.dataset.item;
     tr("/singleProductStatistics2", {
@@ -180,7 +191,7 @@ Page({
       if (res.data.code == 0) {
         wx.showToast({
           title: res.data.message,
-          icon:"none"
+          icon: "none"
         })
       } else {
         that.setData({
@@ -232,10 +243,7 @@ Page({
     // 获取流水信息
     tr("/getGeneralDailyAccount").then(function (res) {
       if (res.data.data.length == 0) {
-        wx.showToast({
-          title: '没有流水',
-          icon: "error"
-        })
+    
         that.setData({
           isShow2: true
         })

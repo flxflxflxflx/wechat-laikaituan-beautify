@@ -116,9 +116,9 @@ Page({
 
         ],
         tdStickyStyle: 'background-color:#99ffff;border:1px solid',
-        tdStyle: 'background-color:#b3ff66;'
+        tdStyle: 'background-color:$fff;'
       },
-      colOption: [90, 90, 90, 40, 200, 40, 40, 40, 60, 60, 60]
+      colOption: [90, 90, 90, 90, 100, 140, 90, 60, 60, 60, 60]
     },
     tableData: [],
     // 总金额

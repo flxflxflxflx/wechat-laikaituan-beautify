@@ -36,12 +36,12 @@ Page({
     // 是否显示分享按钮 
     isShare: false,
     imghref: app.globalData.apiUrl + "/uploads",
-
+    isShow: false
   },
 
-  onRoute(e){
+  onRoute(e) {
     wx.navigateTo({
-      url: '/pages/roleView/tzView/childView/ktView/childView/productDetails/productDetails?productid=' + e.currentTarget.dataset.id,
+      url: '/pages/roleLogin/childView/productDetails/productDetails?productid=' + e.currentTarget.dataset.id,
     })
   },
 
@@ -92,8 +92,8 @@ Page({
     let that = this
     tr("/getProductInfo").then(function (res) {
       if (res.data.length == 0) {
-        wx.showToast({
-          title: '没有发布商品',
+        that.setData({
+          isShow: true
         })
       } else {
         that.setData({

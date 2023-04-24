@@ -4,12 +4,12 @@
 }
 
 button {
-  border-radius: 35px;
-  background: linear-gradient(145deg, #b7e2ba, #d9ffdd);
-  box-shadow:  8px 8px 16px #abd3ae,
-               -8px -8px 16px #ebfff0;
-    color: var(--TextColor) !important;
-  }
+  border-radius: 35px !important;
+  background-color: rgb(101, 196, 170) !important;
+  color: #fff !important;
+  font-weight: 400 !important;
+}
+
 
 /* 重要的文本 */
 .uniqueText {

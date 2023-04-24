@@ -7,30 +7,6 @@ Page({
    * 页面的初始数据
    */
   data: {
-    list: [{
-        text: '开团记录',
-        iconPath: "/static/image/openTuan.png",
-        selectedIconPath: "/static/image/openTuan2.png",
-        // badge: '8'
-      },
-      {
-        text: '余额提现',
-        iconPath: "/static/image/yue2.png",
-        selectedIconPath: "/static/image/yue.png",
-      },
-      {
-        text: '订单流水',
-        iconPath: "/static/image/orderFlow.png",
-        selectedIconPath: "/static/image/orderFlow2.png",
-        // dot: true
-      },
-      {
-        text: '总流水账',
-        iconPath: "/static/image/caigou.png",
-        selectedIconPath: "/static/image/caigou2.png",
-        // dot: true
-      },
-    ],
     imghref: app.globalData.apiUrl,
     tableOption: {
       headOption: {
@@ -109,9 +85,9 @@ Page({
 
         ],
         tdStickyStyle: 'background-color:#99ffff;border:1px solid',
-        tdStyle: 'background-color:#b3ff66;'
+        tdStyle: 'background-color:$fff;'
       },
-      colOption: [90, 90, 90, 40, 40, 40, 40, 40, 60, 60]
+      colOption: [90, 90, 90, 90, 100, 140, 90, 60, 60, 60]
     },
     tableData: [],
     date: '',
@@ -120,30 +96,7 @@ Page({
     bottomLift: app.globalData.bottomLift,
     isShow: false,
   },
-  tabChange(e) {
-    switch (e.detail.index) {
-      case 0:
-        wx.redirectTo({
-          url: '../jszxView/jszxView',
-        })
-        break;
-      case 1:
-        wx.redirectTo({
-          url: '../balanceWithdrawal/balanceWithdrawal',
-        })
-        break;
-      case 2:
 
-        break;
-      case 3:
-        wx.redirectTo({
-          url: '../generalJournal/generalJournal',
-        })
-        break;
-      default:
-        break;
-    }
-  },
 
   // 时间改变
   bindDateChange: function (e) {
@@ -197,7 +150,8 @@ Page({
       wx.hideLoading()
       if (res.data.length == 0) {
         that.setData({
-          isShow: true
+          isShow: true,
+          tableData: res.data
         })
       } else {
         that.setData({

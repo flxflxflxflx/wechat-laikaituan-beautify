@@ -1,0 +1,17 @@
+
+
+<view class="asset">
+  <view class='item'>
+    <view>可提取余额(元)</view>
+    <view>{{account}}</view>
+  </view>
+
+</view>
+<view class='btn-view'>
+  <form bindsubmit="withdraw" report-submit="true">
+    <button class='btn' type="default" size="mini" form-type="submit" hover-class="btn-hover" plain="true">
+      提现
+    </button>
+  </form>
+</view>
+<van-empty wx:if="{{ !orderList }}" description="暂无资金明细" />

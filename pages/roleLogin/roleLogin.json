@@ -1,5 +1,11 @@
 {
   "navigationBarTitleText": "莱开团",
   "usingComponents": {
+    "mp-tabbar": "/weui-miniprogram/tabbar/tabbar",
+    "mp-searchbar": "/weui-miniprogram/searchbar/searchbar",
+    "mp-half-screen-dialog": "/weui-miniprogram/half-screen-dialog/half-screen-dialog",
+    "mp-cells": "/weui-miniprogram/cells/cells",
+    "mp-cell": "/weui-miniprogram/cell/cell",
+    "stationComponent":"./stationComponent/stationComponent"
   }
 }
