@@ -46,7 +46,8 @@ Page({
     href: app.globalData.apiUrl + "/uploads",
     // 定时器数组
     countdownArr: [],
-    tabbarHeight: 0
+    tabbarHeight: 0,
+    bottomLift: app.globalData.bottomLift
   },
   // 退款
   refund(e) {
@@ -333,7 +334,26 @@ Page({
   },
 
   // 已取消滑动到底
-  cancelScroll() {},
+  cancelScroll() {
+    cancelPage++
+    let that = this
+    // 请求已付款
+    tr("/getOrder", {
+      status: 2,
+      offset: cancelPage * 10
+    }).then(function (res) {
+      if (res.data.canceled.length != 0) {
+        that.setData({
+          canceled: that.data.canceled.concat(res.data.canceled),
+        })
+      } else {
+        wx.showToast({
+          title: '没有数据了',
+          icon: "none"
+        })
+      }
+    })
+  },
 
   // 已取消
   lostShow: function () {

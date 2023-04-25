@@ -12,8 +12,6 @@ navigator {
 }
 
 .list {
-  /* margin-top: 10px; */
-  padding-bottom: 20rpx;
 }
 
 .list .list_item {

@@ -148,7 +148,7 @@ Component({
                     wx.setStorageSync('avatar', app.globalData.apiUrl + response.avatar);
                     if (wx.getStorageSync('selectListData')) {
                       wx.redirectTo({
-                        url: '/pages/roleView/tzView/childView/ktView/childView/commodityPurchase/commodityPurchase?selectListData=' + wx.getStorageSync('selectListData'),
+                        url: '/pages/roleLogin/childView/commodityPurchase/commodityPurchase?selectListData=' + wx.getStorageSync('selectListData'),
                       })
                     } else {
                       wx.redirectTo({

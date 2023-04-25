@@ -17,7 +17,7 @@
   </view>
   <view style="height: {{footerHeight}}px;"></view>
 </scroll-view>
-<view wx:if="{{!isShow}}" class="footer" style="bottom: 5px;">
+<view wx:if="{{!isShow}}" class="footer" style="bottom: {{bottomLift+5}}px;">
   <!-- <button size="mini" type="primary">单品统计</button> -->
   <button bindtap="exportExcel" size="mini" type="primary">导出账单</button>
   <!-- <button size="mini" type="primary">余额提现</button> -->

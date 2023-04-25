@@ -173,11 +173,9 @@ navigator {
 
 .footer {
   position: fixed;
-  bottom: 5px;
   display: flex;
   justify-content: center;
   width: 100%;
-  margin-bottom: 10rpx;
 }
 
 .productToast {

@@ -2,7 +2,7 @@
 <!-- 搜索框 -->
 <mp-searchbar bindclear="clear" ext-class="searchResult" bindselectresult="selectResult" throttle="1000" search="{{search}}"></mp-searchbar>
 <!-- 内容 -->
-<scroll-view scroll-y="true" style="height: 85%;" lower-threshold='50' bindscrolltolower="searchScrollLower">
+<scroll-view scroll-y="true" style="height: calc(100% - {{114+bottomLift}}px);" lower-threshold='50' bindscrolltolower="searchScrollLower">
   <view class='list'>
     <checkbox-group bindchange="">
       <block wx:for='{{dataList}}' wx:key='index' wx:for-item="item">
@@ -39,6 +39,7 @@
       </block>
     </checkbox-group>
   </view>
+  <view style="height: 46px;"></view>
 </scroll-view>
 
 <!-- 分享 -->

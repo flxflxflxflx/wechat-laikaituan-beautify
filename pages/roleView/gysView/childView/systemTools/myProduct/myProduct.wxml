@@ -1,7 +1,7 @@
-<view class='list'>
+<view class='list' style="padding-bottom:{{bottomLift}}px">
   <block wx:for='{{dataList}}' wx:key='id' wx:for-item="item">
-    <view class="list_item" catchtap="onRoute" data-id="{{item.id}}" >
-      <view class="product_status"  wx:if="{{item.status == 2?true:false}}">
+    <view class="list_item" catchtap="onRoute" data-id="{{item.id}}">
+      <view class="product_status" wx:if="{{item.status == 2?true:false}}">
         <view style="color: green;border: 4px solid green;">
           审核中
         </view>
@@ -40,7 +40,7 @@
             <view class='price'>供应价:<text style="color: var(--Money);">￥{{item.supplyprice}}</text></view>
             <view class='price2'>建议价:<text style="color: var(--Money);">￥{{item.recommendedprice}}</text></view>
             <view class="delete">
-              <button  type="warn" size="mini" data-id="{{item.id}}" catchtap="editProduct">编辑</button>
+              <button type="warn" size="mini" data-id="{{item.id}}" catchtap="editProduct">编辑</button>
             </view>
           </view>
 

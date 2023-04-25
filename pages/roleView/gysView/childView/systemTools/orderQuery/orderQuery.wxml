@@ -26,7 +26,7 @@
   </view>
   <view style="height: {{footerHeight}}px;"></view>
 </scroll-view>
-<view wx:if="{{!isShow}}" class="footer" style="margin-bottom: 0px;">
+<view wx:if="{{!isShow}}" class="footer" style="bottom: {{bottomLift+5}}px;">
   <button type="primary" class="bottomToButton" size="mini" bindtap="orderPrinting">订单打印</button>
   <!-- <button type="primary" size="mini">货码打印</button> -->
 </view>

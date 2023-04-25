@@ -12,7 +12,7 @@
         {
           "name": "",
           "pathName": "pages/roleLogin/childView/commodityPurchase/commodityPurchase",
-          "query": "selectListData=1",
+          "query": "selectListData=16",
           "launchMode": "default",
           "scene": null
         },

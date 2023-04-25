@@ -40,7 +40,8 @@ Page({
     // 服务器url
     href: app.globalData.apiUrl + "/uploads",
     // 错误提示信息
-    error: ""
+    error: "",
+    bottomLift:app.globalData.bottomLift
   },
 
   // 删除商品

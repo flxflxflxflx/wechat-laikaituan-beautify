@@ -140,7 +140,7 @@
 </view>
 
 <!-- 确认发布 -->
-<view class="qrfb">
+<view class="qrfb" style="padding: 10px 0 {{bottomLift}}px;">
   <button type="primary" bindtap="onSubmit">确认更新</button>
   <!-- <button type="warn" bindtap="onDetele">删除商品</button> -->
 </view>

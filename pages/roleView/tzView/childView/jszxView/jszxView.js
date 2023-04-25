@@ -1,6 +1,7 @@
 import tr from "../../../../../utils/tokenRequest"
 // pages/roleView/gysView/childView/jszxView/jszxView.js
 const app = getApp()
+var pageNum = 0
 Page({
 
   /**
@@ -117,33 +118,50 @@ Page({
   },
 
   // 用户点击承担配送费`
-  HandelItemChange(e){
+  HandelItemChange(e) {
     // 要修改的id
     let id = e.currentTarget.dataset.id
-    tr("/bearTheDistributionFee",{
+    tr("/bearTheDistributionFee", {
       id
-    }).then(function(res){
-    })
-    console.log();
+    }).then(function (res) {})
+  },
+
+  searchScrollLower() {
+    this.getOpeningRecord()
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad(options) {
+    pageNum = 0
+    this.getOpeningRecord()
+  },
+
+  getOpeningRecord() {
+    wx.showLoading({
+      title: '加载中...',
+    })
     let that = this
     // 获取开团记录
-    tr("/openingRecord").then(function (res) {
-      if (res.data.length == 0) {
+    tr("/openingRecord", {
+      pageNum
+    }).then(function (res) {
+      wx.hideLoading()
+      if (pageNum == 0 && res.data.length == 0) {
         that.setData({
           isShow: true
         })
+      } else if (res.data.length == 0) {
+        wx.showToast({
+          title: '无记录',
+        })
       } else {
-        console.log(res.data);
         that.setData({
-          openingRecord: res.data
+          openingRecord: that.data.openingRecord.concat(res.data)
         })
         that.countdown()
+        pageNum++
       }
     })
   },

@@ -25,6 +25,6 @@
   </view>
   <view style="height: {{footerHeight}}px;"></view>
 </scroll-view>
-<view wx:if="{{!isShow}}" class="footer">
+<view wx:if="{{!isShow}}" class="footer" style="bottom: {{bottomLift+5}}px;">
   <button bindtap="exportExcel" size="mini" type="primary">导出账单</button>
 </view>

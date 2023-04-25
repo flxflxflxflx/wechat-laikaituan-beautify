@@ -9,14 +9,14 @@ export default (url, data = {}, method = 'post') => {
     //如果不能处在token，返回登录页面
     if (!wx.getStorageSync('access_token')) {
       wx.showToast({
-        title: '没有token',
+        title: '请进行登录',
       })
       // 返回登录界面
       wx.redirectTo({
         url: '/pages/index/index',
       });
       console.log("storage没有token");
-      reject("没有token");
+      reject("请进行登录");
       return;
     }
     // 发起请求

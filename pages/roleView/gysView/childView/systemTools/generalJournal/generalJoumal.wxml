@@ -36,7 +36,7 @@
 </view> -->
 
 
-<view wx:if="{{!isShow2}}" class="footer">
+<view wx:if="{{!isShow2}}" class="footer" style="bottom: {{bottomLift+5}}px;">
   <button class="bottomToButton" size="mini" bindtap="singleProductStatistics" type="primary">单品统计</button>
   <button class="bottomToButton" bindtap="exportExcel" size="mini" type="primary">导出账单</button>
   <button class="bottomToButton" bindtap="balanceWithdrawal" size="mini" type="primary">余额提现</button>
