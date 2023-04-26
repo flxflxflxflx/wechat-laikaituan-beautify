@@ -61,7 +61,8 @@ Page({
   // 评价
   evaluate(e) {
     wx.navigateTo({
-      url: './evaluate/evaluate?ordernum=' + e.target.dataset.data,
+      url: '/pages/roleLogin/childView/commodityOrder/evaluate/evaluate?ordernum=' + e.target.dataset.data,
+      
     })
   },
 

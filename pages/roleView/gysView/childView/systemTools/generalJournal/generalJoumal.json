@@ -6,6 +6,7 @@
     "van-icon": "@vant/weapp/icon/index",
     "van-popup": "@vant/weapp/popup/index",
     "van-index-bar": "@vant/weapp/index-bar/index",
-    "van-index-anchor": "@vant/weapp/index-anchor/index"
+    "van-index-anchor": "@vant/weapp/index-anchor/index",
+    "table": "/pages/components/table/table"
   }
 }

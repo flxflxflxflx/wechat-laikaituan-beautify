@@ -96,8 +96,31 @@ Page({
     countPrice: 0,
     // 订单数组
     orderCode: [],
-    isShow: false,
-    bottomLift: app.globalData.bottomLift
+    isShow: true,
+    bottomLift: app.globalData.bottomLift,
+    tableColumns: [{
+      title: "日期",
+      key: "created",
+    }, {
+      title: "项目",
+      key: "item",
+    }, {
+      title: "品种",
+      key: "variety",
+    }, {
+      title: "规格",
+      key: "specification",
+    }, {
+      title: "份数",
+      key: "number",
+    }, {
+      title: "供货价",
+      key: "supplyprice",
+    }, {
+      title: "金额",
+      key: "totalprice",
+    }],
+    getListLoading: true,
   },
 
   // 货码打印
@@ -187,9 +210,6 @@ Page({
   // 查询
   search() {
     let that = this
-    wx.showLoading({
-      title: '加载中...',
-    })
     this.getUserDailyOrder()
   },
   /**
@@ -202,17 +222,21 @@ Page({
       date: `${date.getFullYear()}-${date.getMonth()+1}-${ date.getDate()}`,
       endDate: `${date.getFullYear()}-${date.getMonth()+1}-${ date.getDate()}`,
     })
-    console.log(date);
     // 获取用户购买流水
     this.getUserDailyOrder()
   },
 
   getUserDailyOrder() {
     let that = this
+    that.setData({
+      getListLoading: true
+    })
     tr("/getUserDailyOrder", {
       date: this.data.date
     }).then(function (res) {
-      wx.hideLoading()
+      that.setData({
+        getListLoading: false
+      })
       if (res.data.result.length == 0) {
         that.setData({
           isShow: true,

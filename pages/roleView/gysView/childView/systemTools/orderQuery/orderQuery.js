@@ -100,8 +100,36 @@ Page({
     tableData: [],
     date: '',
     countPrice: 0.00,
-    isShow: false,
-    bottomLift: app.globalData.bottomLift
+    isShow: true,
+    bottomLift: app.globalData.bottomLift,
+    tableColumns: [{
+        title: "日期",
+        key: "gdate",
+      }, {
+        title: "项目",
+        key: "item",
+      }, {
+        title: "品种",
+        key: "variety",
+      }, {
+        title: "规格",
+        key: "specification",
+      }, {
+        title: "份数",
+        key: "quantity",
+      }, {
+        title: "供货价",
+        key: "supplyprice",
+      }, {
+        title: "金额",
+        key: "money",
+      },
+      {
+        title: "余额",
+        key: "accountbalance",
+      }
+    ],
+    getListLoading: true,
   },
 
   // 时间改变
@@ -177,9 +205,6 @@ Page({
   // 查询
   search() {
     let that = this
-    wx.showLoading({
-      title: '加载中...',
-    })
     this.getGeneralDailyOrder()
   },
   /**
@@ -192,20 +217,21 @@ Page({
       date: `${date.getFullYear()}-${date.getMonth()+1}-${ date.getDate()}`,
       endDate: `${date.getFullYear()}-${date.getMonth()+1}-${ date.getDate()}`,
     })
-
-    wx.showLoading({
-      title: '加载中...',
-    })
     this.getGeneralDailyOrder()
   },
 
   // 获取订单信息
   getGeneralDailyOrder() {
     let that = this
+    this.setData({
+      getListLoading: true
+    })
     tr("/getGeneralDailyOrder", {
       date: this.data.date
     }).then(function (res) {
-      wx.hideLoading()
+      that.setData({
+        getListLoading: false
+      })
       if (res.data.data.length == 0) {
         that.setData({
           isShow: true,
@@ -216,7 +242,6 @@ Page({
         that.setData({
           isShow: false
         })
-        console.log(res.data);
         that.setData({
           tableData: res.data.data,
           countPrice: res.data.countPrice

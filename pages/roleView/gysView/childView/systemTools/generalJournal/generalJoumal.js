@@ -104,9 +104,37 @@ Page({
     countPrice: '0.00',
     products: [],
     isShow: false,
-    isShow2: false,
+    isShow2: true,
     bottomLift: app.globalData.bottomLift,
-    showCB: false
+    showCB: false,
+    tableColumns: [{
+        title: "日期",
+        key: "gdate",
+      }, {
+        title: "项目",
+        key: "item",
+      }, {
+        title: "品种",
+        key: "variety",
+      }, {
+        title: "规格",
+        key: "specification",
+      }, {
+        title: "份数",
+        key: "quantity",
+      }, {
+        title: "供货价",
+        key: "supplyprice",
+      }, {
+        title: "金额",
+        key: "money",
+      },
+      {
+        title: "账户余额",
+        key: "accountbalance",
+      }
+    ],
+    getListLoading: true,
   },
 
   onClose() {
@@ -242,15 +270,18 @@ Page({
     let that = this
     // 获取流水信息
     tr("/getGeneralDailyAccount").then(function (res) {
+      that.setData({
+        getListLoading: false
+      })
       if (res.data.data.length == 0) {
-    
         that.setData({
           isShow2: true
         })
       } else {
         that.setData({
           tableData: res.data.data,
-          countPrice: res.data.countPrice
+          countPrice: res.data.countPrice,
+          isShow: false
         })
       }
 

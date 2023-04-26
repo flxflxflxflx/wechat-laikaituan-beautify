@@ -74,10 +74,13 @@ Component({
         for (var j = 0; j < data.customArray[data.customIndex[0]].dept.length; j++) {
           data.onlyArray[1].push(data.customArray[data.customIndex[0]].dept[j]);
         }
-        for (var k = 0; k < data.customArray[data.customIndex[0]].dept[data.customIndex[1]].product.length; k++) {
+
+        // 第三个选择项是否product是否不为空,如果true获取length,false赋值0
+        let three = data.customArray[data.customIndex[0]].dept[data.customIndex[1]].product && data.customArray[data.customIndex[0]].dept[data.customIndex[1]].product.length || 0;
+        for (var k = 0; k < three; k++) {
           data.onlyArray[2].push(data.customArray[data.customIndex[0]].dept[data.customIndex[1]].product[k]);
         }
-        this.setData(data); 
+        this.setData(data);
       }
     },
     //多列自定义选择器改变value的方法
@@ -118,7 +121,9 @@ Component({
             for (var j = 0; j < customArray[i].dept.length; j++) {
               arr1.push(customArray[i].dept[j]);
               if (j == customIndex[1]) {
-                for (var k = 0; k < customArray[i].dept[j].product.length; k++) {
+                // 第三个选择项是否product是否不为空,如果true获取length,false赋值0
+                let three = customArray[i].dept[j].product && customArray[i].dept[j].product.length || 0;
+                for (var k = 0; k < three; k++) {
                   arr2.push(customArray[i].dept[j].product[k]);
                 }
                 onlyArray[2] = arr2;
@@ -133,13 +138,21 @@ Component({
         case 0:
           customIndex[1] = 0;
           customIndex[2] = 0;
+          this.setData({
+            'onlyArray[1]': [],
+            'onlyArray[2]': []
+          })
           searchColumn();
           break;
         case 1:
           customIndex[2] = 0;
+          this.setData({
+            'onlyArray[2]': []
+          })
           searchColumn();
           break;
       }
+
       this.setData({
         onlyArray: onlyArray,
         customIndex: customIndex

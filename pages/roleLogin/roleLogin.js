@@ -551,10 +551,6 @@ Page({
             url: '/pages/roleAudit/roleForm/roleForm',
           })
         }, 1500);
-      } else {
-        that.setData({
-          permissions: res.data.permissions
-        })
       }
     }, function (res) {
       if (res == "没有响应") {

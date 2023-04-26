@@ -1,5 +1,5 @@
 <view class="body" style="margin-bottom: {{bottomLift+55}}px; overflow-y: auto;">
-
+  <van-cascader  value="多对多" title="请选择所在地区" options="{{ customArray }}" field-names="{{ fieldNames }}" />
   <!-- 商品标题 -->
   <view class="productTitleBox">
     <!-- 标题 -->
@@ -35,8 +35,9 @@
       <!-- 多列选择器 -->
       <view slot="footer">
         <productSort  bindselectedValue="commodityCategorySelectedValue" solt="footer" customArrayF="{{customArray}}"></productSort>
+      
       </view>
-
+     
     </mp-cell>
   </mp-cells>
 
@@ -95,8 +96,8 @@
         </view>
         <view slot="footer" style="display: flex;align-items: center;">
           <input type="number" style="font-size:14px" bindinput="weightChange" placeholder="请输入重量" />
-          <picker style="font-size:14px;margin-left: 10rpx;"  mode="selector" bindchange="bindProductSpecificationsPickerChange" range-key="title" value="{{productSpecificationsCustomIndex}}" range="{{productSpecificationsOnlyArray}}">
-            <view  class="multiColumn">
+          <picker style="font-size:14px;margin-left: 10rpx;" mode="selector" bindchange="bindProductSpecificationsPickerChange" range-key="title" value="{{productSpecificationsCustomIndex}}" range="{{productSpecificationsOnlyArray}}">
+            <view class="multiColumn">
               {{productSpecificationsOnlyArray[productSpecificationsCustomIndex].title}} <mp-icon icon="arrow" color="black" style="opacity: 0.5;" size="{{9}}"></mp-icon>
             </view>
           </picker>

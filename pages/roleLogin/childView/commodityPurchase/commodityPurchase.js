@@ -566,10 +566,7 @@ Page({
     this.isLogin('/getUserPermissions', options).then(function (res) {
       let isPermissionsNull = res.data.isPermissionsNull
       if (isPermissionsNull) {
-        wx.showToast({
-          title: '没有权限',
-          mask: true
-        })
+       console.log("没有团长权限");
         // setTimeout(() => {
         //   wx.redirectTo({
         //     url: '/pages/roleAudit/roleForm/roleForm',

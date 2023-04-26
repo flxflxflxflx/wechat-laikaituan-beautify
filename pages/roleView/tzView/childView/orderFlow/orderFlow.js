@@ -95,6 +95,41 @@ Page({
     countPrice: 0,
     bottomLift: app.globalData.bottomLift,
     isShow: false,
+    tableColumns: [{
+        title: "序号",
+        key: "codeId",
+      }, {
+        title: "编号",
+        key: "ordernum",
+      }, {
+        title: "日期",
+        key: "paytime",
+      }, {
+        title: "客户",
+        key: "nickname",
+      }, {
+        title: "项目",
+        key: "productTitle",
+      }, {
+        title: "品种",
+        key: "pinZhong",
+      }, {
+        title: "重量",
+        key: "guiGe",
+      },
+      {
+        title: "数量",
+        key: "num",
+      },
+      {
+        title: "团购价格",
+        key: "price",
+      }, {
+        title: "订单金额",
+        key: "countPrice",
+      }
+    ],
+    getListLoading: true,
   },
 
 
@@ -141,21 +176,24 @@ Page({
 
   getOrderFlow() {
     let that = this
-    wx.showLoading({
-      title: '加载中...',
+    this.setData({
+      getListLoading: true
     })
     tr("/getOrderFlow", {
       date: this.data.date
     }).then(function (res) {
+      that.setData({
+        getListLoading: false
+      })
       wx.hideLoading()
       if (res.data.length == 0) {
         that.setData({
-          isShow: true,
+          isShow: false,
           tableData: res.data
         })
       } else {
         that.setData({
-          isShow: false
+          isShow: true
         })
         let countPrice = 0;
         res.data.forEach(function (item) {
@@ -175,7 +213,7 @@ Page({
    */
   onLoad(options) {
     let that = this
-    var date = new Date();; //获取完整的年份(4位)
+    var date = new Date(); //获取完整的年份(4位)
     this.setData({
       date: `${date.getFullYear()}-${date.getMonth()+1}-${ date.getDate()}`,
       endDate: `${date.getFullYear()}-${date.getMonth()+1}-${ date.getDate()}`,

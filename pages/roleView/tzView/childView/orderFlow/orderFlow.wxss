@@ -181,7 +181,7 @@ navigator {
 
 .picker {
   text-align: center;
-  border-bottom: 3px solid var(--globalBackground);
+  border-bottom: 3px solid var(--TONGYI);
   width: 200px;
   margin: 0 auto;
   font-size: 35rpx;

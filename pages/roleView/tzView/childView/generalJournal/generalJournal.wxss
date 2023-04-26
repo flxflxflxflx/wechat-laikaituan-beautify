@@ -178,6 +178,8 @@ navigator {
   width: 100%;
 }
 
+.basic-table{
+}
 
 
 .spinner {

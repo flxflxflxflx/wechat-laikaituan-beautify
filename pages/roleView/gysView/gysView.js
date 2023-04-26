@@ -64,7 +64,8 @@ Page({
     isdisclaimer: false,
     hidem: 1,
     cb: 0,
-    bottomLift: app.globalData.bottomLift
+    bottomLift: app.globalData.bottomLift,
+    
   },
 
   tabChange(e) {
@@ -390,7 +391,6 @@ Page({
    * 商品类目选中的值
    */
   commodityCategorySelectedValue(e) {
-    console.log(e.detail);
     this.setData({
       commodityCategorySelectedValue: e.detail
     })
@@ -607,6 +607,7 @@ Page({
     })
     // 获取商品分类
     tr("/getProductClass").then(function (res) {
+      console.log(res);
       let custm = [];
       let data = res.data
       data.map((item) => {
@@ -631,6 +632,7 @@ Page({
           custm.push(item);
         }
       })
+      console.log(custm);
       // 将解析好的数据传递给组件
       that.setData({
         customArray: custm

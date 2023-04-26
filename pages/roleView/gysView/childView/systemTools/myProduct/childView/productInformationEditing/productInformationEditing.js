@@ -41,7 +41,7 @@ Page({
     href: app.globalData.apiUrl + "/uploads",
     // 错误提示信息
     error: "",
-    bottomLift:app.globalData.bottomLift
+    bottomLift: app.globalData.bottomLift
   },
 
   // 删除商品
@@ -371,7 +371,7 @@ Page({
       that.setData({
         error: "请添加商品图片视频"
       })
-    }else if(weightNum == ""){
+    } else if (weightNum == "") {
       that.setData({
         error: "请输入商品重量"
       })
@@ -531,8 +531,8 @@ Page({
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad(options) {
-    console.log(options.id);
+ async onLoad(options) {
+    console.log("我只想了理解理解拉法基垃圾");
     let that = this
     this.setData({
       TitleselectFile: this.TitleselectFile.bind(this),
@@ -540,7 +540,7 @@ Page({
       productId: options.id
     })
     // 获取商品分类
-    tr("/getProductClass").then(function (res) {
+   await tr("/getProductClass").then(function (res) {
       let custm = [];
       let data = res.data
       data.map((item) => {
@@ -585,7 +585,7 @@ Page({
       mask: true
     })
     // 获取商品信息
-    tr("/getProductInfoId", {
+   await  tr("/getProductInfoId", {
       id: options.id
     }).then(function (res) {
       wx.hideLoading()
@@ -634,19 +634,48 @@ Page({
    * 遍历商品分类
    */
   mapProductClass(id) {
-    let a
-    this.data.customArray.forEach(function (item, index) {
-      item.dept.forEach(function (item2, index2) {
-        item2.product.forEach(function (item3, index3) {
-          if (item3.id == id) {
-            a = {
-              commodityCategorySelectedValue: [item, item2, item3],
-              customIndex: [index, index2, index3]
+    console.log(id, "dddd");
+    let customArray = this.data.customArray
+    let a 
+    let jiezhi = true;
+    for (let i = 0; i < customArray.length && jiezhi == true; i++) {
+      for (let y = 0; y < customArray[i].dept.length && jiezhi == true; y++) {
+        console.log(customArray[i].dept[y].id );
+        if (customArray[i].dept[y].id == id) {
+          a = {
+            commodityCategorySelectedValue: [customArray[i], customArray[i].dept[y],
+              []
+            ],
+            customIndex: [i, y, 0]
+          }
+          jiezhi = false;
+        } else if (customArray[i].dept[y].product != undefined) {
+          for (let z = 0; z < customArray[i].dept[y].product.length && jiezhi == true; z++) {
+            if (customArray[i].dept[y].product[z].id == id) {
+              a = {
+                commodityCategorySelectedValue: [customArray[i], customArray[i].dept[y], customArray[i].dept[y].product[z]],
+                customIndex: [i, y, z]
+              }
+              jiezhi = false;
             }
           }
-        })
-      })
-    });
+        }
+      }
+    }
+    console.log(a);
+    // this.data.customArray.forEach(function (item, index) {
+    //   item.dept.forEach(function (item2, index2) {
+    //     item2.product.forEach(function (item3, index3) {
+    //       if (item3.id == id) {
+    //         a = {
+    //           commodityCategorySelectedValue: [item, item2, item3],
+    //           customIndex: [index, index2, index3]
+    //         }
+    //       }
+    //     })
+
+    //   })
+    // });
     return a
   },
 

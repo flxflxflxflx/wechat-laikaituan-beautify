@@ -2,6 +2,7 @@
   "navigationBarTitleText": "订单流水",
   "usingComponents": {
     "mp-tabbar": "/weui-miniprogram/tabbar/tabbar",
-    "j-table": "/j-table/index"
+    "j-table": "/j-table/index",
+    "table": "/pages/components/table/table"
   }
 }

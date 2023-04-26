@@ -1,18 +1,9 @@
 <scroll-view scroll-y="true" style="height: calc(100vh - 60px)">
-  <!-- <view wx:if="{{isShow2}}" style="background-color: var(--BackGround2);width: 100%;height: 100%;text-align: center;display: flex;justify-content: center;align-items: center;">
-    <view class="spinner">
-      <span>暂</span>
-      <span>时</span>
-      <span>还</span>
-      <span>没</span>
-      <span>有</span>
-      <span>订</span>
-      <span>单</span>
-    </view>
-  </view> -->
-  <van-empty wx:if="{{ isShow2 }}" description="暂无订单流水" />
-  <j-table option="{{tableOption}}" data="{{tableData}}" />
-  <view wx:if="{{tableData.length != 0}}" style="font-size: 16px;text-align: center;margin: 20rpx 2rpx;">
+
+  <!-- <van-empty wx:if="{{ isShow2 }}" description="暂无订单流水" /> -->
+  <!-- <j-table option="{{tableOption}}" data="{{tableData}}" /> -->
+  <table tableHeight="calc(100vh - {{bottomLift+80}}px)" scrollX="{{true}}" columns="{{tableColumns}}" dataList="{{tableData}}" getListLoading="{{getListLoading}}" showTipImage="{{tableData.length===0&!getListLoading}}" bindclicklistitem="handleClickItem" />
+  <view wx:if="{{tableData.length != 0}}" style="position: fixed;bottom:{{bottomLift+40}}px;font-size: 16px;text-align: center;width: 100%;">
     总金额: ￥：{{countPrice}}
   </view>
   <view style="height: {{footerHeight}}px;"></view>
@@ -23,18 +14,6 @@
     <view style="border-bottom: 1px solid rgb(245, 246, 247);padding:5px 0;font-size: 14px;" bindtap="onProductbth" data-item="*">查看全部</view>
   </van-popup>
 </scroll-view>
-
-
-
-
-<!-- <view class="productToast" wx:if="{{isShow}}">
-  <van-icon name="close" bindtap="onimagebth" size="20px" mode="heightFix" style="height: 25px;position: absolute;right: 0;top: -0px;" />
-  <block wx:for="{{products}}" wx:key="id">
-    <view bindtap="onProductbth" data-item="{{item}}">{{item.title}}</view>
-  </block>
-  <view bindtap="onProductbth" data-item="*">查看全部</view>
-</view> -->
-
 
 <view wx:if="{{!isShow2}}" class="footer" style="bottom: {{bottomLift+5}}px;">
   <button class="bottomToButton" size="mini" bindtap="singleProductStatistics" type="primary">单品统计</button>
