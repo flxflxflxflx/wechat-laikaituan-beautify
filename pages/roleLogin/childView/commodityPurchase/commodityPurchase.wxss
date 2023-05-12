@@ -1,4 +1,3 @@
-
 button {
   border-radius: 35px !important;
   background-color: rgb(101, 196, 170) !important;
@@ -6,6 +5,9 @@ button {
   font-weight: 400 !important;
 }
 
+.button {
+  border: 0 !important;
+}
 
 page {
   background-color: var(--BackGround2);
@@ -101,8 +103,11 @@ navigator {
 }
 
 .product_add>view {
-  font-size: 20rpx;
   opacity: 0.6;
+}
+
+.van-submit-bar {
+  bottom: auto !important;
 }
 
 .product_footer {
@@ -304,7 +309,7 @@ page {
 
 /* 底部功能区 */
 .footer {
-  height: 230rpx;
+  height: 150px;
   padding-left: 30rpx;
   padding-right: 30rpx;
 }

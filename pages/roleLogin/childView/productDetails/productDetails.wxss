@@ -147,7 +147,7 @@ navigator {
 }
 
 .sale_box {
-  font-size: 12px;
+  font-size: var(--TEXT_TITLE);
   color: var(--IgnoreMessage);
 }
 

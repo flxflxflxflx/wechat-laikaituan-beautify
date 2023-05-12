@@ -61,7 +61,7 @@ navigator {
 
 .list .list_item .info .title {
   color: #333;
-  font-size: 12px;
+  font-size: var(--TEXT_TITLE);
   width: 100%;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -142,12 +142,12 @@ navigator {
 }
 
 .product_add>view {
-  font-size: 10px;
+  font-size: var(--TEXT_IGNORE);
   color: var(--IgnoreMessage);
 }
 
 .product_footer {
-  font-size: 12px;
+  font-size: var(--TEXT_TITLE);
   display: flex;
   font-weight: 600;
   color: rgb(144,147,153);

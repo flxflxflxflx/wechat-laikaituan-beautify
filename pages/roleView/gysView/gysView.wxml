@@ -1,5 +1,4 @@
 <view class="body" style="margin-bottom: {{bottomLift+55}}px; overflow-y: auto;">
-  <van-cascader  value="多对多" title="请选择所在地区" options="{{ customArray }}" field-names="{{ fieldNames }}" />
   <!-- 商品标题 -->
   <view class="productTitleBox">
     <!-- 标题 -->
@@ -34,10 +33,10 @@
       </view>
       <!-- 多列选择器 -->
       <view slot="footer">
-        <productSort  bindselectedValue="commodityCategorySelectedValue" solt="footer" customArrayF="{{customArray}}"></productSort>
-      
+        <productSort bindselectedValue="commodityCategorySelectedValue" solt="footer" customArrayF="{{customArray}}"></productSort>
+
       </view>
-     
+
     </mp-cell>
   </mp-cells>
 
@@ -121,7 +120,7 @@
       <mp-cell>
         <view class="tileBox">
           <text class="productTitle">供货价</text>
-          <text class="uniqueText">*</text>
+          <!-- <text class="uniqueText">*</text> -->
         </view>
         <view slot="footer" style="font-size:14px">
           <input type="digit" model:value="{{supplyPrice}}" placeholder="请输入供货价" name="" id="" />
@@ -130,7 +129,7 @@
       <mp-cell>
         <view class="tileBox">
           <text class="productTitle">建议价格</text>
-          <text class="uniqueText">*</text>
+          <!-- <text class="uniqueText">*</text> -->
         </view>
         <view slot="footer" style="font-size:14px">
           <input type="digit" model:value="{{recommendedprice}}" placeholder="请输入建议价格" name="" id="" />
@@ -140,6 +139,7 @@
   </view>
   <!-- 确认发布 -->
   <view class="qrfb">
+    <button type="primary" bindtap="onApplyForHellpBuying">申请帮买</button>
     <button type="primary" bindtap="onSubmit">确认发布</button>
   </view>
 </view>
@@ -148,6 +148,31 @@
 </view>
 
 
+<view class="mask" catchtouchmove='true' hidden="{{hidem==1}}"></view>
+<view class="model_box" hidden="{{hidem==1}}">
+  <view class="mb-tit">《申请帮卖须知》</view>
+  <view class="mb-content">
+    <view class="mb-con">尊敬的用户您好！</view>
+    <view class="mb-con">1、“申请帮卖”功能：平台将会把您的商品加入公用商品库，以供其他团长共同销售；</view>
+    <view class="mb-con">2、您须保证您所供应的商品品质及质量，须为您所供应的商品提供必要的售后服务，包括但不限于商品的退货及换货、配送至平台分拣中心、保证送货时效等；</view>
+    <view class="mb-con">3、“申请帮卖”的商品，平台将会加收一定比例的手续费，以实际收取比例为准。</view>
+    <view class="mb-con">4、温馨提示：供应商品价格为包邮价格。</view>
+  </view>
+  <view class="checkbox">
+    <!-- <view class="qx" bindtap="qx">取消</view> -->
+    <view class="qr">
+      <view style="width:100%;font-size:22rpx;position:absolute;left:3%;display:flex;align-items:center;">
+        <checkbox value="cb" checked="" bindtap="cb" />勾选代表同意本协议的相关规定
+      </view>
+      <view class="bottombuttonBox" style="display: flex;align-items: center;">
+        <view bindtap="qx2" class="qxbtn" style="margin-right: 5rpx;">取消</view>
+        <view bindtap="qr" class="qrbtn">确认</view>
+      </view>
+    </view>
+
+  </view>
+
+</view>
 
 <!-- 提示信息 -->
 <mp-toptips msg="{{error}}" type="error" show="{{error}}"></mp-toptips>

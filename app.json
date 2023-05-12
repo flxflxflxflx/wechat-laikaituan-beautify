@@ -24,7 +24,8 @@
     "pages/publicPage/balanceWithdrawal/newAccount/newAccount",
     "pages/roleView/myView/myView",
     "pages/roleView/myView/asset",
-    "pages/roleView/myView/order-list/index"
+    "pages/roleView/myView/order-list/index",
+    "pages/roleView/tzView/childView/orderRecord/orderRecord"
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -33,7 +34,6 @@
     "navigationBarTextStyle": "black"
   },
   "usingComponents": {
-
     "van-notice-bar": "@vant/weapp/notice-bar/index",
     "van-search": "@vant/weapp/search/index",
     "van-divider": "@vant/weapp/divider/index",
@@ -72,7 +72,11 @@
     "van-tabs": "@vant/weapp/tabs/index",
     "van-overlay": "@vant/weapp/overlay/index",
     "van-datetime-picker": "@vant/weapp/datetime-picker/index",
-    "van-area": "@vant/weapp/area/index"
+    "van-area": "@vant/weapp/area/index",
+    "van-checkbox": "@vant/weapp/checkbox/index",
+    "van-transition": "@vant/weapp/transition/index",
+    "van-cascader": "@vant/weapp/cascader/index",
+    "van-skeleton": "@vant/weapp/skeleton/index"
   },
   "sitemapLocation": "sitemap.json"
 }

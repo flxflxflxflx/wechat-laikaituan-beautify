@@ -9,6 +9,7 @@ button {
   background-color: rgb(101, 196, 170) !important;
   color: #fff !important;
   font-weight: 400 !important;
+  width: 80%;
 }
 
 /* 文字 */
@@ -19,6 +20,8 @@ button {
 /* 按钮 */
 .indexbutton {
   margin-top: 90rpx;
+  display: flex;
+  justify-content: center;
 }
 
 /* 图标 */

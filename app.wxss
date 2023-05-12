@@ -40,6 +40,11 @@ page {
   --Money: rgb(254, 89, 9);
   /* 统一颜色 */
   --TONGYI: rgb(101, 196, 170);
+  /* 统一字号 */
+  --TEXT_TITLE: 14px;
+  /* 忽略文本 */
+  --TEXT_IGNORE: 12px;
+  --TEXT_H3: 16px;
 }
 
 /* 按钮颜色 */

@@ -3,6 +3,12 @@ var filter = {
   numberToFixed: function (value) {
     return (Math.floor(parseFloat(value) * 100) / 100)
   },
+  toFixed: function (value) {
+    return value.toFixed(2)
+  },
+  toFixed2: function (value) {
+    return parseInt(value.toFixed(2).replace(".", ""))
+  },
   stringTrim: function (value) {
     return value.trim()
   }
@@ -10,5 +16,7 @@ var filter = {
 // 导出对外暴露的属性
 module.exports = {
   numberToFixed: filter.numberToFixed,
-  stringTrim: filter.stringTrim
+  stringTrim: filter.stringTrim,
+  toFixed: filter.toFixed,
+  toFixed2: filter.toFixed2
 }

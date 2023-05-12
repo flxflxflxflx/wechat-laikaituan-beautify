@@ -9,7 +9,8 @@ Page({
     // 评价数组
     evaluateArr: [],
     href: app.globalData.apiUrl,
-    isShow: false
+    isShow: false,
+    loading: true,
   },
 
   /**
@@ -20,6 +21,10 @@ Page({
     tr("/getProductEvaluation", {
       id: options.id
     }).then(function (res) {
+        that.setData({
+          loading: false
+        })
+    
       if (res.data.length == 0) {
         that.setData({
           evaluateArr: res.data,

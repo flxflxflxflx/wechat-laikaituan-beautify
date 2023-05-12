@@ -56,7 +56,7 @@
             <view wx:if="{{item.openingPrice}}"><text style="font-size: 30rpx;">赚</text><text style="color: #f71313;">￥<text style="font-size: 40rpx;">{{item.incomePrice}}</text></text></view>
             <!-- 商品底部 -->
             <view class="product_footer">
-              <view class='price'>供应价:<text style="color: rgb(254, 89, 9);">￥{{item.supplyprice}}</text></view>
+              <view style="opacity: {{item.supplyprice==null?0:1}};" class='price'>供应价:<text style="color: rgb(254, 89, 9);">￥{{item.supplyprice}}</text></view>
               <view class="delete" catchtap="stop">
                 <!-- <checkbox checked="{{item.isCheckShow}}" bindtap="selectList" data-data="{{item}}" value="{{item.id}}" /> -->
                 <button size="mini" style="font-size: 19rpx;" data-item="{{item}}" bindtap="setPrice">设置价格</button>
@@ -99,10 +99,10 @@
           <view class="bottom_box">
             <view class="price_box">
               <view style="display: flex;">
-                <view style="font-size: 12px;color: var(--IgnoreMessage);">供应价
+                <view style="font-size: 12px;color: var(--IgnoreMessage);opacity: {{productInfo.supplyprice==null?0:1}};">供应价
                   <text style="color: #f79213;">￥<text style="font-size: 35rpx;">{{filter.numberToFixed(productInfo.supplyprice)}}</text></text>
                 </view>
-                <view style="margin-left: 30rpx;font-size: 12px;color: var(--IgnoreMessage);">建议价<text style="color: #f79213;">￥<text style="font-size: 35rpx;">{{productInfo.recommendedprice}}</text></text></view>
+                <view style="margin-left: 30rpx;font-size: 12px;color: var(--IgnoreMessage);opacity: {{productInfo.recommendedprice==null?0:1}};">建议价<text style="color: #f79213;">￥<text style="font-size: 35rpx;">{{productInfo.recommendedprice}}</text></text></view>
                 <view></view>
               </view>
               <view class="sale_box">
@@ -156,10 +156,28 @@
               <view class="weui-input">{{date}}</view>
             </picker>
           </mp-cell>
-          <mp-cell ext-class="bbb" show-error prop="deliveryAddress">
+          <mp-cell show-error prop="deliveryAddress">
+            <view slot="title">是否自行配送</view>
+            <view slot="footer" style="width:300rpx">
+              <switch checked="" bindchange="isSelfDelivery" />
+            </view>
+          </mp-cell>
+          <mp-cell wx:if="{{!isSelfDelivery}}" show-error prop="deliveryAddress">
             <view slot="title">交货地址</view>
             <view slot="footer" style="width:300rpx">
               <input model:value="{{deliveryaddress}}" data-field="deliveryAddress" class="weui-input" placeholder="请输入交货地址" />
+            </view>
+          </mp-cell>
+          <mp-cell show-error prop="deliveryAddress">
+            <view slot="title">是否包邮</view>
+            <view slot="footer" style="width:300rpx">
+              <switch checked="" bindchange="isFreeShipping" />
+            </view>
+          </mp-cell>
+          <mp-cell wx:if="{{!isFreeShipping}}" ext-class="bbb" show-error prop="deliveryAddress">
+            <view slot="title">运费金额</view>
+            <view slot="footer" style="width:300rpx">
+              <input model:value="{{freightAmount}}" type="number" data-field="freightAmount" class="weui-input" placeholder="请输入运费金额" />
             </view>
           </mp-cell>
         </mp-cells>
@@ -167,7 +185,7 @@
     </view>
   </view>
   <view slot="footer">
-    <button bindtap="falseShare" wx:if="{{filter.stringTrim( deliveryaddress) == ''}}" type="primary">分享</button>
+    <button bindtap="falseShare" wx:if="{{filter.stringTrim( deliveryaddress) == ''&&!isSelfDelivery}}" type="primary">分享</button>
     <button wx:else open-type="share" type="primary">分享</button>
   </view>
 </mp-half-screen-dialog>

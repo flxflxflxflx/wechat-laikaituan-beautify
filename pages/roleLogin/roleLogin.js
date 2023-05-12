@@ -1,7 +1,5 @@
-// pages/roleLogin/roleLogin.js
 import sub from "../../utils/subscribeMessage"
 import tr from "../../utils/tokenRequest.js"
-// pages/roleView/gysView/childView/ktView/ktView.js
 import Big from "../../utils/bignumber"
 const app = getApp()
 // 请求数据
@@ -202,9 +200,7 @@ Page({
    * 搜索
    */
   async search(msg) {
-    // this.setData({
-    //   selectListData: []
-    // })
+    msg = msg.detail
     this.checkboxChange()
     wx.showLoading({
       title: '加载中...',

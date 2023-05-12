@@ -56,7 +56,28 @@ Page({
     currentTab: 0,
     toView: "default",
     isnavShow: false,
-    bottomLift: app.globalData.bottomLift
+    bottomLift: app.globalData.bottomLift,
+    // 是否包邮
+    isFreeShipping: false,
+    // 运费金额
+    freightAmount: 0,
+    // 是否自行配送
+    isSelfDelivery: false,
+
+  },
+
+  // 是否包邮
+  isFreeShipping(e) {
+    this.setData({
+      isFreeShipping: e.detail.value
+    })
+  },
+
+  // 是否自行配送
+  isSelfDelivery(e) {
+    this.setData({
+      isSelfDelivery: e.detail.value
+    })
   },
 
   viewCount() {
@@ -351,22 +372,45 @@ Page({
             return
           }
           let productInfo = that.data.productInfo
-          // 商品开团价格下限
-          let priceXiaxian = ((productInfo.supplyprice) * (110 / 100))
-          if (res.content < priceXiaxian) {
-            wx.showToast({
-              title: '开团价格不得低于供应价110%',
-              icon: "none"
-            })
+          if (productInfo.supplyprice != null) {
+            // 商品开团价格下限
+            let priceXiaxian = ((productInfo.supplyprice) * (110 / 100))
+            if (res.content < priceXiaxian) {
+              wx.showToast({
+                title: '开团价格不得低于供应价110%',
+                icon: "none"
+              })
+            } else {
+              let result = that.data.productInfo
+              let dataList = that.data.dataList
+              for (let index = 0; index < dataList.length; index++) {
+                if (dataList[index].id == result.id) {
+                  dataList[index]["openingPrice"] = Big(res.content).toFixed(2, 1)
+                  // 设置赚的价格
+                  let arg1 = Big(dataList[index]["supplyprice"])
+                  dataList[index]["incomePrice"] = Big(Big(res.content).toFixed(2, 1)).minus(arg1).toNumber()
+                  // 设置供应价
+                  break
+                }
+              }
+              result['openingPrice'] = Big(res.content).toFixed(2, 1)
+              that.data.selectListData.push(result.id)
+              // 设置开团价格
+              that.setData({
+                productInfo: result,
+                dataList,
+                isShare: true,
+                selectListData: that.data.selectListData
+              })
+              console.log(dataList, that.data.selectListData);
+            }
           } else {
             let result = that.data.productInfo
             let dataList = that.data.dataList
             for (let index = 0; index < dataList.length; index++) {
               if (dataList[index].id == result.id) {
                 dataList[index]["openingPrice"] = Big(res.content).toFixed(2, 1)
-                // 设置赚的价格
-                let arg1 = Big(dataList[index]["supplyprice"])
-                dataList[index]["incomePrice"] = Big(Big(res.content).toFixed(2, 1)).minus(arg1).toNumber()
+                dataList[index]["incomePrice"] = Big(res.content).toFixed(2, 1)
                 // 设置供应价
                 break
               }
@@ -589,6 +633,20 @@ Page({
     }
 
     let openingId = '';
+    // 是否包邮
+    let {
+      freightAmount,
+      isFreeShipping,
+      isSelfDelivery,
+      deliveryaddress,
+    } = this.data;
+    // 如果不包邮设置邮费为零
+    if (isFreeShipping) {
+      freightAmount = 0
+    }
+    if (isSelfDelivery) {
+      deliveryaddress = ''
+    }
     // 填写开团信息
     await tr("/commodityOpening", {
       // 商品组合名称
@@ -600,7 +658,9 @@ Page({
       // 是否为提货站
       own_isstation: this.data.pickUpPoint ? '1' : '0',
       // 提货地址
-      own_addr: this.data.deliveryaddress,
+      own_addr: deliveryaddress,
+      // 配送费
+      freightAmount,
       // 开团的商品列表
       productList
     }).then(function (res) {
@@ -608,7 +668,8 @@ Page({
     })
 
     return {
-      title: wx.getStorageSync('nick_name') + "团长的商品组合",
+      // title: wx.getStorageSync('nick_name') + "团长的商品组合",
+      title: "莱开团微商开团工具",
       path: "/pages/roleLogin/childView/commodityPurchase/commodityPurchase?selectListData=" + openingId,
       imageUrl: ""
     }

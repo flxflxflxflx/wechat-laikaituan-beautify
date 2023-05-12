@@ -248,7 +248,9 @@ Page({
         })
         let countPrice = 0;
         res.data.result.forEach(function (item) {
-          countPrice = Big(item.totalprice).plus(Big(countPrice)).toFixed(2);
+          if (!isNaN(item.totalprice)) {
+            countPrice = Big(item.totalprice).plus(Big(countPrice)).toFixed(2);
+          }
         })
         that.setData({
           countPrice,

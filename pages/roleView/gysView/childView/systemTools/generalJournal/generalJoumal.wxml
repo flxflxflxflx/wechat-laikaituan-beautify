@@ -1,21 +1,18 @@
-<scroll-view scroll-y="true" style="height: calc(100vh - 60px)">
+<!-- <van-empty wx:if="{{ isShow2 }}" description="暂无订单流水" /> -->
+<!-- <j-table option="{{tableOption}}" data="{{tableData}}" /> -->
+<table tableHeight="calc(100vh - {{bottomLift+80}}px)" scrollX="{{true}}" columns="{{tableColumns}}" dataList="{{tableData}}" getListLoading="{{getListLoading}}" showTipImage="{{tableData.length===0&!getListLoading}}" bindclicklistitem="handleClickItem" />
+<view wx:if="{{tableData.length != 0}}" style="position: fixed;bottom:{{bottomLift+40}}px;font-size: 16px;text-align: center;width: 100%;">
+  总金额: ￥：{{countPrice}}
+</view>
+<view style="height: {{footerHeight}}px;"></view>
+<van-popup show="{{ showCB }}" position="left" custom-style="height: 100%; padding:15px" bind:close="onClose" round>
+  <block wx:for="{{products}}" wx:key="id">
+    <view style="border-bottom: 1px solid rgb(245, 246, 247);padding:5px 0;font-size: 14px;" bindtap="onProductbth" data-item="{{item}}">{{item.title}}</view>
+  </block>
+  <view style="border-bottom: 1px solid rgb(245, 246, 247);padding:5px 0;font-size: 14px;" bindtap="onProductbth" data-item="*">查看全部</view>
+</van-popup>
 
-  <!-- <van-empty wx:if="{{ isShow2 }}" description="暂无订单流水" /> -->
-  <!-- <j-table option="{{tableOption}}" data="{{tableData}}" /> -->
-  <table tableHeight="calc(100vh - {{bottomLift+80}}px)" scrollX="{{true}}" columns="{{tableColumns}}" dataList="{{tableData}}" getListLoading="{{getListLoading}}" showTipImage="{{tableData.length===0&!getListLoading}}" bindclicklistitem="handleClickItem" />
-  <view wx:if="{{tableData.length != 0}}" style="position: fixed;bottom:{{bottomLift+40}}px;font-size: 16px;text-align: center;width: 100%;">
-    总金额: ￥：{{countPrice}}
-  </view>
-  <view style="height: {{footerHeight}}px;"></view>
-  <van-popup show="{{ showCB }}" position="left" custom-style="height: 100%; padding:15px" bind:close="onClose" round>
-    <block wx:for="{{products}}" wx:key="id">
-      <view style="border-bottom: 1px solid rgb(245, 246, 247);padding:5px 0;font-size: 14px;" bindtap="onProductbth" data-item="{{item}}">{{item.title}}</view>
-    </block>
-    <view style="border-bottom: 1px solid rgb(245, 246, 247);padding:5px 0;font-size: 14px;" bindtap="onProductbth" data-item="*">查看全部</view>
-  </van-popup>
-</scroll-view>
-
-<view wx:if="{{!isShow2}}" class="footer" style="bottom: {{bottomLift+5}}px;">
+<view wx:if="{{isShow2}}" class="footer" style="bottom: {{bottomLift+5}}px;">
   <button class="bottomToButton" size="mini" bindtap="singleProductStatistics" type="primary">单品统计</button>
   <button class="bottomToButton" bindtap="exportExcel" size="mini" type="primary">导出账单</button>
   <button class="bottomToButton" bindtap="balanceWithdrawal" size="mini" type="primary">余额提现</button>

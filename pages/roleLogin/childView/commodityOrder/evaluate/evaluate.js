@@ -9,6 +9,7 @@ Page({
     orderList: [],
     href: app.globalData.apiUrl + "/uploads",
     value: 5,
+    ispingjia: false
   },
 
   setMessage(e) {
@@ -16,18 +17,19 @@ Page({
     for (let index = 0; index < orderList.length; index++) {
       if (orderList[index].id == e.target.dataset.data) {
         this.setData({
-          ['orderList.orderList[' + index + '].message']: e.detail.value
+          ['orderList.orderList[' + index + '].message']: e.detail
         })
       }
     }
   },
 
   setValue(e) {
+    console.log(e);
     let orderList = this.data.orderList.orderList
     for (let index = 0; index < orderList.length; index++) {
       if (orderList[index].id == e.target.dataset.data) {
         this.setData({
-          ['orderList.orderList[' + index + '].order_rate']: e.detail.value
+          ['orderList.orderList[' + index + '].order_rate']: e.detail
         })
       }
     }
@@ -93,16 +95,15 @@ Page({
     tr("/getProductList", {
       ordernum: options.ordernum
     }).then(function (res) {
-      if(res.data.code == 444){
-        wx.showToast({
-          title: res.data.mes,
-          icon:"error"
+      if (res.data.code == 444) {
+        that.setData({
+          ispingjia: true
         })
-      }else{
-      that.setData({
-        orderList: res.data
-      })
-    }
+      } else {
+        that.setData({
+          orderList: res.data
+        })
+      }
     })
   },
 

@@ -1,6 +1,6 @@
 <!--pages/components/dialog.wxml-->
 <!-- 中间弹窗 -->
-<button type="primary" bindtap="openPopup" data-index="1">获取用户名和昵称</button>
+<button style="margin: 0 auto;" type="primary" bindtap="openPopup" data-index="1">获取用户名和昵称</button>
 <view class="popup-box" wx:if="{{showIndex=='1'}}" bindtap="openPopup"></view>
 <view class="info-center" style="top:{{height*0.3}}px;height:{{height*0.4}}px;" wx:if="{{showIndex=='1'}}">
   <view>

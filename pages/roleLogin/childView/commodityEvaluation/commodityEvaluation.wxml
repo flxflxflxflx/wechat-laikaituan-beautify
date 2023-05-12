@@ -1,5 +1,5 @@
 <view style="height: 100%;">
-  <view wx:if="{{isShow}}" style="color:var(--ErrorColor);background-color: var(--BackGround2);width: 100%;height: 100%;text-align: center;display: flex;justify-content: center;align-items: center;">
+  <!-- <view wx:if="{{isShow}}" style="color:var(--ErrorColor);background-color: var(--BackGround2);width: 100%;height: 100%;text-align: center;display: flex;justify-content: center;align-items: center;">
     <view class="spinner">
       <span>暂</span>
       <span>时</span>
@@ -9,22 +9,34 @@
       <span>评</span>
       <span>价</span>
     </view>
-  </view>
+  </view> -->
+  <van-empty wx:if="{{isShow}}" description="暂时还没有评价" />
   <view wx:for="{{evaluateArr}}" wx:key="index" style="padding: 20rpx;background-color:var(--BackGround2);border-bottom: 10px solid var(--BackGround1);">
     <view style="display: flex;align-items: center;">
-      <image src="{{href}}/uploads{{item.member.avatar}}" mode="heightFix" style="height: 70rpx;border-radius: 50%;background-color: rgb(216, 210, 210);" />
-      <view style="margin-left: 10rpx;">
-        {{item.member.nickname}}
-      </view>
+      <van-skeleton loading="{{ loading }}" title-width="40%" title avatar row="0" avatar-size="70rpx">
+        <image src="{{href}}/uploads{{item.member.avatar}}" mode="heightFix" style="height: 70rpx;border-radius: 50%;background-color: rgb(216, 210, 210);" />
+        <view style="margin-left: 10rpx;">
+          {{item.member.nickname}}
+        </view>
+      </van-skeleton>
+
+
     </view>
     <!-- 评价 -->
     <view style="display: flex;align-items: center;">
-      <view style="margin-right: 20rpx;">整体评价:</view>
-      <rate value="{{item.evaluates.score}}" disabled="{{true}}" bindchange="showResult"></rate>
+      <van-skeleton loading="{{ loading }}" title row="0">
+        <view style="margin-right: 20rpx;">
+          整体评价:
+        </view>
+        <van-rate readonly void-icon="star" color="#ffd21e" size="{{ 25 }}" void-color="#eee" value="{{ item.evaluates.score }}" />
+      </van-skeleton>
+
     </view>
     <!-- 评论信息 -->
     <view>
-      {{item.evaluates.evaluate?item.evaluates.evaluate:''}}
+      <van-skeleton loading="{{ loading }}" title row="1" title-width="100%">
+        {{item.evaluates.evaluate?item.evaluates.evaluate:''}}
+      </van-skeleton>
     </view>
   </view>
 </view>

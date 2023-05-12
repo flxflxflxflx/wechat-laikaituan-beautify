@@ -1,6 +1,11 @@
 import Big from "../../../../utils/bignumber"
 import tr from "../../../../utils/tokenRequest"
 import sub from "../../../../utils/subscribeMessage"
+import {
+  useCascaderAreaData,
+  areaList
+} from '../../../../utils/area-data/dist/index.cjs';
+const cascaderAreaData = useCascaderAreaData();
 const app = getApp()
 // 请求数据
 Page({
@@ -10,6 +15,11 @@ Page({
    */
   data: {
     dataList: [],
+    areaList,
+    area_show: false,
+    fieldValue: '',
+    cascaderValue: '',
+    options: cascaderAreaData,
     href: app.globalData.apiUrl + "/uploads",
     // 开团的商品id
     openingProductId: [],
@@ -47,7 +57,7 @@ Page({
     extraCosts: 0,
     list: [{
         text: '商品购买',
-        iconPath: "/static/image/productx.png", 
+        iconPath: "/static/image/productx.png",
         selectedIconPath: "/static/image/productx2.png",
         // badge: '8'
       },
@@ -66,7 +76,50 @@ Page({
     multiIndex: [0, 0],
     isPickerSelect: false,
     // 判断是否截单
-    isCutOrder: false
+    isCutOrder: false,
+    // 详细地址
+    address: "",
+    // 提交订单加载
+    submitOrderIsLoading: false
+  },
+
+  onClick() {
+    this.setData({
+      area_show: true,
+    });
+  },
+
+  onAddressChange(e) {
+    this.setData({
+      address: e.detail
+    })
+  },
+
+  onClose() {
+    this.setData({
+      area_show: false,
+    });
+  },
+
+  onFinish(e) {
+    const {
+      selectedOptions,
+      value
+    } = e.detail;
+    const fieldValue = selectedOptions
+      .map((option) => option.text || option.name)
+      .join('/');
+    this.setData({
+      fieldValue,
+      cascaderValue: value,
+      area_show: false
+    })
+  },
+
+  selfProvidedPickupPoint(e) {
+    this.setData({
+      selfProvidedPickupPoint: e.detail.value
+    })
   },
 
   viewCount() {
@@ -115,30 +168,30 @@ Page({
   /**
    * 监听购买总数改变
    */
-  watch: {
-    totalWeigth: {
-      handler(newValue) {
-        if (newValue > 0) {
-          // console.log(this.data.productInfo);
-          console.log(newValue);
-          if (newValue > this.data.basesInfo.counterweight) {
-            this.setData({
-              extraCosts: this.data.basesInfo.delivery_fee * 2
-            })
-          } else {
-            this.setData({
-              extraCosts: this.data.basesInfo.delivery_fee
-            })
-          }
-        } else {
-          this.setData({
-            extraCosts: 0
-          })
-        }
-      },
-      // deep: true
-    },
-  },
+  // watch: {
+  //   totalWeigth: {
+  //     handler(newValue) {
+  //       if (newValue > 0) {
+  //         // console.log(this.data.productInfo);
+  //         console.log(newValue);
+  //         if (newValue > this.data.basesInfo.counterweight) {
+  //           this.setData({
+  //             extraCosts: this.data.basesInfo.delivery_fee * 2
+  //           })
+  //         } else {
+  //           this.setData({
+  //             extraCosts: this.data.basesInfo.delivery_fee
+  //           })
+  //         }
+  //       } else {
+  //         this.setData({
+  //           extraCosts: 0
+  //         })
+  //       }
+  //     },
+  //     // deep: true
+  //   },
+  // },
   stop() {},
   /**
    * 商品购买
@@ -157,7 +210,7 @@ Page({
     for (let index = 0; index < dataList.length; index++) {
       if (dataList[index].id == id) {
         if (dataList[index].num > 0) {
-          dataList[index].num--
+          // dataList[index].num--
           dataList[index].minusStatus = dataList[index].num > 0 ? 'normal' : 'disable';
         }
         productPriceSetting = dataList[index]
@@ -209,7 +262,7 @@ Page({
     let totalWeigth = 0
     for (let index = 0; index < dataList.length; index++) {
       if (dataList[index].id == id) {
-        dataList[index].num++
+        // dataList[index].num++
         dataList[index].minusStatus = dataList[index].num > 0 ? 'normal' : 'disable';
         productPriceSetting = dataList[index]
       }
@@ -293,7 +346,7 @@ Page({
     let totalWeigth = 0
     for (let index = 0; index < dataList.length; index++) {
       if (dataList[index].id == id) {
-        dataList[index].num = parseInt(e.detail.value)
+        dataList[index].num = parseInt(e.detail)
         dataList[index].minusStatus = dataList[index].num > 0 ? 'normal' : 'disable';
         productPriceSetting = dataList[index]
       }
@@ -360,6 +413,7 @@ Page({
         totalWeigth = Big(totalWeigth).plus(Big(dataList[index].num).times(Big(weight))).toNumber();
       }
     }
+
     this.setData({
       dataList,
       totalAmount,
@@ -402,11 +456,13 @@ Page({
 
     let that = this
     let item = e.currentTarget.dataset.item
-    tr("/visualizzaVolume",{productId:item.product.id})
+    tr("/visualizzaVolume", {
+      productId: item.product.id
+    })
     wx.navigateTo({
       url: '../../childView/productDetails/productDetails?productid=' + item.product.id,
     })
-    
+
     // that.setData({
     //   productInfo: item.product,
     //   productPriceSetting: item,
@@ -436,17 +492,33 @@ Page({
    * 付款接龙
    */
   paymentCollection() {
-    console.log(this.data.groupbuyInfo);
     if (this.data.totalQuantity == 0) {
       wx.showToast({
         title: '请添加商品',
-        icon:"error"
+        icon: "error"
+      })
+      return
+    }
+
+    if (this.data.groupbuyInfo.own_addr == null && this.data.fieldValue.trim() == "") {
+      wx.showToast({
+        title: '请选择地区',
+        icon: "error"
+      })
+      return
+    } else if (this.data.groupbuyInfo.own_addr == null && this.data.address.trim() == "") {
+      wx.showToast({
+        title: '请输入详细地址',
+        icon: "error"
       })
       return
     }
     wx.showLoading({
       title: '加载中...',
       mask: true
+    })
+    this.setData({
+      submitOrderIsLoading: true
     })
     let that = this
     // 购买商品列表
@@ -469,14 +541,15 @@ Page({
         payProducts.push(dataList[index]);
       }
     }
+    console.log(dataList);
     this.setData({
       dataList: dataList
     })
 
     if (payProducts.length > 0) {
-      
-        // 请求后台生成订单号
-        this.generateOrderNumber(payProducts, null)
+
+      // 请求后台生成订单号
+      this.generateOrderNumber(payProducts, null)
     }
 
     // 完善商品购买信息
@@ -510,6 +583,9 @@ Page({
       tr("/pay", {
         ordernum: res.data.ordersn
       }).then(function (res) {
+        that.setData({
+          submitOrderIsLoading: false
+        })
         let config = res.data
         wx.hideLoading()
         wx.requestPayment({
@@ -544,8 +620,11 @@ Page({
             })
           },
           fail() {
+            that.setData({
+              submitOrderIsLoading: false
+            })
             console.log("用户取消支付")
-          },
+          }
         });
       })
     })
@@ -557,8 +636,8 @@ Page({
   /**
    * 生命周期函数--监听页面加载
    */
-   onLoad(options) {
-     console.log(options.selectListData);
+  onLoad(options) {
+    console.log(options.selectListData);
     app.setWatcher(this);
 
     // 向后台请求角色权限
@@ -566,7 +645,7 @@ Page({
     this.isLogin('/getUserPermissions', options).then(function (res) {
       let isPermissionsNull = res.data.isPermissionsNull
       if (isPermissionsNull) {
-       console.log("没有团长权限");
+        console.log("没有团长权限");
         // setTimeout(() => {
         //   wx.redirectTo({
         //     url: '/pages/roleAudit/roleForm/roleForm',
@@ -605,11 +684,13 @@ Page({
     })
 
     // 获取开团信息和基础配送费和基础配送数量
-     tr("/getOpeingInfo", {
+    tr("/getOpeingInfo", {
       groupbuy_id: that.data.openingProductId
     }).then(function (res) {
+      console.log(res.data);
       that.setData({
         groupbuyInfo: res.data.openingInfo,
+        extraCosts: res.data.openingInfo.delivery_fee,
         basesInfo: res.data.basesInfo
       })
     })

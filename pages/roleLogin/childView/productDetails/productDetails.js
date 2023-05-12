@@ -31,13 +31,15 @@ Page({
     }
   },
   swichNav: function (e) {
+    console.log(e);
     var that = this;
-    if (this.data.currentTab === e.target.dataset.current) {
+    let index = e.detail.index
+    if (this.data.currentTab === index) {
       return false;
     } else {
       that.setData({
-        currentTab: e.target.dataset.current,
-        toView: 'toView' + e.target.dataset.current
+        currentTab: index,
+        toView: 'toView' + index
       })
     }
   },

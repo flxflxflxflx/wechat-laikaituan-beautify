@@ -104,7 +104,7 @@ Page({
     countPrice: '0.00',
     products: [],
     isShow: false,
-    isShow2: true,
+    isShow2: false,
     bottomLift: app.globalData.bottomLift,
     showCB: false,
     tableColumns: [{
@@ -275,13 +275,14 @@ Page({
       })
       if (res.data.data.length == 0) {
         that.setData({
-          isShow2: true
+          isShow2: false
         })
       } else {
         that.setData({
           tableData: res.data.data,
           countPrice: res.data.countPrice,
-          isShow: false
+          isShow: false,
+          isShow2: true
         })
       }
 

@@ -65,7 +65,6 @@ Page({
     hidem: 1,
     cb: 0,
     bottomLift: app.globalData.bottomLift,
-    
   },
 
   tabChange(e) {
@@ -91,6 +90,88 @@ Page({
     }
   },
 
+  // 申请帮买
+  async onApplyForHellpBuying() {
+
+    let that = this;
+    let {
+      // 商品标题 
+      productTitle,
+      // 商品属性描述
+      commodityAttribute,
+      // 商品主图
+      Titlefiles,
+      // 商品类目
+      commodityCategorySelectedValue,
+      // 商品细节
+      productDetails,
+      // 商品详情视频
+      src,
+      // 商品详情图片列表
+      imgList,
+      // 商品规格--商品重量
+      weightNum,
+      // 商品规格--展示的数组
+      productSpecificationsOnlyArray,
+      // 商品规格--选中第几个
+      productSpecificationsCustomIndex,
+      // 商品库存--输入的值
+      commodityInventory,
+      // 供货价--输入的值
+      supplyPrice,
+      // 供应商--建议价格
+      recommendedprice,
+    } = this.data;
+
+    if (productTitle.length == 0) {
+      that.setData({
+        error: "请输入商品标题"
+      })
+    } else if (Titlefiles.length == 0) {
+      that.setData({
+        error: "请添加商品主图"
+      })
+    } else if (commodityCategorySelectedValue.length == 0) {
+      that.setData({
+        error: "请选择商品类目"
+      })
+    } else if (productDetails == "") {
+      that.setData({
+        error: "请输入商品细节,购买通知等"
+      })
+    } else if (imgList.length == 0 && src == '') {
+      that.setData({
+        error: "请添加商品图片视频"
+      })
+    } else if (weightNum == "") {
+      that.setData({
+        error: "请输入商品重量"
+      })
+    } else if (commodityInventory == "") {
+      that.setData({
+        error: "请输入库存"
+      })
+    } else if (supplyPrice == "") {
+      that.setData({
+        error: "请输入供货价"
+      })
+    } else if (recommendedprice == "") {
+      that.setData({
+        error: "请输入建议价格"
+      })
+    } else {
+      await sub([app.globalData.TEMPALE_ID]).then(function (res) {
+        // 调用订阅消息
+        // tr("/sendMessage").then(function(res){
+        //   console.log(res);
+        // })
+      }, function (e) {})
+      this.setData({
+        hidem: 0
+      })
+    }
+  },
+
   handleMove(e) {
     //不做任何处理
   },
@@ -113,10 +194,122 @@ Page({
       })
       return;
     } else {
-      // 跳转
-      wx.navigateTo({
-        url: './childView/publishProduct/publishProduct',
+      let that = this;
+      let {
+        // 商品标题 
+        productTitle,
+        // 商品属性描述
+        commodityAttribute,
+        // 商品主图
+        Titlefiles,
+        // 商品类目
+        commodityCategorySelectedValue,
+        // 商品细节
+        productDetails,
+        // 商品详情视频
+        src,
+        // 商品详情图片列表
+        imgList,
+        // 商品规格--商品重量
+        weightNum,
+        // 商品规格--展示的数组
+        productSpecificationsOnlyArray,
+        // 商品规格--选中第几个
+        productSpecificationsCustomIndex,
+        // 商品库存--输入的值
+        commodityInventory,
+        // 供货价--输入的值
+        supplyPrice,
+        // 供应商--建议价格
+        recommendedprice,
+      } = this.data;
+      wx.showLoading({
+        title: '发布中...',
+      })
+      var fs = wx.getFileSystemManager()
+      // 转码
+      if (Titlefiles.length) {
+        Titlefiles = Titlefiles.map((item) => {
+          let base64 = '';
+          // 转码
+          try {
+            base64 = fs.readFileSync(item.url, "base64")
+          } catch (e) {
+            base64 = null
+          }
+          return {
+            url: item.url,
+            base64
+          }
+        })
+      }
+
+      // 详情图片数组转码
+      let imgListTemp = [];
+      imgList.map((item) => {
+        let base64 = '';
+        // 转码
+        try {
+          base64 = fs.readFileSync(item, "base64")
+        } catch (e) {
+          base64 = null
+        }
+        imgListTemp.push({
+          url: item,
+          base64
+        });
       });
+
+      // 发布商品信息
+      tr("/publishCommodities", {
+        // 商品标题 
+        productTitle,
+        // 商品属性描述
+        commodityAttribute,
+        // 商品主图
+        Titlefiles,
+        // 商品类目
+        commodityCategorySelectedValue,
+        // 商品细节
+        productDetails,
+        // 商品详情视频
+        src,
+        // 商品详情图片列表
+        imgList: imgListTemp,
+        // 商品规格--展示的数组
+        productSpecificationsOnlyArray: productSpecificationsOnlyArray ? productSpecificationsOnlyArray[productSpecificationsCustomIndex] : [],
+        // 商品规格--重量
+        weightNum,
+        // 商品库存--输入的值
+        commodityInventory,
+        // 供货价--输入的值
+        supplyPrice,
+        // 供应商--建议价格
+        recommendedprice,
+      }).then(function (res) {
+        console.log(res);
+        if (src != '') {
+          if (!that.submitDvideo(src, res.data.id)) {
+            wx.showToast({
+              title: '视频发布失败',
+              icon: 'error'
+            })
+            return;
+          }
+        }
+        // 发布成功,进行跳转
+        wx.redirectTo({
+          url: '../gysView/childView/systemTools/myProduct/myProduct',
+        })
+        wx.showToast({
+          title: res.data.msg,
+        })
+      }, function (err) {
+        wx.showToast({
+          title: '发布失败',
+        })
+      });
+
     }
   },
   cb: function (e) {
@@ -400,12 +593,7 @@ Page({
    * 提交表单
    */
   async onSubmit() {
-    await sub([app.globalData.TEMPALE_ID]).then(function (res) {
-      // 调用订阅消息
-      // tr("/sendMessage").then(function(res){
-      //   console.log(res);
-      // })
-    }, function (e) {})
+
     let that = this;
     let {
       // 商品标题 
@@ -464,15 +652,23 @@ Page({
       that.setData({
         error: "请输入库存"
       })
-    } else if (supplyPrice == "") {
-      that.setData({
-        error: "请输入供货价"
-      })
-    } else if (recommendedprice == "") {
-      that.setData({
-        error: "请输入建议价格"
-      })
-    } else {
+    }
+    //  else if (supplyPrice == "") {
+    //   that.setData({
+    //     error: "请输入供货价"
+    //   })
+    // } else if (recommendedprice == "") {
+    //   that.setData({
+    //     error: "请输入建议价格"
+    //   })
+    // } 
+    else {
+      await sub([app.globalData.TEMPALE_ID]).then(function (res) {
+        // 调用订阅消息
+        // tr("/sendMessage").then(function(res){
+        //   console.log(res);
+        // })
+      }, function (e) {})
       wx.showLoading({
         title: '发布中...',
       })

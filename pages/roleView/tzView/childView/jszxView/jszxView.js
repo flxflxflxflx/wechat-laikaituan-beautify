@@ -14,6 +14,24 @@ Page({
     isShow: false
   },
 
+  // 点击开团记录
+  openingBtn(e) {
+    wx.navigateTo({
+      url: '../orderRecord/orderRecord?groupId=' + e.currentTarget.dataset.id,
+    })
+
+  },
+
+  // 再次开团
+  ReopenTheGroup(e) {
+    let result = e.currentTarget.dataset.groupbuy.groupbuy.map((item) => {
+      return item.product.id
+    })
+    wx.navigateTo({
+      url: '/pages/roleLogin/childView/commoditySharing/commoditySharing?selectListData=' + JSON.stringify(result),
+    })
+  },
+
   formatDate(time, format = 'YY-MM-DD hh:mm:ss') {
     var date = new Date(time);
 
@@ -76,7 +94,7 @@ Page({
     let countdownArr = []
     this.data.openingRecord.forEach((element, index) => {
       let startTime = new Date(Date.parse(element["created_at"]));
-      let newdate = startTime.getFullYear() + "-" + (startTime.getMonth() + 1) + "-" + startTime.getDate() + " " + element["statement_time"];
+      let newdate = (startTime.getFullYear() + "-" + (startTime.getMonth() + 1) + "-" + startTime.getDate() + " " + element["statement_time"]).replace(/-/g, '/');
       // 关闭订单时间
       let closedTime = Date.parse(new Date(newdate))
       // 当前时间

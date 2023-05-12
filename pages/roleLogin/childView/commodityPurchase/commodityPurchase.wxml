@@ -1,28 +1,38 @@
 <wxs module="filter" src="/utils/numberToFixed.wxs"></wxs>
-<scroll-view wx:if="{{!isCutOrder}}" scroll-y="true" style="height: calc(100% - 230rpx - {{tabbarHeight}}px);" lower-threshold='50' bindscrolltolower="searchScrollLower">
+<scroll-view wx:if="{{!isCutOrder}}" scroll-y="true" style="height: calc(100% - {{groupbuyInfo.own_addr == null?150:60}}px  - {{tabbarHeight}}px);" lower-threshold='50' bindscrolltolower="searchScrollLower">
   <view class='list'>
     <checkbox-group bindchange="">
       <block wx:for='{{dataList}}' wx:key='index' wx:for-item="item">
-        <view class="list_item" catchtap="onListbtn" data-item="{{item}}">
-          <view class='img'>
-            <image src="{{href}}{{item.product.simg}}" mode="aspectFit" />
-          </view>
-
-          <view class='info'>
-            <view class='title'>{{item.product.title}}</view>
-            <!-- 商品辅加信息 -->
+        <!-- 商品 -->
+        <van-card catchtap="onListbtn" data-item="{{item}}" num="{{item.num}}" price="{{filter.toFixed(item.selling_price)}}" title="{{item.product.title}}" thumb="{{href}}{{item.product.simg}}">
+          <view slot="desc">
             <view class="product_add">
               <view>{{item.product.scorenum}}+评分</view>
               <view>{{item.product.views}}+浏览</view>
               <view>{{item.product.salenum}}+销售</view>
               <view>{{item.product.share}}+分享</view>
             </view>
-            <!-- 是否包分配 -->
-            <!-- <view class="product_isfenpei">
-              <view class="isdelivery" wx:if="{{item.isdelivery}}">包分配</view>
-              <view class="issorting" wx:if="{{item.issorting}}">包分拣</view>
-            </view> -->
-            <!-- 商品底部 -->
+          </view>
+          <view slot="footer" catchtap="stop">
+            <van-stepper bind:change="bindManual" value="{{item.num}}" bind:minus="bindMinus" bind:plus="bindPlus" data-value="{{item.id}}" integer min="0" max="{{item.product.stock}}" />
+          </view>
+        </van-card>
+        <van-divider />
+        <!-- 旧商品 -->
+        <!-- <view class="list_item" catchtap="onListbtn" data-item="{{item}}">
+          <view class='img'>
+            <image src="{{href}}{{item.product.simg}}" mode="aspectFit" />
+          </view>
+
+          <view class='info'>
+            <view class='title'>{{item.product.title}}</view>
+            <view class="product_add">
+              <view>{{item.product.scorenum}}+评分</view>
+              <view>{{item.product.views}}+浏览</view>
+              <view>{{item.product.salenum}}+销售</view>
+              <view>{{item.product.share}}+分享</view>
+            </view>
+
             <view class="product_footer">
               <view class='price'>
                 <text style="font-size: 25rpx;">销售价</text><text style="color: #f71313;">￥<text style="font-size: 35rpx;">{{item.selling_price}}</text></text>
@@ -36,10 +46,9 @@
                 </view>
               </view>
             </view>
-            <!-- <view class='num'>销量{{item.salenum}}</view> -->
           </view>
           <view class='clear'></view>
-        </view>
+        </view> -->
       </block>
     </checkbox-group>
   </view>
@@ -49,6 +58,8 @@
 <view wx:if="{{isCutOrder}}" style="background-color: rgb(233, 233, 233);width: 100%;height: 100%;text-align: center;display: flex;justify-content: center;align-items: center;">
   <viwe>已经截单</viwe>
 </view>
+
+
 <!-- 商品详情 -->
 <mp-half-screen-dialog extClass="mp-half-screen-dialog" bindbuttontap="buttontap" show="{{show}}" maskClosable="{{true}}" title="商品详情" subTitle="" buttons="{{buttons}}">
   <view slot="desc">
@@ -107,31 +118,37 @@
 </mp-half-screen-dialog>
 
 <!-- 底部功能区 -->
+
 <view wx:if="{{!isCutOrder}}" class="footer">
   <view>
-    <!-- <view style="float: right;">合计金额: <text style="color: red;font-size: 25rpx;">￥<text style="font-size: 40rpx;">{{totalAmount}}<text wx:if="{{extraCosts==0?false:true}}">+{{extraCosts}}</text><text style="font-size: 30rpx;opacity: 0.5;" wx:if="{{extraCosts==0?false:true}}">(配送费)</text></text></text></view> -->
-    <view style="float: right;">合计金额: <text style="color: red;font-size: 25rpx;">￥<text style="font-size: 40rpx;">{{totalAmount+extraCosts}}<text style="font-size: 14px;">(含配送费{{extraCosts}}元)</text>
-        </text>
-      </text>
-    </view>
     <view style="clear: both;"></view>
   </view>
-  <view wx:if="{{groupbuyInfo.own_isstation == 0?true:false}}" style="display: flex;justify-content: center;color:var(--globalBackground)">
+
+
+
+  <view wx:if="{{groupbuyInfo.own_addr == null?true:false}}" style="font-size: 14px;">
     <!-- <view>自备提货点 :</view> -->
-    <view style="margin-left: 20rpx;">
-      <!-- <picker mode="multiSelector" bindchange="bindMultiPickerChange" bindcolumnchange="bindMultiPickerColumnChange" value="{{multiIndex}}" range="{{multiObjArray}}" range-key="{{'title'}}">
+    <!-- <view style="margin-left: 20rpx;"> -->
+    <!-- <picker mode="multiSelector" bindchange="bindMultiPickerChange" bindcolumnchange="bindMultiPickerColumnChange" value="{{multiIndex}}" range="{{multiObjArray}}" range-key="{{'title'}}">
         <view class="picker">
           <text style="width:180rpx">自备提货点 :</text>
           {{multiObjArray[0][multiIndex[0]].title}}，
           {{multiObjArray[0][multiIndex[0]].station[multiIndex[1]].title}}
         </view>
       </picker> -->
-      <!-- <input type="text" placeholder="请输入自备提货点" /> -->
-    </view>
+    <!-- <input type="text" value="{{selfProvidedPickupPoint}}" bindinput="selfProvidedPickupPoint" placeholder="请输入自备提货点" />
+    </view> -->
+    <van-field value="{{ fieldValue }}" is-link readonly label="地区" placeholder="请选择所在地区" bind:tap="onClick" />
+    <van-popup show="{{ area_show }}" round position="top">
+      <van-cascader wx:if="{{ area_show }}" value="{{ cascaderValue }}" title="请选择所在地区" options="{{ options }}" bind:close="onClose" bind:finish="onFinish" />
+    </van-popup>
+    <van-cell-group>
+      <van-field value="{{ address }}" bind:change="onAddressChange" label="详细地址" type="textarea" placeholder="请输入详细地址" border="{{ false }}" />
+    </van-cell-group>
   </view>
-  <view style="opacity: 0.5;height: 0.5px;background-color: grey;margin-top: 10rpx;"></view>
   <view style="margin-top: 10rpx;">
-    <button bindtap="paymentCollection" type="primary">付款并接龙</button>
+    <van-submit-bar suffix-label="包含配送费{{extraCosts}}元" button-class="button" custom-class="van-submit-bar" loading="{{submitOrderIsLoading}}" price="{{ filter.toFixed2(totalAmount+extraCosts) }}" button-text="提交订单" bind:submit="paymentCollection">
+    </van-submit-bar>
   </view>
 </view>
 
