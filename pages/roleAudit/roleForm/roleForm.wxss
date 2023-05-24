@@ -3,6 +3,13 @@
   display: inline;
 }
 
+button{
+  border-radius: 35px !important;
+  background-color: rgb(101, 196, 170) !important;
+  color: #fff !important;
+  font-weight: 400 !important;
+}
+
 .weui-form {
   padding: 0;
 }

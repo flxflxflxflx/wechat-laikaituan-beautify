@@ -76,7 +76,9 @@
     "van-checkbox": "@vant/weapp/checkbox/index",
     "van-transition": "@vant/weapp/transition/index",
     "van-cascader": "@vant/weapp/cascader/index",
-    "van-skeleton": "@vant/weapp/skeleton/index"
+    "van-skeleton": "@vant/weapp/skeleton/index",
+    "van-row": "@vant/weapp/row/index",
+    "van-col": "@vant/weapp/col/index"
   },
   "sitemapLocation": "sitemap.json"
 }

@@ -11,13 +11,20 @@ Page({
     // 列表信息
     cards: [],
     // 余额
-    account: 0
+    account: 0,
+    withdrawalRecords: []
   },
 
   // 提现到余额
-  wechatCashWithdrawal() {
-    tr("/TzWechatCashWithdraw").then(function (res) {
-      console.log(res);
+  wechatCashWithdrawal(e) {
+    let that = this
+    tr("/TzWechatCashWithdraw", {
+      account: that.data.account
+    }).then(function (res) {
+      if (res.data.code ==100) {
+        console.log("获取提现记录");
+        that.getWithdrawalRecords()
+      }
     })
   },
 
@@ -31,6 +38,19 @@ Page({
       that.setData({
         account: res.data
       })
+    })
+    this.getWithdrawalRecords()
+  },
+
+  // 获取提现记录
+  getWithdrawalRecords() {
+    let that = this
+    tr("/getWithdrawalRecords").then(function (res) {
+      if (res.data.code == 100) {
+        that.setData({
+          withdrawalRecords:res.data.result
+        })
+      }
     })
   },
 

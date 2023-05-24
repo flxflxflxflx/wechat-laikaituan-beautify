@@ -10,7 +10,8 @@ Page({
     nickName: wx.getStorageSync('nick_name'),
     isBaoyou: false,
     result: [],
-    href: app.globalData.apiUrl + "/uploads"
+    href: app.globalData.apiUrl + "/uploads",
+    isBaoyou:false
   },
 
   onChange(e) {
@@ -43,13 +44,14 @@ Page({
       groupId: options.groupId
     }).then(function (res) {
       if (res.data.code == 0) {
-        wx.showToast({
-          title: res.data.message,
-        })
+      that.setData({
+        isBaoyou:true
+      })
       } else {
         that.setData({
           result: res.data.array
         })
+        console.log(res.data.array);
       }
     })
   },

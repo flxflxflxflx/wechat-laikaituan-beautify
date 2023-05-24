@@ -29,6 +29,13 @@
           "query": "selectListData=59",
           "launchMode": "default",
           "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "pages/roleLogin/childView/productDetails/productDetails",
+          "query": "productid=3",
+          "launchMode": "default",
+          "scene": null
         }
       ]
     }

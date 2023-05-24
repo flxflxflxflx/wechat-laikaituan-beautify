@@ -63,33 +63,76 @@ Page({
     freightAmount: 0,
     // 是否自行配送
     isSelfDelivery: false,
+    AddressColumns: ['杭州', '宁波', '温州', '嘉兴', '湖州'],
+    addressShow: false
+  },
+  addressShow() {
+    this.setData({
+      addressShow: true
+    })
+  },
+  onAddressClose() {
+    this.setData({
+      addressShow: false
+    })
+  },
+  onAddressConfirm(e) {
+    this.setData({
+      deliveryaddress: e.detail.value,
+      addressShow: false
+    })
+  },
 
+  onAddressCancel() {
+    this.setData({
+      addressShow: false
+    })
+  },
+
+  onChange(event) {
+    const {
+      picker,
+      value,
+      index
+    } = event.detail;
+    Toast(`当前值：${value}, 当前索引：${index}`);
   },
 
   // 是否包邮
-  isFreeShipping(e) {
+  isFreeShipping({
+    detail
+  }) {
     this.setData({
-      isFreeShipping: e.detail.value
+      isFreeShipping: detail
     })
   },
 
   // 是否自行配送
-  isSelfDelivery(e) {
+  isSelfDelivery({
+    detail
+  }) {
     this.setData({
-      isSelfDelivery: e.detail.value
+      isSelfDelivery: detail
     })
   },
-
   viewCount() {
     wx.navigateTo({
       url: '../../childView/commodityEvaluation/commodityEvaluation?id=' + this.data.productInfo.id,
     })
   },
 
-  falseShare() {
-    wx.showToast({
-      title: '请填写收货地址',
-    })
+  falseShare(e) {
+    console.log(this.data.dataList,this.data.selectListData);
+    let id = e.currentTarget.dataset.id;
+    if (id == 1) {
+      wx.showToast({
+        title: '请填写收货地址',
+      })
+    } else if (id == 2) {
+      wx.showToast({
+        title: '请填写运费金额',
+      })
+    }
   },
   /**
    * 商品详情--选项卡
@@ -291,47 +334,7 @@ Page({
         editable: true,
         placeholderText: "请输入开团价格",
         success(res) {
-          if (res.confirm) {
-            if (isNaN(res.content) == true) {
-              wx.showToast({
-                title: '请输入数字',
-                icon: 'error',
-                mask: true
-              })
-              return
-            }
-            let productInfo = that.data.productInfo
-            // 商品开团价格下限
-            let priceXiaxian = ((productInfo.supplyprice) * (110 / 100))
-            if (res.content < priceXiaxian) {
-              wx.showToast({
-                title: '开团价格不得低于供应价110%',
-                icon: "none"
-              })
-            } else {
-              let result = that.data.productInfo
-              let dataList = that.data.dataList
-              for (let index = 0; index < dataList.length; index++) {
-                if (dataList[index].id == result.id) {
-                  dataList[index]["openingPrice"] = Big(res.content).toFixed(2, 1)
-                  // 设置赚的价格
-                  let arg1 = Big(dataList[index]["supplyprice"])
-                  dataList[index]["incomePrice"] = Big(Big(res.content).toFixed(2, 1)).minus(arg1).toNumber()
-                  // 设置供应价
-                  break
-                }
-              }
-              result['openingPrice'] = Big(res.content).toFixed(2, 1)
-              // 设置开团价格
-              that.setData({
-                productInfo: result,
-                dataList,
-                isShare: true
-              })
-            }
-          } else if (res.cancel) {
-            console.log('用户点击取消')
-          }
+          that.goumai(res)
         }
       })
     }
@@ -362,76 +365,86 @@ Page({
       editable: true,
       placeholderText: "请输入开团价格",
       success(res) {
-        if (res.confirm) {
-          if (isNaN(res.content) == true) {
-            wx.showToast({
-              title: '请输入数字',
-              icon: 'error',
-              mask: true
-            })
-            return
-          }
-          let productInfo = that.data.productInfo
-          if (productInfo.supplyprice != null) {
-            // 商品开团价格下限
-            let priceXiaxian = ((productInfo.supplyprice) * (110 / 100))
-            if (res.content < priceXiaxian) {
-              wx.showToast({
-                title: '开团价格不得低于供应价110%',
-                icon: "none"
-              })
-            } else {
-              let result = that.data.productInfo
-              let dataList = that.data.dataList
-              for (let index = 0; index < dataList.length; index++) {
-                if (dataList[index].id == result.id) {
-                  dataList[index]["openingPrice"] = Big(res.content).toFixed(2, 1)
-                  // 设置赚的价格
-                  let arg1 = Big(dataList[index]["supplyprice"])
-                  dataList[index]["incomePrice"] = Big(Big(res.content).toFixed(2, 1)).minus(arg1).toNumber()
-                  // 设置供应价
-                  break
-                }
-              }
-              result['openingPrice'] = Big(res.content).toFixed(2, 1)
-              that.data.selectListData.push(result.id)
-              // 设置开团价格
-              that.setData({
-                productInfo: result,
-                dataList,
-                isShare: true,
-                selectListData: that.data.selectListData
-              })
-              console.log(dataList, that.data.selectListData);
-            }
-          } else {
-            let result = that.data.productInfo
-            let dataList = that.data.dataList
-            for (let index = 0; index < dataList.length; index++) {
-              if (dataList[index].id == result.id) {
-                dataList[index]["openingPrice"] = Big(res.content).toFixed(2, 1)
-                dataList[index]["incomePrice"] = Big(res.content).toFixed(2, 1)
-                // 设置供应价
-                break
-              }
-            }
-            result['openingPrice'] = Big(res.content).toFixed(2, 1)
-            that.data.selectListData.push(result.id)
-            // 设置开团价格
-            that.setData({
-              productInfo: result,
-              dataList,
-              isShare: true,
-              selectListData: that.data.selectListData
-            })
-            console.log(dataList, that.data.selectListData);
-          }
-        } else if (res.cancel) {
-          console.log('用户点击取消')
-        }
+        that.goumai(res)
       }
     })
   },
+
+  goumai(res){
+    let that = this
+    if (res.confirm) {
+      if (res.content.trim() == '') {
+        return;
+      }
+      if (isNaN(res.content) == true) {
+        wx.showToast({
+          title: '请输入数字',
+          icon: 'error',
+          mask: true
+        })
+        return
+      }
+      let productInfo = that.data.productInfo
+      if (productInfo.supplyprice != null) {
+        // 商品开团价格下限
+        let priceXiaxian = ((productInfo.supplyprice) * (110 / 100))
+        if (res.content < priceXiaxian) {
+          wx.showToast({
+            title: '开团价格不得低于供应价110%',
+            icon: "none"
+          })
+        } else {
+          let result = that.data.productInfo
+          let dataList = that.data.dataList
+          for (let index = 0; index < dataList.length; index++) {
+            if (dataList[index].id == result.id) {
+              dataList[index]["openingPrice"] = Big(res.content).toFixed(2, 1)
+              // 设置赚的价格
+              let arg1 = Big(dataList[index]["supplyprice"])
+              dataList[index]["incomePrice"] = Big(Big(res.content).toFixed(2, 1)).minus(arg1).toNumber()
+              // 设置供应价
+              break
+            }
+          }
+          result['openingPrice'] = Big(res.content).toFixed(2, 1)
+          that.data.selectListData.push(result.id)
+          // 设置开团价格
+          that.setData({
+            productInfo: result,
+            dataList,
+            isShare: true,
+            selectListData: that.data.selectListData
+          })
+          console.log(dataList, that.data.selectListData);
+        }
+      } else {
+        let result = that.data.productInfo
+        let dataList = that.data.dataList
+        for (let index = 0; index < dataList.length; index++) {
+          if (dataList[index].id == result.id) {
+            dataList[index]["openingPrice"] = Big(res.content).toFixed(2, 1)
+            dataList[index]["incomePrice"] = Big(res.content).toFixed(2, 1)
+            // 设置供应价
+            break
+          }
+        }
+        result['openingPrice'] = Big(res.content).toFixed(2, 1)
+        that.data.selectListData.push(result.id)
+        // 设置开团价格
+        that.setData({
+          productInfo: result,
+          dataList,
+          isShare: true,
+          selectListData: Array.from(new Set(that.data.selectListData))
+        })
+        console.log(dataList, that.data.selectListData);
+      }
+    } else if (res.cancel) {
+      console.log('用户点击取消')
+    }
+  },
+
+
 
   /**
    * 点击详情页
@@ -569,6 +582,12 @@ Page({
       });
     })
 
+    // 获取地址
+    tr("/getAddressColumns").then(function (res) {
+      that.setData({
+        AddressColumns: res.data
+      })
+    })
   },
 
   /**

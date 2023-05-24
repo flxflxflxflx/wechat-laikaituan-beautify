@@ -9,6 +9,8 @@ button {
   background-color: rgb(101, 196, 170) !important;
   color: #fff !important;
   font-weight: 400 !important;
+  width: 88%;
+  margin-bottom: 5px;
 }
 
 .clear {

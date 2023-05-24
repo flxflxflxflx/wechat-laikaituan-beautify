@@ -12,7 +12,7 @@
 <swiper current="{{currtab}}" class="swiper-box" duration="300" style="height:{{deviceH - 100}}px;" bindchange="tabChange1">
   <!-- 已付款 -->
   <swiper-item>
-    <scroll-view style="height:calc(100vh - {{bottomLift+105}}px);" class="chanpins" bindscrolltolower="completeScorll" scroll-y="true">
+    <scroll-view style="height:calc(100vh - {{bottomLift+105}}px);" class="chanpins" bindscrolltolower="completeScorll" refresher-enabled="{{true}}" refresher-threshold="{{100}}" refresher-default-style="white" refresher-background="var(--TONGYI)" refresher-triggered="{{triggered}}" bindrefresherpulling="onPulling" bindrefresherrefresh="onYRefresh" bindrefresherrestore="onRestore" bindrefresherabort="onAbort" scroll-y="true">
       <view class="orderDetails" wx:for="{{complete_order}}" wx:key="id">
         <view class="orderListTitle">
           <text class="userName">订单号 : {{item.ordernum}}</text>
@@ -55,7 +55,7 @@
   </swiper-item>
   <!-- 待付款 -->
   <swiper-item>
-    <scroll-view  style="height:calc(100vh - {{bottomLift+105}}px);" bindscrolltolower="noPaymentScroll" class="chanpins" scroll-y="true">
+    <scroll-view style="height:calc(100vh - {{bottomLift+105}}px);" bindscrolltolower="noPaymentScroll" class="chanpins" scroll-y="true">
       <view style="border-bottom: 20rpx solid #f5f5f5;margin-bottom: 20rpx;" wx:for="{{noPayment}}" wx:if="{{item.isShow != 'no'}}" wx:key="id">
         <view class="danhao">
           单号 {{item.ordernum}} | 时间：{{item.created_at}}
@@ -100,7 +100,7 @@
   </swiper-item>
   <!-- 取消 -->
   <swiper-item>
-    <scroll-view  style="height:calc(100vh - {{bottomLift+105}}px);" bindscrolltolower="cancelScroll" class="chanpins" scroll-y="true">
+    <scroll-view style="height:calc(100vh - {{bottomLift+105}}px);" bindscrolltolower="cancelScroll" class="chanpins" scroll-y="true">
       <view class="orderDetails" wx:for="{{canceled}}" wx:key="id">
         <view class="orderListTitle">
           <text class="userName">订单号 : {{item.ordernum}}</text>

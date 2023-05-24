@@ -22,10 +22,11 @@ export default (tmplIds = []) => {
 
             } else if (moIdState === 'reject') {
               console.log("拒绝消息推送");
+              reject()
 
             } else if (moIdState === 'ban') {
               console.log("已被后台封禁");
-
+              reject()
             }
           } else {
             // 当用户没有点击 ’总是保持以上选择，不再询问‘  按钮。那每次执到这都会拉起授权弹窗
@@ -39,6 +40,7 @@ export default (tmplIds = []) => {
               fail(er) {
                 console.log("订阅消息 失败 ");
                 console.log(er);
+                reject()
               }
             })
           }
@@ -49,6 +51,7 @@ export default (tmplIds = []) => {
       },
       fail: function (error) {
         console.log(error);
+        reject(error)
       },
     })
   })

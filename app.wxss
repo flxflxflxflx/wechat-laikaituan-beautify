@@ -45,6 +45,9 @@ page {
   /* 忽略文本 */
   --TEXT_IGNORE: 12px;
   --TEXT_H3: 16px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica,
+    Segoe UI, Arial, Roboto, 'PingFang SC', 'miui', 'Hiragino Sans GB', 'Microsoft Yahei',
+    sans-serif;
 }
 
 /* 按钮颜色 */

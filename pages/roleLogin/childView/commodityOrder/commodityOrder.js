@@ -47,8 +47,11 @@ Page({
     // 定时器数组
     countdownArr: [],
     tabbarHeight: 0,
-    bottomLift: app.globalData.bottomLift
+    bottomLift: app.globalData.bottomLift,
+    triggered: false
   },
+
+
   // 退款
   refund(e) {
     tr("/refundOrder", {
@@ -62,7 +65,7 @@ Page({
   evaluate(e) {
     wx.navigateTo({
       url: '/pages/roleLogin/childView/commodityOrder/evaluate/evaluate?ordernum=' + e.target.dataset.data,
-      
+
     })
   },
 
@@ -153,6 +156,15 @@ Page({
     }
   },
 
+  onYRefresh() {
+    this.setData({
+      triggered: true,
+      complete_order: []
+    })
+    completedPage = 0
+    this.alreadyShow()
+  },
+
   // 已付款
   alreadyShow: function () {
     let that = this
@@ -162,12 +174,16 @@ Page({
         status: 1,
         offset: completedPage * 10
       }).then(function (res) {
+        console.log("ddd");
         if (res.data.complete_order.length != 0) {
           that.setData({
             complete_order: res.data.complete_order,
           })
           console.log(that.data.complete_order);
         }
+        that.setData({
+          triggered: false
+        })
       })
     }
   },

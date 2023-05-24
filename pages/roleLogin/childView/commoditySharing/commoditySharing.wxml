@@ -59,7 +59,7 @@
               <view style="opacity: {{item.supplyprice==null?0:1}};" class='price'>供应价:<text style="color: rgb(254, 89, 9);">￥{{item.supplyprice}}</text></view>
               <view class="delete" catchtap="stop">
                 <!-- <checkbox checked="{{item.isCheckShow}}" bindtap="selectList" data-data="{{item}}" value="{{item.id}}" /> -->
-                <button size="mini" style="font-size: 19rpx;" data-item="{{item}}" bindtap="setPrice">设置价格</button>
+                <button size="mini" style="" data-item="{{item}}" bindtap="setPrice">设置价格</button>
               </view>
             </view>
             <!-- <view class='num'>销量{{item.salenum}}</view> -->
@@ -73,7 +73,7 @@
 
 <!-- 分享 -->
 <view class="shareBtn" style="bottom:{{bottomLift+5}}px" wx:if="{{isShare}}">
-  <button bindtap="onShare" type="primary">分享</button>
+  <button style="width: 88%;margin-bottom: 5px;" bindtap="onShare" type="primary">分享</button>
 </view>
 
 <!--商品详情-->
@@ -150,42 +150,31 @@
     <mp-toptips msg="{{error}}" type="error" show="{{error}}"></mp-toptips>
     <view class="page">
       <view class="page__bd">
-        <mp-cells title="" footer="">
-          <mp-cell show-error prop="deadline" title="截单时间" ext-class="bbb">
-            <picker slot="footer" data-field="deadline" mode="time" value="{{date}}" start="00:00" end="21:00" bindchange="bindDateChange">
-              <view class="weui-input">{{date}}</view>
-            </picker>
-          </mp-cell>
-          <mp-cell show-error prop="deliveryAddress">
-            <view slot="title">是否自行配送</view>
-            <view slot="footer" style="width:300rpx">
-              <switch checked="" bindchange="isSelfDelivery" />
-            </view>
-          </mp-cell>
-          <mp-cell wx:if="{{!isSelfDelivery}}" show-error prop="deliveryAddress">
-            <view slot="title">交货地址</view>
-            <view slot="footer" style="width:300rpx">
-              <input model:value="{{deliveryaddress}}" data-field="deliveryAddress" class="weui-input" placeholder="请输入交货地址" />
-            </view>
-          </mp-cell>
-          <mp-cell show-error prop="deliveryAddress">
-            <view slot="title">是否包邮</view>
-            <view slot="footer" style="width:300rpx">
-              <switch checked="" bindchange="isFreeShipping" />
-            </view>
-          </mp-cell>
-          <mp-cell wx:if="{{!isFreeShipping}}" ext-class="bbb" show-error prop="deliveryAddress">
-            <view slot="title">运费金额</view>
-            <view slot="footer" style="width:300rpx">
-              <input model:value="{{freightAmount}}" type="number" data-field="freightAmount" class="weui-input" placeholder="请输入运费金额" />
-            </view>
-          </mp-cell>
-        </mp-cells>
+        <van-cell center title="截单时间" is-link>
+          <picker data-field="deadline" mode="time" value="{{date}}" start="00:00" end="21:00" bindchange="bindDateChange">
+            <view class="weui-input">{{date}}</view>
+          </picker>
+        </van-cell>
+        <van-cell center title="自行配送">
+          <van-switch checked="{{isSelfDelivery}}" bind:change="isSelfDelivery" active-color="var(--TONGYI)" inactive-color="#fff" />
+        </van-cell>
+        <van-cell wx:if="{{!isSelfDelivery}}" required bindtap="addressShow" title="交货地址" is-link value="{{filter.stringTrim(deliveryaddress)==''?'请选择':deliveryaddress }}" />
+        <van-popup show="{{ addressShow }}" position="bottom" custom-style="height: 400px;" bind:close="onAddressClose">
+          <van-picker show-toolbar title="商品选择" columns="{{ AddressColumns }}" bind:cancel="onAddressCancel" bind:confirm="onAddressConfirm" />
+        </van-popup>
+        <van-cell center title="包邮">
+          <van-switch checked="{{isFreeShipping}}" bind:change="isFreeShipping" active-color="var(--TONGYI)" inactive-color="#fff" />
+        </van-cell>
+        <van-cell wx:if="{{!isFreeShipping}}" required title="运费金额">
+          <input model:value="{{freightAmount}}" type="number" data-field="freightAmount" class="weui-input" placeholder="请输入运费金额" />
+        </van-cell>
       </view>
     </view>
   </view>
   <view slot="footer">
-    <button bindtap="falseShare" wx:if="{{filter.stringTrim( deliveryaddress) == ''&&!isSelfDelivery}}" type="primary">分享</button>
+    <button bindtap="falseShare" data-id="1" wx:if="{{(filter.stringTrim( deliveryaddress) == ''&&!isSelfDelivery)}}" type="primary">分享</button>
+    <button wx:elif="" ></button>
+    <button bindtap="falseShare"  data-id="2" wx:elif="{{filter.stringTrim(freightAmount)==''&&!isFreeShipping}}" type="primary">分享</button>
     <button wx:else open-type="share" type="primary">分享</button>
   </view>
 </mp-half-screen-dialog>

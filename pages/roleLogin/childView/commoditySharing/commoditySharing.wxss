@@ -9,7 +9,9 @@ button {
   background-color: rgb(101, 196, 170) !important;
   color: #fff !important;
   font-weight: 400 !important;
+
 }
+
 
 .clear {
   clear: both;

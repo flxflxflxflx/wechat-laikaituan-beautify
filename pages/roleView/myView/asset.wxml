@@ -1,5 +1,3 @@
-
-
 <view class="asset">
   <view class='item'>
     <view>可提取余额(元)</view>
@@ -8,10 +6,39 @@
 
 </view>
 <view class='btn-view'>
-  <form bindsubmit="withdraw" report-submit="true">
+  <form bindsubmit="wechatCashWithdrawal" report-submit="true">
     <button class='btn' type="default" size="mini" form-type="submit" hover-class="btn-hover" plain="true">
       提现
     </button>
   </form>
 </view>
-<van-empty wx:if="{{ !orderList }}" description="暂无资金明细" />
+<!-- <van-empty wx:if="{{ !orderList }}" description="暂无资金明细" /> -->
+
+<!-- 提现记录 -->
+<view class="withdrawal_whole">
+  <view class="withdrawal">
+    <view class="withdrawal_title">
+      <text>提现记录</text>
+    </view>
+    <block wx:for="{{withdrawalRecords}}" wx:key="id">
+      <view class="withdrawal_box">
+        <view>
+          {{item.money}}元
+        </view>
+        <view class="withdrawal_examine">
+          <block wx:if="{{item.status == 0}}">
+            <view>审核中</view>
+          </block>
+          <block wx:if="{{item.status == 1}}">
+            <view>审核成功</view>
+          </block>
+          <block wx:if="{{item.status == 2}}">
+            <view>审核失败</view>
+          </block>
+          <view>{{item.wddate}}</view>
+        </view>
+      </view>
+      <van-divider />
+    </block>
+  </view>
+</view>
