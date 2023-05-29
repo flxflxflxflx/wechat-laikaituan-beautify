@@ -1,6 +1,6 @@
 button {
   border-radius: 35px !important;
-  background-color: rgb(101, 196, 170) !important;
+  background-color: var(--TONGYI) !important;
   color: #fff !important;
   font-weight: 400 !important;
 }

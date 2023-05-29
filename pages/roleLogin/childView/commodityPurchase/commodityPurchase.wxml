@@ -4,7 +4,7 @@
     <checkbox-group bindchange="">
       <block wx:for='{{dataList}}' wx:key='index' wx:for-item="item">
         <!-- 商品 -->
-        <van-card catchtap="onListbtn" data-item="{{item}}" num="{{item.num}}" price="{{filter.toFixed(item.selling_price)}}" title="{{item.product.title}}" thumb="{{href}}{{item.product.simg}}">
+        <van-card custom-class="vancard" catchtap="onListbtn" data-item="{{item}}" num="{{item.num}}" price="{{filter.toFixed(item.selling_price)}}" title="{{item.product.title}}" thumb="{{href}}{{item.product.simg}}">
           <view slot="desc">
             <view class="product_add">
               <view>{{item.product.scorenum}}+评分</view>
@@ -17,7 +17,7 @@
             <van-stepper bind:change="bindManual" value="{{item.num}}" bind:minus="bindMinus" bind:plus="bindPlus" data-value="{{item.id}}" integer min="0" max="{{item.product.stock}}" />
           </view>
         </van-card>
-        <van-divider />
+        <view style="height: 2px;"></view>
         <!-- 旧商品 -->
         <!-- <view class="list_item" catchtap="onListbtn" data-item="{{item}}">
           <view class='img'>

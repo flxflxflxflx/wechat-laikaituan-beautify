@@ -1,3 +1,7 @@
+page {
+  background-color: rgb(250, 250, 250);
+}
+
 .asset {
   display: flex;
   justify-content: center;
@@ -6,15 +10,29 @@
   background-color: #e85654;
 }
 
+.cellGroup {
+  margin: 0 !important;
+}
+
+.custClass{
+  /* background-color: #e85654; */
+}
+
+.custText{
+  font-size: 13px;
+}
+
 .asset .item {
   display: flex;
   flex-direction: column;
   width: 250rpx;
   text-align: center;
-  font-size: 14px;
+  font-size: 18px;
   line-height: 30px;
   color: #fff;
 }
+
+
 
 .btn-view {
   height: 88rpx;
@@ -31,6 +49,7 @@
   border-color: #fff !important;
   color: #fff !important;
   margin-right: 20rpx;
+  font-size: 11px;
 }
 
 .btn-hover {
@@ -95,5 +114,14 @@
 }
 
 .withdrawal_whole {
-  padding: 0 20px;
+  padding: 4px 20px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-sizing: border-box;
+  margin: 15px;
+}
+
+.withdrawal_whole_title {
+  margin: 10px 0;
+  font-size: 14px;
 }

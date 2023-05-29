@@ -532,7 +532,6 @@ Page({
    * 生命周期函数--监听页面加载
    */
  async onLoad(options) {
-    console.log("我只想了理解理解拉法基垃圾");
     let that = this
     this.setData({
       TitleselectFile: this.TitleselectFile.bind(this),
@@ -589,6 +588,7 @@ Page({
       id: options.id
     }).then(function (res) {
       wx.hideLoading()
+      res.data = res.data.result;
       // 遍历商品分类 
       let productClass = that.mapProductClass(res.data.category_id);
       let dimgslist = res.data.dimgslist.map((item) => {

@@ -1,5 +1,5 @@
 page {
-  background-color: var(--BackGround2);
+  background-color: var(--IsolationColor);
 }
 
 
@@ -11,6 +11,10 @@ button {
   font-weight: 400 !important;
   width: 88%;
   margin-bottom: 5px;
+}
+
+.vancard{
+  background-color: #fff !important;
 }
 
 .clear {

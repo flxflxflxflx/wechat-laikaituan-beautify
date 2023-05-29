@@ -1,5 +1,6 @@
 // pages/roleView/myView/myView.js
 import tr from "../../../utils/tokenRequest"
+const app = getApp();
 Page({
 
   /**
@@ -27,7 +28,9 @@ Page({
     balance: 0.00,
     freeze: 0,
     avatar: wx.getStorageSync('avatar'),
-    nick_name: wx.getStorageSync('nick_name')
+    nick_name: wx.getStorageSync('nick_name'),
+    bottomLift: app.globalData.bottomLift,
+    topLift: wx.getSystemInfoSync()['statusBarHeight']
   },
   tabChange(e) {
     switch (e.detail.index) {

@@ -35,11 +35,11 @@ page {
   /* 不重要信息 */
   --IgnoreMessage: rgb(153, 153, 153);
   /* 隔离色 */
-  --IsolationColor: rgb(243, 243, 245);
+  --IsolationColor: rgb(247, 248, 250);
   /* 重要红色 */
   --Money: rgb(254, 89, 9);
   /* 统一颜色 */
-  --TONGYI: rgb(101, 196, 170);
+  --TONGYI: rgb(103,198,172);
   /* 统一字号 */
   --TEXT_TITLE: 14px;
   /* 忽略文本 */
@@ -75,6 +75,9 @@ page {
   color: #fff !important;
   font-weight: 400 !important;
 } */
+.button{
+  
+}
 
 .bottomToButton {
   margin-bottom: 10rpx;

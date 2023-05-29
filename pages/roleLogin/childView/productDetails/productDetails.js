@@ -13,8 +13,9 @@ Page({
     currentTab: 0,
     toView: "default",
     isnavShow: false,
-    screenHeight: 0
-
+    screenHeight: 0,
+    // 评论
+    CommentInformation:[]
   },
   /**
    * 商品详情--选项卡
@@ -64,11 +65,15 @@ Page({
     tr("/getProductInfoId", {
       id: options.productid
     }).then(function (res) {
-      let productInfo = res.data
+      let productInfo = res.data.result
       that.setData({
         productInfo,
+        CommentInformation:res.data.CommentInformation
       })
     })
+
+    // 请求评论信息
+    
   },
 
   /**

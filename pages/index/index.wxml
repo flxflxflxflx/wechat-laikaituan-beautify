@@ -11,7 +11,7 @@
     </view>
   </view>
   <view class="indexbutton">
-    <button type="primary" wx:if="{{!isGetPhone}}" open-type="getPhoneNumber" bindgetphonenumber="handleGetPhoneNumber">莱开团</button>
+    <button class="mybutton"  type="primary" wx:if="{{!isGetPhone}}" open-type="getPhoneNumber" bindgetphonenumber="handleGetPhoneNumber">莱开团</button>
     <!-- <view class="userinfo">
       <block>
         <button hover-class="greenButtonHover" class="greenButton" wx:if="{{canIUseGetUserProfile}}" bindtap="getUserProfile"> 用户授权登录 </button>

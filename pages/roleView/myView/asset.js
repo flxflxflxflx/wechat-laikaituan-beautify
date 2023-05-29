@@ -12,7 +12,7 @@ Page({
     cards: [],
     // 余额
     account: 0,
-    withdrawalRecords: []
+    withdrawalRecords: [],
   },
 
   // 提现到余额

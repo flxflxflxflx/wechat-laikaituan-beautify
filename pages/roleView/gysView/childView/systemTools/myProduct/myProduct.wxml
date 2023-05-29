@@ -18,7 +18,8 @@
       </view>
       <navigator url='details?id={{item.id}}'>
         <view class='img'>
-          <image src="{{imghref}}{{item.simg}}" mode="aspectFit" />
+          <!-- <image src="{{imghref}}{{item.simg}}" mode="aspectFit" /> -->
+          <van-image width="100%" height="100%" fit="scale-down" src="{{imghref}}{{item.simg}}" />
         </view>
 
         <view class='info'>
@@ -38,7 +39,7 @@
           <!-- 商品底部 -->
           <view class="product_footer">
             <view style="opacity:{{item.supplyprice==null?0:1}}" class='price'>供应价:<text style="color: var(--Money);">￥{{item.supplyprice}}</text></view>
-            <view style="opacity:{{item.recommendedprice==null?0:1}}"  class='price2'>建议价:<text style="color: var(--Money);">￥{{item.recommendedprice}}</text></view>
+            <view style="opacity:{{item.recommendedprice==null?0:1}}" class='price2'>建议价:<text style="color: var(--Money);">￥{{item.recommendedprice}}</text></view>
             <view class="delete">
               <button type="warn" size="mini" data-id="{{item.id}}" catchtap="editProduct">编辑</button>
             </view>

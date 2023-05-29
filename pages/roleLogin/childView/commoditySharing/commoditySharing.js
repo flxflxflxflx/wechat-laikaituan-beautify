@@ -59,12 +59,15 @@ Page({
     bottomLift: app.globalData.bottomLift,
     // 是否包邮
     isFreeShipping: false,
+    screenHeight: 0,
     // 运费金额
     freightAmount: 0,
     // 是否自行配送
     isSelfDelivery: false,
     AddressColumns: ['杭州', '宁波', '温州', '嘉兴', '湖州'],
-    addressShow: false
+    addressShow: false,
+    // 评论
+    CommentInformation: []
   },
   addressShow() {
     this.setData({
@@ -122,7 +125,7 @@ Page({
   },
 
   falseShare(e) {
-    console.log(this.data.dataList,this.data.selectListData);
+    console.log(this.data.dataList, this.data.selectListData);
     let id = e.currentTarget.dataset.id;
     if (id == 1) {
       wx.showToast({
@@ -138,6 +141,7 @@ Page({
    * 商品详情--选项卡
    */
   scrollViewScroll(e) {
+    console.log("dddddddddddddddddddddd");
     if (e.detail.scrollTop > 30) {
       this.setData({
         isnavShow: true
@@ -182,6 +186,20 @@ Page({
     this.setData({
       isShareFormShow: false
     })
+  },
+
+  swichNav: function (e) {
+    console.log(e);
+    var that = this;
+    let index = e.detail.index
+    if (this.data.currentTab === index) {
+      return false;
+    } else {
+      that.setData({
+        currentTab: index,
+        toView: 'toView' + index
+      })
+    }
   },
 
 
@@ -245,8 +263,9 @@ Page({
       id: e.detail.item.item.id
     }).then(function (res) {
       that.setData({
-        productInfo: res.data,
-        show: true
+        productInfo: res.data.result,
+        show: true,
+        CommentInformation: res.data.CommentInformation
       })
     })
   },
@@ -350,7 +369,7 @@ Page({
     tr("/getProductInfoId", {
       id: e.currentTarget.dataset.item.id
     }).then(function (res) {
-      let productInfo = res.data
+      let productInfo = res.data.result
       if (e.currentTarget.dataset.item.openingPrice) {
         productInfo["openingPrice"] = e.currentTarget.dataset.item.openingPrice
       }
@@ -370,7 +389,7 @@ Page({
     })
   },
 
-  goumai(res){
+  goumai(res) {
     let that = this
     if (res.confirm) {
       if (res.content.trim() == '') {
@@ -385,6 +404,7 @@ Page({
         return
       }
       let productInfo = that.data.productInfo
+      console.log(productInfo, "dddddddd");
       if (productInfo.supplyprice != null) {
         // 商品开团价格下限
         let priceXiaxian = ((productInfo.supplyprice) * (110 / 100))
@@ -461,13 +481,14 @@ Page({
     tr("/getProductInfoId", {
       id: e.currentTarget.dataset.item.id
     }).then(function (res) {
-      let productInfo = res.data
+      let productInfo = res.data.result
       if (e.currentTarget.dataset.item.openingPrice) {
         productInfo["openingPrice"] = e.currentTarget.dataset.item.openingPrice
       }
       that.setData({
         productInfo,
-        show: true
+        show: true,
+        CommentInformation:res.data.CommentInformation
       })
     })
   },
@@ -568,6 +589,10 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad(options) {
+    this.setData({
+      //获取屏幕可用高度
+      screenHeight: wx.getSystemInfoSync().windowHeight-330
+    })
     // 选择的商品
     let selectListData = JSON.parse(options.selectListData);
     let that = this

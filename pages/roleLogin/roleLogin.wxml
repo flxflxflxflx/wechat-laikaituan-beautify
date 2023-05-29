@@ -10,45 +10,62 @@
     <checkbox-group bindchange="">
       <block wx:for='{{dataList}}' wx:key='index' wx:for-item="item">
         <!-- 商品 -->
-        <!-- <van-card num="2" tag="标签" tag="标签" price="10.00" desc="描述信息" title="商品标题" thumb="{{imghref}}{{item.simg}}">
+        <van-card custom-class="vancard"  catchtap="onListbtn" data-item="{{item}}" price="{{filter.toFixed(item.supplyprice)}}" title="{{item.title}}" thumb="{{imghref}}{{item.simg}}">
+          <view slot="desc">
+            <view class="product_add">
+              <van-tag plain type="primary">{{item.scorenum}}+评分</van-tag>
+              <van-tag plain type="success">{{item.views}}+浏览</van-tag>
+              <van-tag plain type="danger">{{item.salenum}}+销售</van-tag>
+              <van-tag plain type="warning">{{item.share}}+分享</van-tag>
+              <!-- <view>{{item.scorenum}}+评分</view>
+              <view>{{item.views}}+浏览</view>
+              <view>{{item.salenum}}+销售</view>
+              <view>{{item.share}}+分享</view> -->
+            </view>
+          </view>
           <view slot="footer">
-            <van-button size="mini">按钮</van-button>
-            <van-button size="mini">按钮</van-button>
+            <view class="delete" catchtap="stop">
+              <checkbox checked="{{item.isCheckShow}}" bindtap="selectList" data-data="{{item}}" value="{{item.id}}" />
+            </view>
           </view>
           <view slot="tags">
+            <!-- 是否包分配 -->
+            <view class="product_isfenpei">
+              <van-tag wx:if="{{item.is_public == 0||item.is_my_product==1}}" mark type="primary">我的</van-tag>
+              <van-tag mark wx:if="{{item.is_public}}" type="warning">公共库</van-tag>
+            </view>
           </view>
-        </van-card> -->
+        </van-card>
+        <view style="height: 2px;"></view>
 
-        <view class="list_item" catchtap="onListbtn" data-item="{{item}}">
+
+
+        <!-- <view class="list_item" catchtap="onListbtn" data-item="{{item}}">
           <view class='img'>
             <image src="{{imghref}}{{item.simg}}" mode="aspectFit" />
           </view>
           <view class='info'>
             <view class='title'>{{item.title}}</view>
-            <!-- 商品辅加信息 -->
             <view class="product_add">
               <view>{{item.scorenum}}+评分</view>
               <view>{{item.views}}+浏览</view>
               <view>{{item.salenum}}+销售</view>
               <view>{{item.share}}+分享</view>
             </view>
-            <!-- 是否包分配 -->
             <view class="product_isfenpei">
               <van-tag wx:if="{{item.is_public}}" color="#f2826a" plain>公共库</van-tag>
               <van-tag text-color="#7232dd" style="margin-left: 10rpx;" wx:if="{{item.is_public == 0||item.is_my_product==1}}" plain>我的</van-tag>
             </view>
             <view wx:if="{{item.openingPrice}}"><text style="font-size: 30rpx;">赚</text><text style="color: #f71313;">￥<text style="font-size: 40rpx;">{{item.incomePrice}}</text></text></view>
-            <!-- 商品底部 -->
             <view class="product_footer">
               <view style="opacity: {{item.supplyprice==null?0:1}};" class='price'>供应价:<text style="color: rgb(254, 89, 9);font-size: var(--TEXT_H3);">￥{{filter.numberToFixed(item.supplyprice)}}</text></view>
               <view class="delete" catchtap="stop">
                 <checkbox checked="{{item.isCheckShow}}" bindtap="selectList" data-data="{{item}}" value="{{item.id}}" />
               </view>
             </view>
-            <!-- <view class='num'>销量{{item.salenum}}</view> -->
           </view>
           <view class='clear'></view>
-        </view>
+        </view> -->
       </block>
     </checkbox-group>
   </view>

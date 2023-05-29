@@ -1,6 +1,6 @@
 /* pages/roleView/tzView/childView/ktView/childView/commodityEvaluation/commodityEvaluation.wxss */
 page {
-  background-color: var(--BackGround2);
+  background-color: var(--IsolationColor);
   width: 100%;
   height: 100%;
 }

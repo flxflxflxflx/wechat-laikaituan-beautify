@@ -1,4 +1,6 @@
 {
   "navigationBarTitleText": "余额",
+  "navigationBarTextStyle": "white",
+  "navigationBarBackgroundColor": "#e85654",
   "usingComponents": {}
 }

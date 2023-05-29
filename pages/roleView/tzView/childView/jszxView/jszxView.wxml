@@ -6,40 +6,40 @@
   <van-empty wx:if="{{ isShow }}" description="暂无开团记录" />
 
   <block wx:for="{{openingRecord}}" wx:key="id">
-
-    <view style="border-bottom: 20rpx solid var(--BackGround1);margin-bottom: 20rpx;" bindtap="openingBtn" data-id="{{item.id}}">
-      <view class="danhao" style="display: flex;justify-content: space-between;">
-        <view>
-          开团名称 {{item.pronames}}{{item.id}}
-
-        </view>
-        <!-- 单号 {{item.ordernum}}  | 时间：{{item.created_at}} -->
-        <view style="color: var(--IgnoreMessage);font-size: 30rpx;margin-right: 20rpx;" wx:if="{{item.isShow == 'no'}}">
-          <!-- <checkbox bindtap="HandelItemChange" data-id="{{item.id}}" value="{{item.id}}" checked="{{item.distributionFee}}">
+    <van-cell-group inset>
+      <view style="margin-bottom: 10px;background-color: #fff;" bindtap="openingBtn" data-id="{{item.id}}">
+        <view class="danhao" style="display: flex;justify-content: space-between;">
+          <view>
+            开团名称 {{item.pronames}}{{item.id}}
+          </view>
+          <!-- 单号 {{item.ordernum}}  | 时间：{{item.created_at}} -->
+          <view style="color: var(--IgnoreMessage);font-size: 30rpx;margin-right: 20rpx;" wx:if="{{item.isShow == 'no'}}">
+            <!-- <checkbox bindtap="HandelItemChange" data-id="{{item.id}}" value="{{item.id}}" checked="{{item.distributionFee}}">
             承担配送费
           </checkbox> -->
-          <view>
-            <button catchtap="ReopenTheGroup" data-groupbuy="{{item}}" size="mini">再次开团</button>
+            <view>
+              <button class="button" catchtap="ReopenTheGroup" data-groupbuy="{{item}}" size="mini">再次开团</button>
+            </view>
           </view>
         </view>
-      </view>
 
-      <view wx:for="{{item.groupbuy}}" wx:key="id" wx:for-item="detail" class="chanpin ">
-        <image class="chanpin-img" src="{{href}}{{detail.product.simg}}"></image>
-        <view class="chanpin-info">
-          <view class="name">{{detail.product.title}}</view>
-          <view class="sales">销售：{{detail.product.salenum}} 件 / 库存：{{detail.product.stock}}件
-          </view>
-          <view class="price">￥：{{detail.selling_price}}</view>
+        <view wx:for="{{item.groupbuy}}" wx:key="id" wx:for-item="detail" class="chanpin ">
+          <!-- <image class="chanpin-img" src="{{href}}{{detail.product.simg}}"></image> -->
+          <van-image width="50px" height="60px" fit="cover" src="{{href}}{{detail.product.simg}}" />
+            <view class="chanpin-info">
+              <view class="name">{{detail.product.title}}</view>
+              <view class="sales">销售：{{detail.product.salenum}} 件 / 库存：{{detail.product.stock}}件
+              </view>
+              <view class="price">￥{{detail.selling_price}}</view>
+            </view>
+            <view class="chanpin-num" style="font-size: 14px;">
+              <view class="mytext" hidden="">{{detail.product.number}} 件</view>
+              <view class="mytext">￥{{detail.product.totalprice}}</view>
+            </view>
+
+
         </view>
-        <view class="chanpin-num" style="font-size: 30rpx;">
-          <view class="mytext" hidden="">{{detail.product.number}} 件</view>
-          <view class="mytext">￥{{detail.product.totalprice}}</view>
-        </view>
-
-
-      </view>
-      <!-- <view class="chanpin">
+        <!-- <view class="chanpin">
           <image class="chanpin-img" src="/img/cp02.jpg"></image>
           <view class="chanpin-info">
             <view class="name">HFP秋冬季补水保湿亮肤套装</view>
@@ -52,15 +52,16 @@
           </view>
         </view> -->
 
-      <view class="jiesuan">
-        <text> 产品总金额：¥{{item.totalAmout}} </text>
-        <text style="color: var(--IgnoreMessage);font-size: 30rpx;">截单时间 : {{item.countDownTime}}</text>
-      </view>
-      <!-- <view class="caozuo">
+        <view class="jiesuan">
+          <text> 产品总金额：¥{{item.totalAmout}} </text>
+          <text style="color: var(--IgnoreMessage);font-size: 14px;">截单时间 : {{item.countDownTime}}</text>
+        </view>
+        <!-- <view class="caozuo">
       <button bindtap="cancelOrder" data-item="{{item}}" size='mini'>取消订单</button>
       <button bindtap="topay" data-ordernum="{{item.ordernum}}" type="primary" size='mini'>去付款</button>
     </view> -->
-    </view>
+      </view>
+    </van-cell-group>
   </block>
 
 

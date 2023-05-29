@@ -5,12 +5,12 @@
     <view class="tab-item {{currentTab==1 ? 'on' : ''}}" data-current="1" bindtap="swichNav">评价</view>
     <view class="tab-item {{currentTab==2 ? 'on' : ''}}" data-current="2" bindtap="swichNav">详情</view>
   </view> -->
-  <van-tabs color="var(--TONGYI)" wx:if="{{isnavShow}}"  bind:click="swichNav">
+  <van-tabs color="var(--TONGYI)" wx:if="{{isnavShow}}" bind:click="swichNav">
     <van-tab title="商品"></van-tab>
     <van-tab title="评价"></van-tab>
     <van-tab title="详情"></van-tab>
   </van-tabs>
-  <scroll-view bindscroll="scrollViewScroll" style="height: {{screenHeight}}px;" scroll-y="true" scroll-into-view="{{toView}}">
+  <scroll-view bindscroll="scrollViewScroll" style="height: {{screenHeight-44}}px;" scroll-y="true" scroll-into-view="{{toView}}">
     <view id="toView0" class="continue">
       <view class="greyBox">
         <swiper indicator-dots current="0" style="height: 510px;">
@@ -27,7 +27,7 @@
               <view style="font-size: var(--TEXT_TITLE);color: var(--IgnoreMessage);opacity:{{productInfo.supplyprice==null?0:1}}">供应价
                 <text style="color: #f79213;">￥<text style="font-size: 35rpx;">{{productInfo.supplyprice}}</text></text>
               </view>
-              <view style="margin-left: 30rpx;font-size: var(--TEXT_TITLE);color: var(--IgnoreMessage);opacity:{{productInfo.recommendedprice==null?0:1}}">建议价<text style="color: #f79213;">￥<text style="font-size: var(--TEXT_TITLE);">{{productInfo.recommendedprice}}</text></text></view>
+              <view style="margin-left: 30rpx;font-size: var(--TEXT_TITLE);color: var(--IgnoreMessage);opacity:{{productInfo.recommendedprice==null?0:1}}">建议价<text style="color: #f79213;">￥<text style="font-size: 35rpx;">{{productInfo.recommendedprice}}</text></text></view>
               <view></view>
             </view>
             <view class="sale_box">
@@ -43,9 +43,29 @@
       <!-- 评价 -->
       <view id="toView1" class="appraise">
         <view class="appraise_header">
-          <view>宝贝评价({{productInfo.scorenum}})</view>
+          <view>商品评价({{productInfo.scorenum}})</view>
           <view bindtap="viewCount">查看全部 ></view>
         </view>
+        <block wx:for="{{CommentInformation}}">
+          <view style="display: flex;margin-top: 10px;">
+            <view>
+              <van-image round width="40px" fit="cover" height="40px" src="{{href}}{{item.member.avatar}}" />
+            </view>
+            <view style="margin-left: 5px;width: 100%;">
+              <view style="display: flex;justify-content: space-between;align-items: center;">
+                <view style="font-size: 14px;margin-top: 5px;">{{item.member.nickname}}</view>
+                <view style="font-size: 14px;color:rgb(181 , 181, 181 )">{{item.create}}</view>
+              </view>
+              <view>
+                <van-rate color="#ffd21e" void-color="#eee" readonly value="{{ item.score }}" bind:change="onChange" />
+              </view>
+              <view>
+                {{item.evaluate}}
+              </view>
+            </view>
+          </view>
+        </block>
+
       </view>
       <!-- 详情 -->
       <view id="toView2" class="appraise">

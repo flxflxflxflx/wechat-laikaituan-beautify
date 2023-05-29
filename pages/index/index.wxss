@@ -4,12 +4,14 @@
   text-align: center;
 }
 
-button {
+
+.mybutton{
   border-radius: 35px !important;
-  background-color: rgb(101, 196, 170) !important;
+  background-color: #3DB963 !important;
   color: #fff !important;
   font-weight: 400 !important;
   width: 80%;
+  font-size: 15px;
 }
 
 /* 文字 */
@@ -19,7 +21,7 @@ button {
 
 /* 按钮 */
 .indexbutton {
-  margin-top: 90rpx;
+  margin-top: 505rpx;
   display: flex;
   justify-content: center;
 }
@@ -32,7 +34,7 @@ button {
 }
 
 .centerBox {
-  margin-top: calc(50% - 210rpx/2);
+  margin-top: calc(50% - 443rpx/2);
 }
 
 /* button {

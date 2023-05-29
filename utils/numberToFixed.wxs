@@ -1,10 +1,22 @@
 // 支持es4语法
 var filter = {
   numberToFixed: function (value) {
-    return (Math.floor(parseFloat(value) * 100) / 100)
+    var num;
+    if (value == null) {
+      num = ''
+    } else {
+      num = (Math.floor(parseFloat(value) * 100) / 100)
+    }
+    return num
   },
   toFixed: function (value) {
-    return value.toFixed(2)
+    var number
+    if (value == null) {
+      number = ''
+    } else {
+      number = value.toFixed(2)
+    }
+    return number
   },
   toFixed2: function (value) {
     return parseInt(value.toFixed(2).replace(".", ""))

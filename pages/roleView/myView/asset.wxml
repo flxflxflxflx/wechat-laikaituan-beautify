@@ -16,7 +16,33 @@
 
 <!-- 提现记录 -->
 <view class="withdrawal_whole">
-  <view class="withdrawal">
+  <view class="withdrawal_whole_title">
+    提现记录
+  </view>
+  <block wx:for="{{withdrawalRecords}}" wx:key="id">
+    <van-cell-group  custom-class="cellGroup" inset>
+      <van-cell custom-class="custClass">
+        <view slot="title" class="custText">
+          {{item.money}}元
+        </view>
+        <view>
+          <view class="withdrawal_examine">
+            <!-- <block wx:if="{{item.status == 0}}">
+                <view>审核中</view>
+              </block>
+              <block wx:if="{{item.status == 1}}">
+                <view>审核成功</view>
+              </block>
+              <block wx:if="{{item.status == 2}}">
+                <view>审核失败</view>
+              </block> -->
+            <view class="custText">{{item.wddate}}</view>
+          </view>
+        </view>
+      </van-cell>
+    </van-cell-group>
+  </block>
+  <!-- <view class="withdrawal">
     <view class="withdrawal_title">
       <text>提现记录</text>
     </view>
@@ -40,5 +66,5 @@
       </view>
       <van-divider />
     </block>
-  </view>
+  </view> -->
 </view>

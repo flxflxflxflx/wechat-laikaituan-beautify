@@ -1,6 +1,14 @@
-page{
-  background-color: var(--BackGround2);
+page {
+  background-color: var(--IsolationColor);
 }
+
+.button {
+  border-radius: 35px !important;
+  background-color: var(--TONGYI) !important;
+  color: #fff !important;
+  font-weight: 400 !important;
+}
+
 /* 全部订单 */
 .chanpins {
   flex: 1;
@@ -11,7 +19,7 @@ page{
 }
 
 .danhao {
-  font-size: 12px;
+  font-size: 14px;
   color: gray;
   height: 100rpx;
   margin-left: 20rpx;
@@ -55,14 +63,13 @@ page{
 }
 
 .price {
-  font-size: 30rpx;
+  font-size: 14px;
   color: red;
   text-align: left;
 }
 
-.mytext{
-  font-size: 12px;
-  font-weight: 600;
+.mytext {
+  font-size: 14px;
   color: var(--Money);
   text-align: center;
   min-width: 60px;
@@ -82,7 +89,7 @@ page{
 
 
 .jiesuan {
-  font-size: 13px;
+  font-size: 14px;
   color: gray;
   height: 100rpx;
   margin-left: 20rpx;
