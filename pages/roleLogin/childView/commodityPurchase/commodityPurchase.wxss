@@ -1,14 +1,35 @@
-page{
+page {
   background-color: var(--IsolationColor) !important;
 }
+
 button {
   border-radius: 35px !important;
   background-color: rgb(101, 196, 170) !important;
   color: #fff !important;
   font-weight: 400 !important;
 }
-.vancard{
+
+.vanTitle {
+  font-size: 12.5px;
+  color: rgb(104, 104, 104);
+}
+.product_add view {
+  margin-right: 10px;
+}
+  .vanTag{
+    font-size: 9px !important;
+  }
+
+
+.vanPrice {
+  color: var(--TONGYI) !important;
+  transform: scale(0.9);
+}
+
+.vanCand {
   background-color: #fff !important;
+  border-radius: 0 0 10px 10px;
+  padding-bottom: 12px !important;
 }
 
 .button {
@@ -103,13 +124,10 @@ navigator {
 }
 
 /* 商品辅加信息 */
-.product_add {
-  display: flex;
-  justify-content: space-between;
-}
 
-.product_add>view {
-  opacity: 0.6;
+
+.product_add view {
+  margin-right: 10px;
 }
 
 .van-submit-bar {

@@ -1,5 +1,5 @@
 /* pages/roleView/gysView/childView/systemTools/orderQuery/orderQuery.wxss */
-page{
+page {
   background-color: var(--BackGround2);
 }
 
@@ -10,6 +10,12 @@ button {
   font-weight: 400 !important;
 }
 
+.search {
+  border-radius: 35px !important;
+  background-color: var(--TONGYI) !important;
+  color: #fff !important;
+  font-size: 14px;
+}
 
 .picker {
   text-align: center;
@@ -29,7 +35,7 @@ button {
 
 
 
-.footer{
+.footer {
   position: fixed;
   bottom: 5px;
   display: flex;

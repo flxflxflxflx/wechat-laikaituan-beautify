@@ -114,10 +114,19 @@ Page({
         wx.hideLoading()
         wx.showToast({
           title: res.data.msg,
-          mask: true
+          mask: true,
+          success() {
+            setTimeout(function () {
+              // 跳转到首页
+              wx.redirectTo({
+                url: '../../roleLogin/roleLogin',
+              })
+            }, 2500)
+          }
         })
         // 申请成功 刷新页面
         that.onLoad()
+
       }, function (err) {});
     }, 2000)();
   },
@@ -266,7 +275,7 @@ Page({
 
     // 请求有没有审核状态
     tr("/getAuditStatus").then(function (res) {
-    
+
       // 审核中界面不能操作
       if (res.data.status == 2 || res.data.status == 3) {
         that.setData({

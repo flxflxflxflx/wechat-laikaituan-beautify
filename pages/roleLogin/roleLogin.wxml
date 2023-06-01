@@ -10,13 +10,14 @@
     <checkbox-group bindchange="">
       <block wx:for='{{dataList}}' wx:key='index' wx:for-item="item">
         <!-- 商品 -->
-        <van-card custom-class="vancard"  catchtap="onListbtn" data-item="{{item}}" price="{{filter.toFixed(item.supplyprice)}}" title="{{item.title}}" thumb="{{imghref}}{{item.simg}}">
+        <van-card price-class="vanPrice" title-class="vanTitle" custom-class="vanCand"  catchtap="onListbtn" data-item="{{item}}" price="{{filter.toFixed(item.supplyprice)}}" title="{{item.title}}" thumb="{{imghref}}{{item.simg}}">
           <view slot="desc">
             <view class="product_add">
-              <van-tag plain type="primary">{{item.scorenum}}+评分</van-tag>
-              <van-tag plain type="success">{{item.views}}+浏览</van-tag>
-              <van-tag plain type="danger">{{item.salenum}}+销售</van-tag>
-              <van-tag plain type="warning">{{item.share}}+分享</van-tag>
+              <van-tag plain custom-class="vanTag" type="primary">{{item.scorenum}}+评分</van-tag>
+              <van-tag plain custom-class="vanTag" type="success">{{item.views}}+浏览</van-tag>
+              <van-tag plain custom-class="vanTag" type="danger">{{item.salenum}}+销售</van-tag>
+              <van-tag plain custom-class="vanTag" type="warning">{{item.share}}+分享</van-tag>
+
               <!-- <view>{{item.scorenum}}+评分</view>
               <view>{{item.views}}+浏览</view>
               <view>{{item.salenum}}+销售</view>

@@ -53,7 +53,7 @@
     <view class="textyu">
       <textarea style="height: 200rpx;" model:value="{{productDetails}}" maxlength="300" placeholder="建议描述商品细节,购买须知等"></textarea>
     </view>
-    商品图片视频<text class="uniqueText">*</text>
+    商品图片或视频<text class="uniqueText">*</text>
     <!-- 上传图片 -->
     <view class="uploadImage">
       <!-- 上传 S -->

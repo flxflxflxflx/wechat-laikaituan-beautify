@@ -33,5 +33,5 @@
 }
 
 .multiColumn{
-  font-size:35rpx;
+  font-size:14px;
 }

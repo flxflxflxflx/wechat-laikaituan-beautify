@@ -48,7 +48,8 @@ Page({
     countdownArr: [],
     tabbarHeight: 0,
     bottomLift: app.globalData.bottomLift,
-    triggered: false
+    triggered: false,
+    isShowNot: true
   },
 
 
@@ -207,6 +208,8 @@ Page({
     }
   },
 
+
+
   // 倒计时
   countdown() {
     let countdownArr = []
@@ -226,7 +229,8 @@ Page({
           if (aa >= 0) {
             // 设置倒计时
             this.setData({
-              ['noPayment[' + index + '].countDownTime']: this.timestampToTime(aa)
+              ['noPayment[' + index + '].countDownTime']: this.timestampToTime(aa),
+              isShowNot: false
             })
           } else {
             // 隐藏超时的

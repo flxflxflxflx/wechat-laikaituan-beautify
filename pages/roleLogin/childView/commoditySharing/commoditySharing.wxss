@@ -12,9 +12,30 @@ button {
 
 }
 
-.vancard{
-  background-color: #fff !important;
+.vanTitle {
+  font-size: 14px;
+  color: rgb(104, 104, 104);
 }
+.product_add view {
+  margin-right: 12px;
+}
+
+
+.vanPrice {
+  color: var(--TONGYI) !important;
+  transform: scale(0.9);
+}
+
+.vanCand {
+  background-color: #fff !important;
+  border-radius: 0 0 10px 10px;
+  padding-bottom: 12px !important;
+}
+
+.vanTag{
+  font-size: 10px !important;
+}
+	
 
 .weui-btn{
   font-size: 14px;
@@ -145,15 +166,6 @@ navigator {
 }
 
 /* 商品辅加信息 */
-.product_add {
-  display: flex;
-  justify-content: space-between;
-}
-
-.product_add>view {
-  font-size: 10px;
-  color: var(--IgnoreMessage);
-}
 
 .product_footer {
   font-size: 12px;

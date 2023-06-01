@@ -1,3 +1,4 @@
+<wxs module="filter" src="/utils/numberToFixed.wxs"></wxs>
 <!-- 切换栏 -->
 <!-- <view class="swiper-tab" style="position: fixed;width: 100%;top: 0;">
   <block wx:for="{{swipertab}}" wx:key="sptab">
@@ -14,39 +15,53 @@
   <swiper-item>
     <scroll-view style="height:calc(100vh - {{bottomLift+105}}px);" class="chanpins" bindscrolltolower="completeScorll" refresher-enabled="{{true}}" refresher-threshold="{{100}}" refresher-default-style="white" refresher-background="var(--TONGYI)" refresher-triggered="{{triggered}}" bindrefresherpulling="onPulling" bindrefresherrefresh="onYRefresh" bindrefresherrestore="onRestore" bindrefresherabort="onAbort" scroll-y="true">
       <view class="orderDetails" wx:for="{{complete_order}}" wx:key="id">
-        <view class="orderListTitle">
-          <text class="userName">订单号 : {{item.ordernum}}</text>
-          <text wx:if="{{item.refundadmin_id == 1}}" class="Refunded">已退款</text>
-          <text wx:else class="orderStatus">{{item.logistics == 4?"已收货":""}}{{item.logistics==5?"超时收货":""}}</text>
-        </view>
-        <view class="orderListDetails">
-          <view class="productImg">
-            <image src="{{href}}{{item.order_detail[0].product.simg}}" background-size="cover"></image>
+        <view class="curBox">
+          <view class="danhao" style="    border-radius: 10px 10px 0 0;">
+            <view>单号：{{item.ordernum}} </view>
+            <view class="textBox">
+              <text wx:if="{{item.refundadmin_id == 1}}" class="Refunded">已退款</text>
+              <text wx:else class="orderStatus">{{item.logistics == 4?"已收货":""}}{{item.logistics==5?"超时收货":""}}</text>
+            </view>
           </view>
-          <view class="productInfo">
-            <view class="productTitle">付款时间: {{item.paytime}}</view>
-            <text class="productPrice">当前状态：{{item.logistics==0?'消费者下单':""}}{{item.logistics==1?'分拣员分拣':""}}{{item.logistics==2?'配送员配送中':""}}{{item.logistics==3?'提货站到货':""}}{{item.logistics==4&&item.is_comment==0?'已经收货':""}}{{(item.logistics==4||item.logistics==5)&&item.is_comment==1?'已经评价':""}}{{item.logistics==5&&item.is_comment==0?'超时收货':""}}</text>
+          <view wx:for="{{item.order_detail}}" wx:key="index" wx:for-item="detail">
+            <van-card price-class="vanPrice" title-class="vanTitle" custom-class="vanCand2" num=" {{detail.number}} " price="{{filter.toFixed(detail.price)}}" title="{{detail.product.title}}" thumb="{{href}}{{detail.product.simg}}">
+              <view slot="desc">
+                <view class="sales">销售：{{detail.product.salenum}} 件 / 库存：{{detail.product.stock}}件
+                </view>
+                <view>
+                  <text class="productPrice">当前状态：{{item.logistics==0?'消费者下单':""}}{{item.logistics==1?'分拣员分拣':""}}{{item.logistics==2?'配送员配送中':""}}{{item.logistics==3?'提货站到货':""}}{{item.logistics==4&&item.is_comment==0?'已经收货':""}}{{(item.logistics==4||item.logistics==5)&&item.is_comment==1?'已经评价':""}}{{item.logistics==5&&item.is_comment==0?'超时收货':""}}</text>
+                </view>
+              </view>
+              <view slot="footer">
+                <view style="height: 1px;background-color:rgba(238, 238, 238, 1);margin: 10px 0;"></view>
+
+
+                <!-- <van-button size="mini">取消订单</van-button>
+              <van-button size="mini">立即支付</van-button> -->
+              </view>
+            </van-card>
           </view>
-        </view>
-        <view class="productCount">
-          <view>
-            <text>合计：￥{{item.payment}}</text>
-          </view>
-          <view wx:if="{{item.logistics == 3}}" style="float: left; margin-left: 20rpx;margin-top: 10rpx;">
-            <button type="primary" bindtap="scanningCode" data-data="{{item.ordernum}}" size="mini">扫码收货</button>
-            <!-- <button type="warn" bindtap="refund" data-data="{{item.ordernum}}" size="mini">申请退款</button> -->
-          </view>
-          <view wx:if="{{(item.logistics == 4||item.logistics==5)&&item.is_comment == 0}}" style="float: left; margin-left: 20rpx;margin-top: 10rpx;">
-            <button type="primary" style="background-color: var(--TONGYI);" bindtap="evaluate" data-data="{{item.ordernum}}" size="mini">评价</button>
-            <!-- <button type="warn" bindtap="refund" data-data="{{item.ordernum}}" size="mini">申请退款</button> -->
-          </view>
-          <view wx:if="{{item.logistics == 0}}" style="float: left; margin-left: 20rpx;margin-top: 10rpx;">
-            <button type="primary" style="background-color: var(--TONGYI);" bindtap="takeDelivery" data-data="{{item.ordernum}}" size="mini">收货</button>
-            <!-- <button type="warn" bindtap="refund" data-data="{{item.ordernum}}" size="mini">申请退款</button> -->
-          </view>
-          <!-- <view wx:if="{{item.refundadmin_id !== 1}}" style="float: left; margin-left: 20rpx;margin-top: 10rpx;">
+          <view style="padding:0 10px 10px;display: flex;align-items: center;justify-content: space-between;">
+            <text style="color: rgba(212, 19, 18, 1);font-size: 12px;float: left;line-height: 34px;">付款时间 : {{item.paytime}}</text>
+
+            <!-- <text style="color: red;font-size: 14px;float: left;line-height: 34px;">过期时间 : {{item.countDownTime}}</text> -->
+            <text style="font-size: 16px;"> <text>合计：<text style="color: var(--TONGYI);">￥{{item.payment}}</text></text></text>
+            <view wx:if="{{item.logistics == 3}}" style="float: left; margin-left: 20rpx;margin-top: 10rpx;">
+              <button type="primary" bindtap="scanningCode" data-data="{{item.ordernum}}" size="mini">扫码收货</button>
+              <!-- <button type="warn" bindtap="refund" data-data="{{item.ordernum}}" size="mini">申请退款</button> -->
+            </view>
+            <view wx:if="{{(item.logistics == 4||item.logistics==5)&&item.is_comment == 0}}" style="float: left; margin-left: 20rpx;margin-top: 10rpx;">
+              <button type="primary" style="background-color: var(--TONGYI);" bindtap="evaluate" data-data="{{item.ordernum}}" size="mini">评价</button>
+              <!-- <button type="warn" bindtap="refund" data-data="{{item.ordernum}}" size="mini">申请退款</button> -->
+            </view>
+            <view wx:if="{{item.logistics == 0}}" style="float: left; margin-left: 20rpx;margin-top: 10rpx;">
+              <button type="primary" style="background-color: var(--TONGYI);" bindtap="takeDelivery" data-data="{{item.ordernum}}" size="mini">收货</button>
+              <!-- <button type="warn" bindtap="refund" data-data="{{item.ordernum}}" size="mini">申请退款</button> -->
+            </view>
+            <!-- <view wx:if="{{item.refundadmin_id !== 1}}" style="float: left; margin-left: 20rpx;margin-top: 10rpx;">
             <button type="warn" bindtap="refund" data-data="{{item.ordernum}}" size="mini">申请退款</button>
           </view> -->
+          </view>
         </view>
       </view>
       <view style="height: {{tabbarHeight}}px;">
@@ -56,11 +71,42 @@
   <!-- 待付款 -->
   <swiper-item>
     <scroll-view style="height:calc(100vh - {{bottomLift+105}}px);" bindscrolltolower="noPaymentScroll" class="chanpins" scroll-y="true">
-      <view style="border-bottom: 20rpx solid #f5f5f5;margin-bottom: 20rpx;" wx:for="{{noPayment}}" wx:if="{{item.isShow != 'no'}}" wx:key="id">
-        <view class="danhao">
-          单号 {{item.ordernum}} | 时间：{{item.created_at}}
+      <van-empty wx:if="{{isShowNot}}" description="没有待付款">
+      </van-empty>
+      <view wx:for="{{noPayment}}" wx:if="{{item.isShow != 'no'}}" wx:key="id">
+        <view class="curBox">
+          <view class="danhao" style="    border-radius: 10px 10px 0 0;">
+            <view>单号：{{item.ordernum}} </view>
+            <view class="textBox">代发货</view>
+          </view>
+          <view wx:for="{{item.order_detail}}" wx:key="index" wx:for-item="detail">
+            <van-card price-class="vanPrice" title-class="vanTitle" custom-class="vanCand" num=" {{detail.number}} " price="{{filter.toFixed(detail.price)}}" title="{{detail.product.title}}" thumb="{{href}}{{detail.product.simg}}">
+              <view slot="desc">
+                <view class="sales">销售：{{detail.product.salenum}} 件 / 库存：{{detail.product.stock}}件
+                </view>
+              </view>
+              <view slot="footer">
+                <view style="height: 1px;background-color:rgba(238, 238, 238, 1);margin: 10px 0;"></view>
+                <view style="margin:10px 0;display: flex;align-items: center;justify-content: space-between;">
+                  <text style="font-size: 12px;color: gray;text-align: left;"> 下单时间：{{item.created_at}}</text>
+                  <!-- <text style="color: red;font-size: 14px;float: left;line-height: 34px;">过期时间 : {{item.countDownTime}}</text> -->
+                  <text style="font-size: 12px;color: gray;">实付款： <text style="color: var(--TONGYI);">￥{{filter.toFixed(detail.totalprice)}}</text></text>
+                </view>
+                <!-- <van-button size="mini">取消订单</van-button>
+              <van-button size="mini">立即支付</van-button> -->
+              </view>
+            </van-card>
+          </view>
+          <view style="padding: 0 10px 10px;display: flex;justify-content: space-between;">
+            <text style="color: rgba(212, 19, 18, 1);font-size: 12px;float: left;line-height: 34px;">过期时间 : {{item.countDownTime}}</text>
+            <view>
+              <van-button bindtap="cancelOrder" data-item="{{item}}" custom-class="vanBut" size="small" color="var(--TONGYI)" round plain type="primary">取消订单</van-button>
+              <van-button bindtap="topay" data-ordernum="{{item.ordernum}}" custom-class="vanBut" style="margin-left: 15px;" size="small" color="var(--TONGYI)" round type="primary">立即支付</van-button>
+            </view>
+          </view>
         </view>
-        <view wx:for="{{item.order_detail}}" wx:for-item="detail" class="chanpin ">
+        <!-- <view wx:for="{{item.order_detail}}" wx:for-item="detail" class="chanpin ">
+
           <image class="chanpin-img" mode="aspectFit" src="{{href}}{{detail.product.simg}}"></image>
           <view class="chanpin-info">
             <view class="name">{{detail.product.title}}</view>
@@ -72,18 +118,6 @@
             <text class="mytext" hidden=""> {{detail.number}} 件 </text>
           </view>
         </view>
-        <!-- <view class="chanpin">
-          <image class="chanpin-img" src="/img/cp02.jpg"></image>
-          <view class="chanpin-info">
-            <view class="name">HFP秋冬季补水保湿亮肤套装</view>
-            <view class="sales">月售：231 件 / 库存：11件
-            </view>
-            <view class="price">￥：329.00</view>
-          </view>
-          <view class="chanpin-num">
-            <text class="mytext" hidden=""> 1 件 </text>
-          </view>
-        </view> -->
 
         <view class="jiesuan">
           <text>【待付款】 产品金额：¥{{item.price}} (运费￥{{item.delivery_fee}}) </text>
@@ -92,7 +126,7 @@
         <view class="caozuo">
           <button bindtap="cancelOrder" data-item="{{item}}" size='mini'>取消订单</button>
           <button bindtap="topay" style="background-color: var(--TONGYI);" data-ordernum="{{item.ordernum}}" type="primary" size='mini'>去付款</button>
-        </view>
+        </view> -->
       </view>
       <view style="height: {{tabbarHeight}}px;">
       </view>
@@ -101,8 +135,38 @@
   <!-- 取消 -->
   <swiper-item>
     <scroll-view style="height:calc(100vh - {{bottomLift+105}}px);" bindscrolltolower="cancelScroll" class="chanpins" scroll-y="true">
+
       <view class="orderDetails" wx:for="{{canceled}}" wx:key="id">
-        <view class="orderListTitle">
+        <view class="curBox">
+          <view class="danhao" style="    border-radius: 10px 10px 0 0;">
+            <view>单号：{{item.ordernum}} </view>
+            <view class="textBox">{{item.status == 2?'超时取消':'手动取消'}}</view>
+          </view>
+          <view wx:for="{{item.order_detail}}" wx:key="index" wx:for-item="detail">
+            <van-card price-class="vanPrice" title-class="vanTitle" custom-class="vanCand2" num=" {{detail.number}} " price="{{filter.toFixed(detail.price)}}" title="{{detail.product.title}}" thumb="{{href}}{{detail.product.simg}}">
+              <view slot="desc">
+                <view class="sales">销售：{{detail.product.salenum}} 件 / 库存：{{detail.product.stock}}件
+                </view>
+              </view>
+              <view slot="footer">
+                <view style="height: 1px;background-color:rgba(238, 238, 238, 1);margin: 10px 0;"></view>
+
+
+                <!-- <van-button size="mini">取消订单</van-button>
+              <van-button size="mini">立即支付</van-button> -->
+              </view>
+            </van-card>
+
+          </view>
+          <view style="padding:0 10px 10px;display: flex;align-items: center;justify-content: space-between;">
+            <text style="color: rgba(212, 19, 18, 1);font-size: 12px;float: left;line-height: 34px;">关闭时间 : {{item.closedtime}}</text>
+
+            <!-- <text style="color: red;font-size: 14px;float: left;line-height: 34px;">过期时间 : {{item.countDownTime}}</text> -->
+            <text style="font-size: 16px;"> <text>合计：<text style="color: var(--TONGYI);">￥{{item.payment}}</text></text></text>
+          </view>
+        </view>
+
+        <!-- <view class="orderListTitle">
           <text class="userName">订单号 : {{item.ordernum}}</text>
           <text class="orderStatus">{{item.status == 2?'超时取消':'手动取消'}}</text>
         </view>
@@ -119,7 +183,7 @@
           <view>
             <text>合计：￥{{item.payment}}</text>
           </view>
-        </view>
+        </view> -->
       </view>
       <view style="height: {{tabbarHeight}}px;">
       </view>

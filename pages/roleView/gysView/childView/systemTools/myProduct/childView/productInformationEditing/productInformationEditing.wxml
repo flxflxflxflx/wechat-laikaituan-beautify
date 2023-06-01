@@ -9,7 +9,7 @@
         <text class="uniqueText">*</text>
       </view>
       <view style="margin: 9rpx;">
-        <input model:value="{{productTitle}}" maxlength="{{maxTextNum}}" bindinput="productTitleChange" type="text" name="" style="font-size:35rpx" placeholder="请输入商品标题" id="" />
+        <input model:value="{{productTitle}}" maxlength="{{maxTextNum}}" bindinput="productTitleChange" type="text" name="" style="font-size:14px" placeholder="请输入商品标题" id="" />
       </view>
       <view class="fontBox">
         <text>{{inputNumber}}</text>/<text>{{maxTextNum}}</text>
@@ -34,7 +34,7 @@
       </view>
       <!-- 多列选择器 -->
       <view slot="footer">
-        <productSort ccustomIndex="{{customIndex}}" bindselectedValue="commodityCategorySelectedValue" solt="footer" customArrayF="{{customArray}}"></productSort>
+        <productSort ccustomIndex="{{customIndex}}" bindselectedValue="commodityCategorySelectedValue"  customArrayF="{{customArray}}"></productSort>
       </view>
 
     </mp-cell>
@@ -93,9 +93,9 @@
           <text class="productTitle">商品规格</text>
           <text class="uniqueText">*</text>
         </view>
-        <view slot="footer" style="font-size:35rpx;display: flex;align-items: center;">
-         <input type="number" bindinput="weightChange" value="{{weightNum}}"  placeholder="请输入重量" />
-          <picker mode="selector" bindchange="bindProductSpecificationsPickerChange" range-key="title" value="{{productSpecificationsCustomIndex}}" range="{{productSpecificationsOnlyArray}}">
+        <view slot="footer" style="font-size:14px;display: flex;align-items: center;">
+          <input  type="number" bindinput="weightChange" value="{{weightNum}}" placeholder="请输入重量" />
+          <picker   mode="selector" bindchange="bindProductSpecificationsPickerChange" range-key="title" value="{{productSpecificationsCustomIndex}}" range="{{productSpecificationsOnlyArray}}">
             <view class="multiColumn">
               {{productSpecificationsOnlyArray[productSpecificationsCustomIndex].title}} <mp-icon icon="arrow" color="black" style="opacity: 0.5;" size="{{9}}"></mp-icon>
             </view>
@@ -107,7 +107,7 @@
           <text class="productTitle">现货库存</text>
           <text class="uniqueText">*</text>
         </view>
-        <view slot="footer" style="font-size:35rpx">
+        <view slot="footer" style="font-size:14px">
           <input type="digit" model:value="{{commodityInventory}}" placeholder="请输入库存" name="" id="" />
         </view>
       </mp-cell>
@@ -122,7 +122,7 @@
           <text class="productTitle">供货价</text>
           <text class="uniqueText">*</text>
         </view>
-        <view slot="footer" style="font-size:35rpx">
+        <view slot="footer" style="font-size:14px">
           <input type="digit" model:value="{{supplyPrice}}" placeholder="请输入供货价" name="" id="" />
         </view>
       </mp-cell>
@@ -131,7 +131,7 @@
           <text class="productTitle">建议价格</text>
           <text class="uniqueText">*</text>
         </view>
-        <view slot="footer" style="font-size:35rpx">
+        <view slot="footer" style="font-size:14px">
           <input type="digit" model:value="{{recommendedprice}}" placeholder="请输入建议价格" name="" id="" />
         </view>
       </mp-cell>

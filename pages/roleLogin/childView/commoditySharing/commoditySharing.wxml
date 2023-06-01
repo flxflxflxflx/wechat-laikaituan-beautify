@@ -35,13 +35,14 @@
     <checkbox-group bindchange="">
       <block wx:for='{{dataList}}' wx:key='index' wx:for-item="item">
 
-        <van-card custom-class="vancard" catchtap="onListbtn" data-item="{{item}}" price="{{filter.toFixed(item.supplyprice)}}" title="{{item.title}}" thumb="{{imghref}}{{item.simg}}">
+        <van-card price-class="vanPrice" title-class="vanTitle" custom-class="vanCand" catchtap="onListbtn" data-item="{{item}}" price="{{filter.toFixed(item.supplyprice)}}" title="{{item.title}}" thumb="{{imghref}}{{item.simg}}">
           <view slot="desc">
             <view class="product_add">
-              <van-tag plain type="primary">{{item.scorenum}}+评分</van-tag>
-              <van-tag plain type="success">{{item.views}}+浏览</van-tag>
-              <van-tag plain type="danger">{{item.salenum}}+销售</van-tag>
-              <van-tag plain type="warning">{{item.share}}+分享</van-tag>
+              <van-tag plain custom-class="vanTag" type="primary">{{item.scorenum}}+评分</van-tag>
+              <van-tag plain custom-class="vanTag" type="success">{{item.views}}+浏览</van-tag>
+              <van-tag plain custom-class="vanTag" type="danger">{{item.salenum}}+销售</van-tag>
+              <van-tag plain custom-class="vanTag" type="warning">{{item.share}}+分享</van-tag>
+
               <!-- <view>{{item.scorenum}}+评分</view>
               <view>{{item.views}}+浏览</view>
               <view>{{item.salenum}}+销售</view>
@@ -56,7 +57,7 @@
           <view slot="tags">
             <!-- 是否包分配 -->
             <view class="product_isfenpei">
-              
+
               <view wx:if="{{item.openingPrice}}"><text style="font-size: 14px;">赚</text><text style="color: #f71313;">￥<text style="font-size:16px;font-weight:600;">{{item.incomePrice}}</text></text></view>
               <!-- <van-tag wx:if="{{item.is_public == 0||item.is_my_product==1}}" mark type="primary">我的</van-tag>
               <van-tag mark wx:if="{{item.is_public}}" type="warning">公共库</van-tag> -->
@@ -101,7 +102,7 @@
 </view>
 
 <!--商品详情-->
-<mp-half-screen-dialog  extClass="mp-half-screen-dialog" bindbuttontap="buttontap" show="{{show}}" maskClosable="{{false}}" title="商品详情" subTitle="" buttons="{{buttons}}">
+<mp-half-screen-dialog extClass="mp-half-screen-dialog" bindbuttontap="buttontap" show="{{show}}" maskClosable="{{false}}" title="商品详情" subTitle="" buttons="{{buttons}}">
   <!-- <view slot="desc">
     <view wx:if="{{isnavShow}}" style="{{isnavShow?'animation:show 1s':''}}" class="swiper-tab">
       <view class="tab-item {{currentTab==0 ? 'on' : ''}}" data-current="0" bindtap="swichNav">商品</view>
@@ -168,95 +169,95 @@
   </view> -->
 
   <wxs module="filter" src="/utils/numberToFixed.wxs"></wxs>
-<view slot="desc"> 
-  <!-- <view wx:if="{{isnavShow}}" style="{{isnavShow?'animation:show 1s':''}}" class="swiper-tab">
+  <view slot="desc">
+    <!-- <view wx:if="{{isnavShow}}" style="{{isnavShow?'animation:show 1s':''}}" class="swiper-tab">
     <view class="tab-item {{currentTab==0 ? 'on' : ''}}" data-current="0" bindtap="swichNav">商品</view>
     <view class="tab-item {{currentTab==1 ? 'on' : ''}}" data-current="1" bindtap="swichNav">评价</view>
     <view class="tab-item {{currentTab==2 ? 'on' : ''}}" data-current="2" bindtap="swichNav">详情</view>
   </view> -->
-  <van-tabs color="var(--TONGYI)" wx:if="{{isnavShow}}" bind:click="swichNav">
-    <van-tab title="商品"></van-tab>
-    <van-tab title="评价"></van-tab>
-    <van-tab title="详情"></van-tab>
-  </van-tabs>
-  <scroll-view bindscroll="scrollViewScroll" style="height: {{screenHeight}}px;" scroll-y="true" scroll-into-view="{{toView}}">
-    <view id="toView0" class="continue">
-      <view class="greyBox">
-        <swiper indicator-dots current="0" style="height: 510px;">
-          <swiper-item wx:if="{{productInfo.dvideo}}">
-            <video show-mute-btn play-btn-position="center" style="width: 100%;height: 100%;" autoplay show-fullscreen-btn show-bottom-progress src="{{href}}{{productInfo.dvideo}}"></video>
-          </swiper-item>
-          <swiper-item wx:for="{{productInfo.dimgslist}}" wx:key="index" style="text-align: center;">
-            <image src="{{href}}{{item}}" style="height: 510px;width: 100%;" mode="aspectFit"></image>
-          </swiper-item>
-        </swiper>
-        <view class="bottom_box">
-          <view class="price_box">
-            <view style="display: flex;align-items: center;">
-              <view style="font-size: var(--TEXT_TITLE);color: var(--IgnoreMessage);opacity:{{productInfo.supplyprice==null?0:1}}">供应价
-                <text style="color: #f79213;">￥<text style="font-size: 35rpx;">{{productInfo.supplyprice}}</text></text>
+    <van-tabs color="var(--TONGYI)" wx:if="{{isnavShow}}" bind:click="swichNav">
+      <van-tab title="商品"></van-tab>
+      <van-tab title="评价"></van-tab>
+      <van-tab title="详情"></van-tab>
+    </van-tabs>
+    <scroll-view bindscroll="scrollViewScroll" style="height: {{screenHeight}}px;" scroll-y="true" scroll-into-view="{{toView}}">
+      <view id="toView0" class="continue">
+        <view class="greyBox">
+          <swiper indicator-dots current="0" style="height: 510px;">
+            <swiper-item wx:if="{{productInfo.dvideo}}">
+              <video show-mute-btn play-btn-position="center" style="width: 100%;height: 100%;" autoplay show-fullscreen-btn show-bottom-progress src="{{href}}{{productInfo.dvideo}}"></video>
+            </swiper-item>
+            <swiper-item wx:for="{{productInfo.dimgslist}}" wx:key="index" style="text-align: center;">
+              <image src="{{href}}{{item}}" style="height: 510px;width: 100%;" mode="aspectFit"></image>
+            </swiper-item>
+          </swiper>
+          <view class="bottom_box">
+            <view class="price_box">
+              <view style="display: flex;align-items: center;">
+                <view style="font-size: var(--TEXT_TITLE);color: var(--IgnoreMessage);opacity:{{productInfo.supplyprice==null?0:1}}">供应价
+                  <text style="color: #f79213;">￥<text style="font-size: 35rpx;">{{productInfo.supplyprice}}</text></text>
+                </view>
+                <view style="margin-left: 30rpx;font-size: var(--TEXT_TITLE);color: var(--IgnoreMessage);opacity:{{productInfo.recommendedprice==null?0:1}}">建议价<text style="color: #f79213;">￥<text style="font-size: 35rpx;">{{productInfo.recommendedprice}}</text></text></view>
+                <view></view>
               </view>
-              <view style="margin-left: 30rpx;font-size: var(--TEXT_TITLE);color: var(--IgnoreMessage);opacity:{{productInfo.recommendedprice==null?0:1}}">建议价<text style="color: #f79213;">￥<text style="font-size: 35rpx;">{{productInfo.recommendedprice}}</text></text></view>
-              <view></view>
+              <view class="sale_box">
+                销量: 0 件
+              </view>
             </view>
-            <view class="sale_box">
-              销量: 0 件
-            </view>
-          </view>
 
-          <view style="margin-top: 10rpx;">
-            <text style="font-size: 14px;font-weight: 600;">{{productInfo.title}}</text>
-          </view>
-        </view>
-      </view>
-      <!-- 评价 -->
-      <view id="toView1" class="appraise">
-        <view class="appraise_header">
-          <view>商品评价({{productInfo.scorenum}})</view>
-          <view bindtap="viewCount">查看全部 ></view>
-        </view>
-        <block wx:for="{{CommentInformation}}" wx:key="index">
-          <view style="display: flex;margin-top: 10px;">
-            <view>
-              <van-image round width="40px" fit="cover" height="40px" src="{{href}}{{item.member.avatar}}" />
-            </view>
-            <view style="margin-left: 5px;width: 100%;">
-              <view style="display: flex;justify-content: space-between;align-items: center;">
-                <view style="font-size: 14px;margin-top: 5px;">{{item.member.nickname}}</view>
-                <view style="font-size: 14px;color:rgb(181 , 181, 181 )">{{item.create}}</view>
-              </view>
-              <view>
-                <van-rate color="#ffd21e" void-color="#eee" readonly value="{{ item.score }}" bind:change="onChange" />
-              </view>
-              <view>
-                {{item.evaluate}}
-              </view>
+            <view style="margin-top: 10rpx;">
+              <text style="font-size: 14px;font-weight: 600;">{{productInfo.title}}</text>
             </view>
           </view>
-        </block>
-
-      </view>
-      <!-- 详情 -->
-      <view id="toView2" class="appraise">
-        <view class="appraise_header">
-          <view>商品详情</view>
         </view>
-        <view style="font-size: var(--TEXT_TITLE);margin-top: 10rpx;">
-          {{productInfo.details}}
-        </view>
-        <!-- 商品图片 -->
-        <view style="text-align: center;margin-top: 10rpx;">
-          <block wx:for="{{productInfo.dimgslist}}" wx:key="index">
-            <image src="{{href}}{{item}}" style="width: 100%;" mode="widthFix"></image>
+        <!-- 评价 -->
+        <view id="toView1" class="appraise">
+          <view class="appraise_header">
+            <view>商品评价({{productInfo.scorenum}})</view>
+            <view bindtap="viewCount">查看全部 ></view>
+          </view>
+          <block wx:for="{{CommentInformation}}" wx:key="index">
+            <view style="display: flex;margin-top: 10px;">
+              <view>
+                <van-image round width="40px" fit="cover" height="40px" src="{{href}}{{item.member.avatar}}" />
+              </view>
+              <view style="margin-left: 5px;width: 100%;">
+                <view style="display: flex;justify-content: space-between;align-items: center;">
+                  <view style="font-size: 14px;margin-top: 5px;">{{item.member.nickname}}</view>
+                  <view style="font-size: 14px;color:rgb(181 , 181, 181 )">{{item.create}}</view>
+                </view>
+                <view>
+                  <van-rate color="#ffd21e" void-color="#eee" readonly value="{{ item.score }}" bind:change="onChange" />
+                </view>
+                <view>
+                  {{item.evaluate}}
+                </view>
+              </view>
+            </view>
           </block>
+
+        </view>
+        <!-- 详情 -->
+        <view id="toView2" class="appraise">
+          <view class="appraise_header">
+            <view>商品详情</view>
+          </view>
+          <view style="font-size: var(--TEXT_TITLE);margin-top: 10rpx;">
+            {{productInfo.details}}
+          </view>
+          <!-- 商品图片 -->
+          <view style="text-align: center;margin-top: 10rpx;">
+            <block wx:for="{{productInfo.dimgslist}}" wx:key="index">
+              <image src="{{href}}{{item}}" style="width: 100%;" mode="widthFix"></image>
+            </block>
+          </view>
         </view>
       </view>
-    </view>
-  </scroll-view>
+    </scroll-view>
 
 
-</view>
-  
+  </view>
+
 </mp-half-screen-dialog>
 
 <!-- 分享表单 -->

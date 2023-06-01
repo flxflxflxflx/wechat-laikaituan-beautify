@@ -5,7 +5,6 @@ import {
   useCascaderAreaData,
   areaList
 } from '../../../../utils/area-data/dist/index.cjs';
-const cascaderAreaData = useCascaderAreaData();
 const app = getApp()
 // 请求数据
 Page({
@@ -19,7 +18,7 @@ Page({
     area_show: false,
     fieldValue: '',
     cascaderValue: '',
-    options: cascaderAreaData,
+    options: [],  
     href: app.globalData.apiUrl + "/uploads",
     // 开团的商品id
     openingProductId: [],
@@ -637,7 +636,9 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad(options) {
-    console.log(options.selectListData);
+    this.setData({
+      options: useCascaderAreaData()
+    })
     app.setWatcher(this);
 
     // 向后台请求角色权限

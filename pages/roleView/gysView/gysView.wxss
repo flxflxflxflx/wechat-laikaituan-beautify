@@ -23,7 +23,8 @@ button {
   justify-content: space-between;
   align-items: center;
 }
-page{
+
+page {
   font-size: 14px;
 }
 
@@ -79,10 +80,12 @@ page{
   justify-content: center;
   align-items: center;
 }
-.qrfb>button{
+
+.qrfb>button {
   font-size: var(--TEXT_TITLE);
 }
-.clearBox{
+
+.clearBox {
   overflow: hidden;
 }
 
@@ -156,67 +159,85 @@ page{
 
 
 
-.mask{
-  position: fixed;top:0;left:0;background:rgba(0,0,0,0.5);z-index:999;width:100%;height:100%;
+.mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+  width: 100%;
+  height: 100%;
 }
-.model_box{
-  width:80%;position:fixed;top:40%;left:50%;transform: translate(-50%,-50%);z-index:1000;background:#fff;height:40%;
-  border-radius:15rpx;
+
+.model_box {
+  width: 80%;
+  position: fixed;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1000;
+  background: #fff;
+  height: 40%;
+  border-radius: 15rpx;
 }
-.mb-content{
-  padding:10rpx 20rpx 10rpx 25rpx;
-  box-sizing:border-box;
-  height:80%;
-  overflow:scroll;
+
+.mb-content {
+  padding: 10rpx 20rpx 10rpx 25rpx;
+  box-sizing: border-box;
+  height: 80%;
+  overflow: scroll;
 }
-.mb-tit{
-  padding:15rpx 0rpx;
-  box-sizing:border-box;
+
+.mb-tit {
+  padding: 15rpx 0rpx;
+  box-sizing: border-box;
   font-size: 34rpx;
-  text-align:center;
+  text-align: center;
 }
-.mb-con{
-  font-size:14px;
-  text-indent:2rem;
+
+.mb-con {
+  font-size: 14px;
+  text-indent: 2rem;
   line-height: 1.5;
 }
-.checkbox{
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  height:20%;
+
+.checkbox {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 20%;
   background-color: #fff;
   border-radius: 10px;
+  padding: 10px;
 }
-.checkbox .qx{
-  width:50%;
-  text-align:center;
-  border-right:1rpx solid #efefef;
+
+.checkbox .qx {
+  width: 50%;
+  text-align: center;
+  border-right: 1rpx solid #efefef;
 }
-.checkbox .qr{
+
+.checkbox .qr {
   height: 50px;
-  position:relative;
-  display:flex;
+  position: relative;
+  display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  justify-content: space-around; 
-   align-content:flex-end;
-  width:100%;
-  box-sizing:border-box;
-  padding-right:3%;
-  
+  justify-content: space-around;
+  align-content: flex-end;
+  width: 100%;
+  box-sizing: border-box;
+  padding-right: 3%;
+
 }
 
-.bottombuttonBox{
-}
 
-.bottombuttonBox>view{
+.bottombuttonBox>view {
   border-radius: 35px !important;
   background-color: rgb(101, 196, 170) !important;
-  color:#fff !important;
+  color: #fff !important;
   font-weight: 400 !important;
   width: 150rpx;
   text-align: center;
   margin-left: 15px;
-  
 }

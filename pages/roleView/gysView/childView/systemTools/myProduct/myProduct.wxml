@@ -1,56 +1,35 @@
+<wxs module="filter" src="/utils/numberToFixed.wxs"></wxs>
 <view class='list' style="padding-bottom:{{bottomLift}}px">
   <block wx:for='{{dataList}}' wx:key='id' wx:for-item="item">
-    <view class="list_item" catchtap="onRoute" data-id="{{item.id}}">
-      <view class="product_status" wx:if="{{item.status == 2?true:false}}">
-        <view style="color: green;border: 4px solid green;">
-          审核中
+
+    <van-card price-class="vanPrice" title-class="vanTitle" custom-class="vanCand" catchtap="onRoute" data-id="{{item.id}}" price="{{filter.toFixed( item.supplyprice)}}" title="{{item.title}}" thumb="{{imghref}}{{item.simg}}">
+      <view slot="desc">
+        <view class="product_add">
+          <van-tag plain custom-class="vanTag" type="primary">{{item.scorenum}}+评分</van-tag>
+          <van-tag plain custom-class="vanTag" type="success">{{item.views}}+浏览</van-tag>
+          <van-tag plain custom-class="vanTag" type="danger">{{item.salenum}}+销售</van-tag>
+          <van-tag plain custom-class="vanTag" type="warning">{{item.share}}+分享</van-tag>
+          <!-- <view>{{item.scorenum}}+评分</view>
+              <view>{{item.views}}+浏览</view>
+              <view>{{item.salenum}}+销售</view>
+              <view>{{item.share}}+分享</view> -->
         </view>
       </view>
-      <view class="product_status" wx:if="{{item.status == 0?true:false}}">
-        <!-- <view>
-          禁用
-        </view> -->
-      </view>
-      <view class="product_status" wx:if="{{item.status == 4?true:false}}">
-        <view>
-          不通过
+      <view slot="footer">
+        <!-- <view style="opacity:{{item.supplyprice==null?0:1}}" class='price'>供应价:<text style="color: var(--Money);">￥{{item.supplyprice}}</text></view>
+        <view style="opacity:{{item.recommendedprice==null?0:1}}" class='price2'>建议价:<text style="color: var(--Money);">￥{{item.recommendedprice}}</text></view> -->
+        <view class="delete">
+          <button type="warn" size="mini" data-id="{{item.id}}" catchtap="editProduct">编辑</button>
         </view>
       </view>
-      <navigator url='details?id={{item.id}}'>
-        <view class='img'>
-          <!-- <image src="{{imghref}}{{item.simg}}" mode="aspectFit" /> -->
-          <van-image width="100%" height="100%" fit="scale-down" src="{{imghref}}{{item.simg}}" />
+      <view slot="tags">
+        <view class="product_isfenpei">
+          <van-tag wx:if="{{item.is_public == 0||item.is_my_product==1}}" mark type="primary">我的</van-tag>
+          <van-tag mark wx:if="{{item.is_public}}" type="warning">公共库</van-tag>
         </view>
-
-        <view class='info'>
-          <view class='title'>{{item.title}}</view>
-          <!-- 商品辅加信息 -->
-          <view class="product_add">
-            <view>{{item.scorenum}}+评分</view>
-            <view>{{item.views}}+浏览</view>
-            <view>{{item.salenum}}+销售</view>
-            <view>{{item.share}}+分享</view>
-          </view>
-          <!-- 是否包分配 -->
-          <view class="product_isfenpei">
-            <view class="isdelivery" wx:if="{{item.isdelivery}}">包分配</view>
-            <view class="issorting" wx:if="{{item.issorting}}">包分拣</view>
-          </view>
-          <!-- 商品底部 -->
-          <view class="product_footer">
-            <view style="opacity:{{item.supplyprice==null?0:1}}" class='price'>供应价:<text style="color: var(--Money);">￥{{item.supplyprice}}</text></view>
-            <view style="opacity:{{item.recommendedprice==null?0:1}}" class='price2'>建议价:<text style="color: var(--Money);">￥{{item.recommendedprice}}</text></view>
-            <view class="delete">
-              <button type="warn" size="mini" data-id="{{item.id}}" catchtap="editProduct">编辑</button>
-            </view>
-          </view>
-
-          <!-- <view class='num'>销量{{item.salenum}}</view> -->
-        </view>
-
-      </navigator>
-      <view class='clear'></view>
-    </view>
+      </view>
+    </van-card>
+    <view style="height: 2px;"></view>
 
   </block>
   <van-empty wx:if="{{ isShow }}" description="没有发布商品" />

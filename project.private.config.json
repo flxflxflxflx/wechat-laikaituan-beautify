@@ -36,6 +36,27 @@
           "query": "productid=3",
           "launchMode": "default",
           "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "pages/roleLogin/childView/commodityPurchase/commodityPurchase",
+          "query": "selectListData=15",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "pages/roleLogin/childView/commodityPurchase/commodityPurchase",
+          "query": "selectListData=20",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "pages/roleLogin/childView/commodityPurchase/commodityPurchase",
+          "query": "selectListData=21",
+          "launchMode": "default",
+          "scene": null
         }
       ]
     }

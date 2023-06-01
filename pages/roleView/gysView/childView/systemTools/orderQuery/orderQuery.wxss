@@ -2,14 +2,18 @@
 page {
   background-color: var(--BackGround2);
 }
-
 button {
   border-radius: 35px !important;
   background-color: rgb(101, 196, 170) !important;
   color: #fff !important;
   font-weight: 400 !important;
 }
-
+.search {
+  border-radius: 35px !important;
+  background-color: var(--TONGYI) !important;
+  color: #fff !important;
+  font-size: 14px;
+}
 .picker {
   text-align: center;
   border-bottom: 3px solid var(--TONGYI);
