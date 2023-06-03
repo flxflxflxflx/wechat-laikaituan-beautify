@@ -1,6 +1,16 @@
 <wxs module="filter" src="/utils/numberToFixed.wxs"></wxs>
-<scroll-view wx:if="{{!isCutOrder}}" scroll-y="true" style="height: calc(100% - {{groupbuyInfo.own_addr == null?150:60}}px  - {{tabbarHeight}}px);" lower-threshold='50' bindscrolltolower="searchScrollLower">
-  <view class='list'>
+<van-nav-bar
+  title="购买商品"
+  fixed
+  bind:click-left="backHome"
+  wx:if="{{isShowNav}}"
+>
+<view slot="left">
+  <van-icon name="wap-home" color="var(--IgnoreMessage)" size="20px"  />
+</view>
+</van-nav-bar>
+<scroll-view wx:if="{{!isCutOrder}}"  scroll-y="true" style="height: calc(100% - {{groupbuyInfo.own_addr == null?150:60}}px  - {{tabbarHeight}}px);" lower-threshold='50' bindscrolltolower="searchScrollLower">
+  <view class='list' style="padding-top: {{topLift+40}}px;">
     <checkbox-group bindchange="">
       <block wx:for='{{dataList}}' wx:key='index' wx:for-item="item">
         <!-- 商品 -->

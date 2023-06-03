@@ -30,7 +30,7 @@
   <mp-form-page title="" subtitle="">
     <mp-form id="form" rules="{{rules}}" models="{{formData}}">
       <!-- 供应商资格申请 -->
-      <list wx:for="{{permissions}}" mark="{{item.mark}}" wx:key="id" bind:updeteFile="{{item.mark}}uploadFile" footerts="{{item.condition}}" tips="请上传相应照片,图片 保证清晰可识别" title="{{item.condition}}">
+      <list wx:for="{{permissions}}" mark="{{item.mark}}" wx:key="id" bind:updeteFile="{{item.mark}}uploadFile"  tips="{{item.condition}}" title="{{item.title}}">
         <text slot="sqName" style="font-size: 14px;">{{item.title}}资格申请</text>
       </list>
       <mp-cells>

@@ -21,8 +21,8 @@ Page({
     tr("/TzWechatCashWithdraw", {
       account: that.data.account
     }).then(function (res) {
-      if (res.data.code ==100) {
-        console.log("获取提现记录");
+      if (res.data.code == 100) {
+        that.getAccount()
         that.getWithdrawalRecords()
       }
     })
@@ -33,13 +33,18 @@ Page({
    */
   onLoad(options) {
     let that = this
-    // 获取余额
+    this.getAccount()
+    this.getWithdrawalRecords()
+  },
+
+  // 获取余额
+  getAccount() {
+    let that = this
     tr("/getAccount").then(function (res) {
       that.setData({
         account: res.data
       })
     })
-    this.getWithdrawalRecords()
   },
 
   // 获取提现记录
@@ -48,7 +53,7 @@ Page({
     tr("/getWithdrawalRecords").then(function (res) {
       if (res.data.code == 100) {
         that.setData({
-          withdrawalRecords:res.data.result
+          withdrawalRecords: res.data.result
         })
       }
     })

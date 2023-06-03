@@ -12,49 +12,7 @@
         {
           "name": "",
           "pathName": "pages/roleLogin/childView/commodityPurchase/commodityPurchase",
-          "query": "selectListData=16",
-          "launchMode": "default",
-          "scene": null
-        },
-        {
-          "name": "",
-          "pathName": "pages/roleView/gysView/childView/systemTools/generalJournal/generalJoumal",
-          "query": "",
-          "launchMode": "default",
-          "scene": null
-        },
-        {
-          "name": "",
-          "pathName": "pages/roleLogin/childView/commodityPurchase/commodityPurchase",
-          "query": "selectListData=59",
-          "launchMode": "default",
-          "scene": null
-        },
-        {
-          "name": "",
-          "pathName": "pages/roleLogin/childView/productDetails/productDetails",
-          "query": "productid=3",
-          "launchMode": "default",
-          "scene": null
-        },
-        {
-          "name": "",
-          "pathName": "pages/roleLogin/childView/commodityPurchase/commodityPurchase",
-          "query": "selectListData=15",
-          "launchMode": "default",
-          "scene": null
-        },
-        {
-          "name": "",
-          "pathName": "pages/roleLogin/childView/commodityPurchase/commodityPurchase",
-          "query": "selectListData=20",
-          "launchMode": "default",
-          "scene": null
-        },
-        {
-          "name": "",
-          "pathName": "pages/roleLogin/childView/commodityPurchase/commodityPurchase",
-          "query": "selectListData=21",
+          "query": "selectListData=5",
           "launchMode": "default",
           "scene": null
         }

@@ -274,13 +274,13 @@
         <van-cell center title="自行配送">
           <van-switch checked="{{isSelfDelivery}}" bind:change="isSelfDelivery" active-color="var(--TONGYI)" inactive-color="#fff" />
         </van-cell>
-        <van-cell wx:if="{{!isSelfDelivery}}" required bindtap="addressShow" title="交货地址" is-link value="{{filter.stringTrim(deliveryaddress)==''?'请选择':deliveryaddress }}" />
+        <van-cell wx:if="{{!isSelfDelivery}}" required bindtap="addressShow" title="提货地址" is-link value="{{filter.stringTrim(deliveryaddress)==''?'请选择':deliveryaddress }}" />
         <van-popup show="{{ addressShow }}" position="bottom" custom-style="height: 400px;" bind:close="onAddressClose">
-          <van-picker show-toolbar title="商品选择" columns="{{ AddressColumns }}" bind:cancel="onAddressCancel" bind:confirm="onAddressConfirm" />
+          <van-picker show-toolbar title="提货地址选择" columns="{{ AddressColumns }}" bind:cancel="onAddressCancel" bind:confirm="onAddressConfirm" />
         </van-popup>
-        <van-cell center title="包邮">
+        <!-- <van-cell center title="包邮">
           <van-switch checked="{{isFreeShipping}}" bind:change="isFreeShipping" active-color="var(--TONGYI)" inactive-color="#fff" />
-        </van-cell>
+        </van-cell> -->
         <van-cell wx:if="{{!isFreeShipping}}" required title="运费金额">
           <input model:value="{{freightAmount}}" type="number" data-field="freightAmount" class="weui-input" placeholder="请输入运费金额" />
         </van-cell>

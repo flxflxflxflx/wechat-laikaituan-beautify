@@ -433,9 +433,8 @@ Page({
             productInfo: result,
             dataList,
             isShare: true,
-            selectListData: that.data.selectListData
+            selectListData: Array.from(new Set(that.data.selectListData))
           })
-          console.log(dataList, that.data.selectListData);
         }
       } else {
         let result = that.data.productInfo
@@ -457,7 +456,6 @@ Page({
           isShare: true,
           selectListData: Array.from(new Set(that.data.selectListData))
         })
-        console.log(dataList, that.data.selectListData);
       }
     } else if (res.cancel) {
       console.log('用户点击取消')
@@ -488,7 +486,7 @@ Page({
       that.setData({
         productInfo,
         show: true,
-        CommentInformation:res.data.CommentInformation
+        CommentInformation: res.data.CommentInformation
       })
     })
   },
@@ -545,8 +543,9 @@ Page({
             let selectListData = this.data.selectListData;
             selectListData.push(item.id);
             this.setData({
-              selectListData
+              selectListData: Array.from(new Set(that.data.selectListData))
             })
+            console.log(this.data.selectListData, "选择了");
           } else {
             let selectListData = this.data.selectListData;
             for (let index = 0; index < selectListData.length; index++) {
@@ -555,7 +554,7 @@ Page({
               }
             }
             this.setData({
-              selectListData
+              selectListData: Array.from(new Set(that.data.selectListData))
             })
           }
           break
@@ -564,7 +563,7 @@ Page({
       this.setData({
         dataList
       })
-      console.log(this.data.selectListData);
+      console.log(this.data.selectListData, "选择了");
     }
     this.checkboxChange()
   },
@@ -591,7 +590,7 @@ Page({
   onLoad(options) {
     this.setData({
       //获取屏幕可用高度
-      screenHeight: wx.getSystemInfoSync().windowHeight-330
+      screenHeight: wx.getSystemInfoSync().windowHeight - 330
     })
     // 选择的商品
     let selectListData = JSON.parse(options.selectListData);
@@ -667,7 +666,7 @@ Page({
     // 商品列表
     let productList = []
     let dataList = this.data.dataList
-    let selectListData = this.data.selectListData
+    let selectListData = [...new Set(this.data.selectListData)]
     for (let index = 0; index < dataList.length; index++) {
       for (let index2 = 0; index2 < selectListData.length; index2++) {
         if (dataList[index].id == selectListData[index2]) {

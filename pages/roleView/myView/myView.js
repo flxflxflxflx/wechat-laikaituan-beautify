@@ -92,7 +92,19 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow() {
-
+    let that =this
+    // 获取订单成交量
+    tr("/getOrderVolume").then(function (res) {
+      that.setData({
+        freeze: res.data
+      })
+    })
+    // 获取余额
+    tr("/getAccount").then(function (res) {
+      that.setData({
+        balance: res.data
+      })
+    })
   },
 
   /**

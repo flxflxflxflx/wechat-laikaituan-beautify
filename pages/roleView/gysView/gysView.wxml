@@ -21,7 +21,7 @@
     <!-- 上传图片 -->
     <view class="uploadImage">
       商品主图<text class="uniqueText">*</text>
-      <mp-uploader binddelete="TitledeleteImg" bindfail="TitleuploadError" bindsuccess="TitleuploadSuccess" select="{{TitleselectFile}}" upload="{{TitleuploadFile}}" files="{{Titlefiles}}" max-count="1" title="" tips=""></mp-uploader>
+      <mp-uploader ext-class="uploader" binddelete="TitledeleteImg" bindfail="TitleuploadError" bindsuccess="TitleuploadSuccess" select="{{TitleselectFile}}" upload="{{TitleuploadFile}}" files="{{Titlefiles}}" max-count="1" title="" tips=""></mp-uploader>
     </view>
   </view>
   <!-- 商品类目 -->
@@ -177,4 +177,4 @@
 <!-- 提示信息 -->
 <mp-toptips msg="{{error}}" type="error" show="{{error}}"></mp-toptips>
 
-<mp-tabbar current="1" style="position:fixed;bottom:0;width:100%;left:0;right:0;z-index: 9999;" list="{{list}}" bindchange="tabChange"></mp-tabbar>
+<mp-tabbar current="1" style="position:fixed;bottom:0;width:100%;left:0;right:0;z-index: 10;" list="{{list}}" bindchange="tabChange"></mp-tabbar>

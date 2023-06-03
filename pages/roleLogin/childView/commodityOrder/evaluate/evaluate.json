@@ -1,4 +1,5 @@
 {
+  "navigationBarTitleText": "评价",
   "usingComponents": {
     "rate": "/miniprogram_npm/wechat-miniprogram-rate"
   }

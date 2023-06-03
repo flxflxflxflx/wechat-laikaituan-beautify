@@ -170,7 +170,7 @@ Page({
               if (response.access_token != undefined) {
                 wx.setStorageSync('access_token', response.access_token);
                 wx.setStorageSync('nick_name', response.nickname);
-                wx.setStorageSync('avatar', app.globalData.apiUrl + response.avatar);
+                wx.setStorageSync('avatar', app.globalData.apiUrl +response.avatar);
                 if (wx.getStorageSync('selectListData')) {
                   wx.redirectTo({
                     url: '/pages/roleLogin/childView/commodityPurchase/commodityPurchase?selectListData=' + wx.getStorageSync('selectListData'),

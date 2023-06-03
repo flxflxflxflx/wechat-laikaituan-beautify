@@ -5,14 +5,16 @@
     <view class="tab-item {{currentTab==1 ? 'on' : ''}}" data-current="1" bindtap="swichNav">评价</view>
     <view class="tab-item {{currentTab==2 ? 'on' : ''}}" data-current="2" bindtap="swichNav">详情</view>
   </view> -->
-  <van-tabs color="var(--TONGYI)" wx:if="{{isnavShow}}" bind:click="swichNav">
+  <view style="position: fixed;width: 100%;z-index: 999999;">
+  <van-tabs color="var(--TONGYI)" active="{{currtabTab}}" wx:if="{{isnavShow}}" bind:click="swichNav">
     <van-tab title="商品"></van-tab>
     <van-tab title="评价"></van-tab>
     <van-tab title="详情"></van-tab>
   </van-tabs>
-  <scroll-view bindscroll="scrollViewScroll" style="height: {{screenHeight-44}}px;" scroll-y="true" scroll-into-view="{{toView}}">
-    <view id="toView0" class="continue">
-      <view class="greyBox">
+</view>
+  <scroll-view  bindscroll="scrollViewScroll" 	scroll-with-animation style="height: {{screenHeight-44}}px;" scroll-y="true" scroll-into-view="{{toView}}">
+    <view  class="continue">
+      <view id="toView0" class="greyBox toview">
         <swiper indicator-dots current="0" style="height: 510px;">
           <swiper-item wx:if="{{productInfo.dvideo}}">
             <video show-mute-btn play-btn-position="center" style="width: 100%;height: 100%;" autoplay show-fullscreen-btn show-bottom-progress src="{{href}}{{productInfo.dvideo}}"></video>
@@ -24,11 +26,17 @@
         <view class="bottom_box">
           <view class="price_box">
             <view style="display: flex;align-items: center;">
-              <view style="font-size: var(--TEXT_TITLE);color: var(--IgnoreMessage);opacity:{{productInfo.supplyprice==null?0:1}}">供应价
-                <text style="color: #f79213;">￥<text style="font-size: 35rpx;">{{productInfo.supplyprice}}</text></text>
-              </view>
-              <view style="margin-left: 30rpx;font-size: var(--TEXT_TITLE);color: var(--IgnoreMessage);opacity:{{productInfo.recommendedprice==null?0:1}}">建议价<text style="color: #f79213;">￥<text style="font-size: 35rpx;">{{productInfo.recommendedprice}}</text></text></view>
-              <view></view>
+              <block wx:if="{{page!='productBuy'}}">
+                <view style="font-size: var(--TEXT_TITLE);color: var(--IgnoreMessage);opacity:{{productInfo.supplyprice==null?0:1}}">供应价
+                  <text style="color: #f79213;">￥<text style="font-size: 35rpx;">{{productInfo.supplyprice}}</text></text>
+                </view>
+                <view style="margin-left: 30rpx;font-size: var(--TEXT_TITLE);color: var(--IgnoreMessage);opacity:{{productInfo.recommendedprice==null?0:1}}">建议价<text style="color: #f79213;">￥<text style="font-size: 35rpx;">{{productInfo.recommendedprice}}</text></text></view>
+              </block>
+              <block wx:else>
+                <view style="font-size: var(--TEXT_TITLE);color: var(--IgnoreMessage);">销售价
+                  <text style="color: #f79213;">￥<text style="font-size: 35rpx;">{{selling_price}}</text></text>
+                </view>
+              </block>
             </view>
             <view class="sale_box">
               销量: 0 件
@@ -41,7 +49,7 @@
         </view>
       </view>
       <!-- 评价 -->
-      <view id="toView1" class="appraise">
+      <view id="toView1" class="appraise toview">
         <view class="appraise_header">
           <view>商品评价({{productInfo.scorenum}})</view>
           <view bindtap="viewCount">查看全部 ></view>
@@ -68,12 +76,12 @@
 
       </view>
       <!-- 详情 -->
-      <view id="toView2" class="appraise">
+      <view id="toView2" class="appraise toview">
         <view class="appraise_header">
           <view>商品详情</view>
         </view>
         <view style="font-size: var(--TEXT_TITLE);margin-top: 10rpx;">
-          {{productInfo.details}}
+          {{productInfo.details?productInfo.details:''}}
         </view>
         <!-- 商品图片 -->
         <view style="text-align: center;margin-top: 10rpx;">

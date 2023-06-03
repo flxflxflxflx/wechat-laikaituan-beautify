@@ -38,7 +38,7 @@ Page({
     // 供应商--建议价格
     recommendedprice: '',
     // 服务器url
-    href: app.globalData.apiUrl + "/uploads",
+    href: app.globalData.apiUrl + "/uploads/",
     // 错误提示信息
     error: "",
     bottomLift: app.globalData.bottomLift

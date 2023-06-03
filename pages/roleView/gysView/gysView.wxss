@@ -241,3 +241,7 @@ page {
   text-align: center;
   margin-left: 15px;
 }
+
+.uploader{
+  /* height: 80px !important; */
+}

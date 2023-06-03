@@ -35,7 +35,7 @@ Page({
     selectList: [],
     // 是否显示分享按钮 
     isShare: false,
-    imghref: app.globalData.apiUrl + "/uploads",
+    imghref: app.globalData.apiUrl + "/uploads/",
     isShow: false,
     bottomLift:app.globalData.bottomLift
   },

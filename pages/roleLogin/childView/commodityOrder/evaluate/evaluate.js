@@ -9,7 +9,8 @@ Page({
     orderList: [],
     href: app.globalData.apiUrl + "/uploads",
     value: 5,
-    ispingjia: false
+    ispingjia: false,
+    ordernum: 0
   },
 
   setMessage(e) {
@@ -74,10 +75,23 @@ Page({
 
   // 删除商品
   delProduct(id) {
+    let that = this
     let orderList = this.data.orderList.orderList
     for (let index = 0; index < orderList.length; index++) {
       if (orderList[index].id == id) {
         orderList.splice(index, 1)
+        if (orderList.length == 0) {
+          // 返回上一个页面
+          let pages = getCurrentPages(); //当前页面    （pages就是获取的当前页面的JS里面所有pages的信息）
+          let prevPage = pages[pages.length - 2]; //上一页面（prevPage 就是获取的上一个页面的JS里面所有pages的信息）
+          prevPage.setData({
+            childEvlOrdernum: that.data.ordernum
+          })
+          wx.navigateBack({ //返回
+            delta: 1
+          })
+
+        }
         this.setData({
           ["orderList.orderList"]: orderList
         })
@@ -90,7 +104,9 @@ Page({
    */
   onLoad(options) {
     let that = this
-    console.log(options);
+    this.setData({
+      ordernum: options.ordernum
+    })
     // 获取评价商品信息
     tr("/getProductList", {
       ordernum: options.ordernum
@@ -117,9 +133,7 @@ Page({
   /**
    * 生命周期函数--监听页面显示
    */
-  onShow() {
-
-  },
+  onShow() {},
 
   /**
    * 生命周期函数--监听页面隐藏

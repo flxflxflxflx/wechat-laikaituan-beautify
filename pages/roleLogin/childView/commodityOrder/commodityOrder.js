@@ -49,9 +49,16 @@ Page({
     tabbarHeight: 0,
     bottomLift: app.globalData.bottomLift,
     triggered: false,
-    isShowNot: true
+    isShowNot: true,
+    childEvlOrdernum: 0,
+    topLift: wx.getSystemInfoSync()['statusBarHeight'],
+    isShowNav: false
   },
-
+  backHome() {
+    wx.reLaunch({
+      url: '/pages/roleLogin/roleLogin',
+    })
+  },
 
   // 退款
   refund(e) {
@@ -74,8 +81,13 @@ Page({
    * @description 收货
    */
   takeDelivery(e) {
+    let data = e.target.dataset.data
+    let {
+      complete_order
+    } = this.data;
+    let that = this
     tr("/confirmOrder", {
-      ordernum: e.target.dataset.data
+      ordernum: data
     }).then(function (res) {
       switch (res.data.status) {
         case 0:
@@ -88,11 +100,27 @@ Page({
           wx.showToast({
             title: '收货成功',
           })
+          // 设置评价
+          for (let i in complete_order) {
+            if (complete_order[i].ordernum == data) {
+              that.setData({
+                ["complete_order[" + i + "].logistics"]: 4
+              })
+            }
+          }
           break;
         case 2:
           wx.showToast({
             title: '已经收货成功',
           })
+          // 设置评价
+          for (let i in complete_order) {
+            if (complete_order[i].ordernum == data) {
+              that.setData({
+                ["complete_order[" + i + "].logistics"]: 4
+              })
+            }
+          }
           break;
         default:
           break;
@@ -136,7 +164,7 @@ Page({
 
   tabChange1: function (e) {
     this.setData({
-      currtab: e.detail.current
+      currtab: e.detail.current,
     })
     this.orderShow()
   },
@@ -543,6 +571,28 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow() {
+    let that = this
+    // 如果有没有团长权限隐藏回到首页
+    tr("/getUserPermissions").then(function (res) {
+      if (!res.data.isPermissionsNull) {
+        that.setData({
+          isShowNav: true
+        })
+      }
+    })
+    let pages = getCurrentPages();
+    let currPage = pages[pages.length - 1];
+    console.log(this.data.childEvlOrdernum, "dddddddddddddddddddd") //在这里已经发生改变了
+    let {
+      complete_order
+    } = this.data
+    for (let i in complete_order) {
+      if (complete_order[i].ordernum == this.data.childEvlOrdernum) {
+        this.setData({
+          ["complete_order[" + i + "].is_comment"]: 1
+        })
+      }
+    }
 
   },
 

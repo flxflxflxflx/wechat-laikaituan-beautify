@@ -18,7 +18,7 @@ Page({
     area_show: false,
     fieldValue: '',
     cascaderValue: '',
-    options: [],  
+    options: [],
     href: app.globalData.apiUrl + "/uploads",
     // 开团的商品id
     openingProductId: [],
@@ -79,7 +79,15 @@ Page({
     // 详细地址
     address: "",
     // 提交订单加载
-    submitOrderIsLoading: false
+    submitOrderIsLoading: false,
+    topLift: wx.getSystemInfoSync()['statusBarHeight'],
+    isShowNav: false
+  },
+
+  backHome() {
+    wx.reLaunch({
+      url: '/pages/roleLogin/roleLogin',
+    })
   },
 
   onClick() {
@@ -455,11 +463,12 @@ Page({
 
     let that = this
     let item = e.currentTarget.dataset.item
+
     tr("/visualizzaVolume", {
       productId: item.product.id
     })
     wx.navigateTo({
-      url: '../../childView/productDetails/productDetails?productid=' + item.product.id,
+      url: '../../childView/productDetails/productDetails?productid=' + item.product.id + "&selling_price=" + item.selling_price + "&page=productBuy",
     })
 
     // that.setData({
@@ -818,7 +827,15 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow() {
-
+    let that = this
+    // 如果有没有团长权限隐藏回到首页
+    tr("/getUserPermissions").then(function (res) {
+      if (!res.data.isPermissionsNull) {
+        that.setData({
+          isShowNav: true
+        })
+      }
+    })
   },
 
   /**

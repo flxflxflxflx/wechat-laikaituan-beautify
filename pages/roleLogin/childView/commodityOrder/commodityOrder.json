@@ -1,5 +1,6 @@
 {
   "navigationBarTitleText": "我的订单",
+  "navigationStyle": "custom",
   "usingComponents": {
     "mp-tabbar": "/weui-miniprogram/tabbar/tabbar",
     "van-tab": "@vant/weapp/tab/index",

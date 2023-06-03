@@ -39,7 +39,7 @@ Page({
     selectList: [],
     // 是否显示分享按钮
     isShare: false,
-    imghref: app.globalData.apiUrl + "/uploads",
+    imghref: app.globalData.apiUrl + "/uploads/",
     // 团长开团商品数量限制
     tz_share_num: 4,
     show: false,
@@ -494,7 +494,7 @@ Page({
             }
           }
           this.setData({
-            selectListData
+            selectListData:[...new Set(this.selectListData)]
           })
         }
         break

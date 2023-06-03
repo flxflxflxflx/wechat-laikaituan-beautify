@@ -78,7 +78,8 @@
     "van-cascader": "@vant/weapp/cascader/index",
     "van-skeleton": "@vant/weapp/skeleton/index",
     "van-row": "@vant/weapp/row/index",
-    "van-col": "@vant/weapp/col/index"
+    "van-col": "@vant/weapp/col/index",
+    "van-nav-bar": "@vant/weapp/nav-bar/index"
   },
   "sitemapLocation": "sitemap.json"
 }

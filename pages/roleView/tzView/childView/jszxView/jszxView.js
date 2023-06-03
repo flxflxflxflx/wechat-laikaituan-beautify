@@ -202,10 +202,10 @@ Page({
    * 生命周期函数--监听页面隐藏
    */
   onHide() {
-    this.data.countdownArr.forEach(element => {
-      console.log("清空");
-      clearInterval(element)
-    })
+    // this.data.countdownArr.forEach(element => {
+    //   console.log("清空");
+    //   clearInterval(element)
+    // })
   },
 
   /**
