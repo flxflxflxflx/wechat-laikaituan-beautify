@@ -7,7 +7,7 @@ Page({
    */
   data: {
     orderList: [],
-    href: app.globalData.apiUrl + "/uploads",
+    href: app.globalData.apiUrl + "/uploads/",
     value: 5,
     ispingjia: false,
     ordernum: 0

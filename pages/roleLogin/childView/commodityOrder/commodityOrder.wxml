@@ -3,7 +3,7 @@
   title="购买商品"
   fixed
   bind:click-left="backHome"
-  wx:if="{{isShowNav}}"
+  wx:if="{{false}}"
 >
 <view slot="left">
   <van-icon name="wap-home" color="var(--IgnoreMessage)" size="20px"  />

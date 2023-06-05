@@ -19,7 +19,7 @@ Page({
     fieldValue: '',
     cascaderValue: '',
     options: [],
-    href: app.globalData.apiUrl + "/uploads",
+    href: app.globalData.apiUrl + "/uploads/",
     // 开团的商品id
     openingProductId: [],
     productInfo: [],
@@ -591,9 +591,16 @@ Page({
       tr("/pay", {
         ordernum: res.data.ordersn
       }).then(function (res) {
+
         that.setData({
           submitOrderIsLoading: false
         })
+        if (res.data.code && res.data.code == 406) {
+          wx.showToast({
+            title: '订单支付失败',
+            icon: "error"
+          })
+        }
         let config = res.data
         wx.hideLoading()
         wx.requestPayment({
@@ -712,9 +719,9 @@ Page({
     return new Promise((resolve, reject) => {
       //如果不能处在token，返回登录页面
       if (!wx.getStorageSync('access_token')) {
-        wx.showToast({
-          title: '没有token',
-        })
+        // wx.showToast({
+        //   title: '没有token',
+        // })
         // 返回登录界面
         wx.redirectTo({
           url: '/pages/index/index?isXFZ=true&selectListData=' + options.selectListData,

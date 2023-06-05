@@ -57,11 +57,7 @@ export default (url, data = {}, method = 'post') => {
         }
         if (res.statusCode == 401) {
           console.log(res);
-          wx.showToast({
-            title: '没有这个token',
-            icon: "none",
-            mask: true
-          })
+      
           // if (res.data.msg == "没有这个用户") {
 
           // }

@@ -43,7 +43,7 @@ Page({
     noPayment: [], // 待付款
     canceled: [], // 已取消
     complete_order: [], // 已完成
-    href: app.globalData.apiUrl + "/uploads",
+    href: app.globalData.apiUrl + "/uploads/",
     // 定时器数组
     countdownArr: [],
     tabbarHeight: 0,
