@@ -49,7 +49,8 @@
               <view>{{item.share}}+分享</view> -->
             </view>
           </view>
-          <view slot="footer">
+          <view slot="footer" style="position: relative;">
+            <view wx:if="{{item.recommendedprice}}" style="position: absolute;top: -30px;right: 10px;">建议价格:<text style="font-size: 14px;font-weight: 600;color: var(--TONGYI);">￥{{filter.pointBefore(item.recommendedprice)}}</text><text style="font-size: 12px;font-weight: 600;color: var(--TONGYI);">{{filter.pointAfter(item.recommendedprice)}}</text></view>
             <view class="delete" catchtap="stop">
               <button size="mini" data-item="{{item}}" bindtap="setPrice">设置价格</button>
             </view>
@@ -58,7 +59,12 @@
             <!-- 是否包分配 -->
             <view class="product_isfenpei">
 
-              <view wx:if="{{item.openingPrice}}"><text style="font-size: 14px;">赚</text><text style="color: #f71313;">￥<text style="font-size:16px;font-weight:600;">{{item.incomePrice}}</text></text></view>
+              <view wx:if="{{item.openingPrice}}">
+                <text style="font-size: 14px;">赚</text>
+                <text style="color: #f71313;">￥<text style="font-size:16px;font-weight:600;">{{filter.pointBefore(item.incomePrice)}}</text>
+                  <text style="font-size:12px;font-weight:600;">{{filter.pointAfter(item.incomePrice)}}</text>
+                </text>
+              </view>
               <!-- <van-tag wx:if="{{item.is_public == 0||item.is_my_product==1}}" mark type="primary">我的</van-tag>
               <van-tag mark wx:if="{{item.is_public}}" type="warning">公共库</van-tag> -->
             </view>
@@ -246,7 +252,7 @@
             {{productInfo.details}}
           </view>
           <!-- 商品图片 -->
-          <view style="text-align: center;margin-top: 10rpx;">
+          <view style="text-align: center;display: flex;flex-direction: column;">
             <block wx:for="{{productInfo.dimgslist}}" wx:key="index">
               <image src="{{href}}{{item}}" style="width: 100%;" mode="widthFix"></image>
             </block>
@@ -271,7 +277,8 @@
             <view class="weui-input">{{date}}</view>
           </picker>
         </van-cell>
-        <van-cell center title="自行配送">
+        <!-- 这个自行配送已经去掉了,以后收货地址都要消费者来填写 -->
+        <van-cell wx:if="{{false}}" center title="自行配送">
           <van-switch checked="{{isSelfDelivery}}" bind:change="isSelfDelivery" active-color="var(--TONGYI)" inactive-color="#fff" />
         </van-cell>
         <van-cell wx:if="{{!isSelfDelivery}}" required bindtap="addressShow" title="提货地址" is-link value="{{filter.stringTrim(deliveryaddress)==''?'请选择':deliveryaddress }}" />

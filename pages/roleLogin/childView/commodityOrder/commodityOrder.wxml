@@ -1,24 +1,19 @@
 <wxs module="filter" src="/utils/numberToFixed.wxs"></wxs>
-<van-nav-bar
-  title="购买商品"
-  fixed
-  bind:click-left="backHome"
-  wx:if="{{false}}"
->
-<view slot="left">
-  <van-icon name="wap-home" color="var(--IgnoreMessage)" size="20px"  />
-</view>
+<van-nav-bar title="购买商品" fixed bind:click-left="backHome" wx:if="{{false}}">
+  <view slot="left">
+    <van-icon name="wap-home" color="var(--IgnoreMessage)" size="20px" />
+  </view>
 </van-nav-bar>
 <view style="padding-top: {{topLift+40}}px;"></view>
-<van-tabs animated sticky active="{{ currtab }}" bind:change="tabSwitch" >
+<van-tabs animated sticky active="{{ currtab }}" bind:change="tabSwitch">
   <van-tab wx:for="{{swipertab}}" wx:key="index" title="{{item.name}}" name="{{item.index}}"></van-tab>
 </van-tabs>
 
-<swiper current="{{currtab}}" class="swiper-box" duration="300" style="height:{{deviceH - 100}}px;" bindchange="tabChange1">
+<swiper current="{{currtab}}" class="swiper-box" duration="300" style="height:{{deviceH - 200}}px;" bindchange="tabChange1">
   <!-- 已付款 -->
   <swiper-item>
-    <scroll-view style="height:calc(100vh - {{bottomLift+105}}px);" class="chanpins" bindscrolltolower="completeScorll" refresher-enabled="{{true}}" refresher-threshold="{{100}}" refresher-default-style="white" refresher-background="var(--TONGYI)" refresher-triggered="{{triggered}}" bindrefresherpulling="onPulling" bindrefresherrefresh="onYRefresh" bindrefresherrestore="onRestore" bindrefresherabort="onAbort" scroll-y="true">
-      <view class="orderDetails"  wx:for="{{complete_order}}" wx:key="id">
+    <scroll-view style="height:calc(100vh - {{bottomLift+topLift+40+110}}px);" class="chanpins" bindscrolltolower="completeScorll" refresher-enabled="{{true}}" refresher-threshold="{{100}}" refresher-default-style="white" refresher-background="var(--TONGYI)" refresher-triggered="{{triggered}}" bindrefresherpulling="onPulling" bindrefresherrefresh="onYRefresh" bindrefresherrestore="onRestore" bindrefresherabort="onAbort" scroll-y="true">
+      <view class="orderDetails" wx:for="{{complete_order}}" wx:key="id">
         <view class="curBox">
           <view class="danhao" style="    border-radius: 10px 10px 0 0;">
             <view>单号：{{item.ordernum}} </view>
@@ -47,7 +42,6 @@
           </view>
           <view style="padding:0 10px 10px;display: flex;flex-wrap: wrap; align-items: center;justify-content: space-between;">
             <text style="color: rgba(212, 19, 18, 1);font-size: 12px;float: left;line-height: 34px;">付款时间 : {{item.paytime}}</text>
-
             <!-- <text style="color: red;font-size: 14px;float: left;line-height: 34px;">过期时间 : {{item.countDownTime}}</text> -->
             <text style="font-size: 16px;margin-left: 10px;"> <text>合计：<text style="color: var(--TONGYI);">￥{{item.payment}}</text></text></text>
             <view wx:if="{{item.logistics == 3}}" style="float: left; margin-left: 20rpx;margin-top: 10rpx;">
@@ -74,7 +68,7 @@
   </swiper-item>
   <!-- 待付款 -->
   <swiper-item>
-    <scroll-view style="height:calc(100vh - {{bottomLift+105}}px);" bindscrolltolower="noPaymentScroll" class="chanpins" scroll-y="true">
+    <scroll-view style="height:calc(100vh - {{bottomLift+topLift+40+110}}px);" bindscrolltolower="noPaymentScroll" class="chanpins" scroll-y="true">
       <van-empty wx:if="{{isShowNot}}" description="没有待付款">
       </van-empty>
       <view wx:for="{{noPayment}}" wx:if="{{item.isShow != 'no'}}" wx:key="id">
@@ -105,7 +99,7 @@
             <text style="color: rgba(212, 19, 18, 1);font-size: 12px;float: left;line-height: 34px;">过期时间 : {{item.countDownTime}}</text>
             <view>
               <van-button bindtap="cancelOrder" data-item="{{item}}" custom-class="vanBut" size="small" color="var(--TONGYI)" round plain type="primary">取消订单</van-button>
-              <van-button bindtap="topay" data-ordernum="{{item.ordernum}}" custom-class="vanBut" style="margin-left: 15px;" size="small" color="var(--TONGYI)" round type="primary">立即支付</van-button>
+              <van-button bindtap="topay" data-groupbuyId="{{item.groupbuy_id}}" data-ordernum="{{item.ordernum}}" custom-class="vanBut" style="margin-left: 15px;" size="small" color="var(--TONGYI)" round type="primary">立即支付</van-button>
             </view>
           </view>
         </view>
@@ -138,7 +132,7 @@
   </swiper-item>
   <!-- 取消 -->
   <swiper-item>
-    <scroll-view style="height:calc(100vh - {{bottomLift+105}}px);" bindscrolltolower="cancelScroll" class="chanpins" scroll-y="true">
+    <scroll-view style="height:calc(100vh - {{bottomLift+topLift+40+110}}px);" bindscrolltolower="cancelScroll" class="chanpins" scroll-y="true">
 
       <view class="orderDetails" wx:for="{{canceled}}" wx:key="id">
         <view class="curBox">
@@ -197,3 +191,5 @@
 </swiper>
 
 <mp-tabbar current='1' class="tabbar" style="position:fixed;bottom:0;width:100%;left:0;right:0;z-index: 9999;" list="{{list}}" bindchange="tabChange"></mp-tabbar>
+
+<van-share-sheet show="{{ showShare }}" options="{{ options2 }}" bind:select="onSheetSelect" bind:close="onSheetClose" />

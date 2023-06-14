@@ -16,7 +16,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-    currtab: 1,
+    currtab: 0,
     swipertab: [{
       name: '已付款',
       index: 0
@@ -52,8 +52,56 @@ Page({
     isShowNot: true,
     childEvlOrdernum: 0,
     topLift: wx.getSystemInfoSync()['statusBarHeight'],
-    isShowNav: false
+    isShowNav: false,
+    showShare: false,
+    options2: [{
+        name: '微信',
+        icon: 'wechat',
+        openType: "share"
+      },
+      {
+        name: '复制链接',
+        icon: 'link',
+      }
+    ],
+    groupbuyId: 0
   },
+
+
+  onSheetClick(event) {
+    this.setData({
+      showShare: true
+    });
+  },
+
+  onSheetClose() {
+    this.setData({
+      showShare: false
+    });
+  },
+
+  onSheetSelect(event) {
+    console.log(event);
+    if (event.detail.name == "复制链接") {
+      // 获取短链接   
+      tr("/getShortLink", {
+        url: "/pages/roleLogin/childView/commodityPurchase/commodityPurchase?selectListData=" + this.data.openingProductId
+      }).then(function (res) {
+        console.log(res);
+      })
+      wx.setClipboardData({
+        data: "/pages/roleLogin/childView/commodityPurchase/commodityPurchase?selectListData=" + this.data.openingProductId,
+        success: function (res) {
+          wx.showToast({
+            title: '复制成功',
+            icon: "success"
+          });
+        }
+      });
+    }
+    this.onSheetClose();
+  },
+
   backHome() {
     wx.reLaunch({
       url: '/pages/roleLogin/roleLogin',
@@ -121,6 +169,13 @@ Page({
               })
             }
           }
+          break;
+        case 3:
+          wx.showToast({
+            title: '请' + res.data.ttl + '小时后进行收货',
+            icon: "none",
+            duration: 3000
+          })
           break;
         default:
           break;
@@ -462,6 +517,9 @@ Page({
 
   // 去付款 
   topay(e) {
+    let {
+      groupbuyid
+    } = e.target.dataset
     let that = this
     // 调用微信付款
     // 进行支付
@@ -514,6 +572,11 @@ Page({
             console.log("获取订阅权限成功");
           }, function (e) {
             console.log(e);
+          })
+
+          that.setData({
+            showShare: true,
+            groupbuyId: groupbuyid
           })
         },
         fail() {
@@ -634,6 +697,20 @@ Page({
    * 用户点击右上角分享
    */
   onShareAppMessage() {
+    wx.showShareMenu({
+      withShareTicket: true,
+      menu: ['shareappmessage', 'shareTimeline']
+    })
+    let title = ''
+    this.data.dataList.forEach(function (item) {
+      title += item.product.title + "\n"
+    })
+    return {
+      // title: wx.getStorageSync('nick_name') + "团长的商品组合",
+      title: title,
+      path: "/pages/roleLogin/childView/commodityPurchase/commodityPurchase?selectListData=" + this.data.groupbuyId,
+      imageUrl: ""
+    }
 
   }
 })

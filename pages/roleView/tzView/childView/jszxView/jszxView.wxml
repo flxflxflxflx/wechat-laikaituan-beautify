@@ -18,7 +18,7 @@
             承担配送费
           </checkbox> -->
             <view>
-              <button class="button" catchtap="ReopenTheGroup" data-groupbuy="{{item}}" size="mini">再次开团</button>
+              <button class="button kaituanBtn" catchtap="ReopenTheGroup" data-groupbuy="{{item}}" size="mini">再次开团</button>
             </view>
           </view>
         </view>

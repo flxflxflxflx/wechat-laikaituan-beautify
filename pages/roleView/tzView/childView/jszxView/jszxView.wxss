@@ -88,6 +88,19 @@ page {
 
 
 
+@media only screen and (min-width: 200px) and (max-width: 300px) {
+  .kaituanBtn {
+    font-size: 10px !important;
+  }
+}
+
+
+@media only screen and (min-width: 0px) and (max-width: 200px) {
+  .kaituanBtn {
+    font-size: 70% !important;
+  }
+}
+
 .jiesuan {
   font-size: 14px;
   color: gray;

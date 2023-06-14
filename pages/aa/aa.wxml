@@ -1,0 +1,19 @@
+<van-field
+  value="{{ fieldValue }}"
+  is-link
+  readonly
+  label="地区"
+  placeholder="请选择所在地区"
+  bind:tap="onClick"
+/>
+<van-popup show="{{ show }}" round position="bottom">
+  <van-cascader
+    wx:if="{{ show }}"
+    value="{{ cascaderValue }}"
+    title="请选择所在地区"
+    options="{{ options }}"
+    bind:close="onClose"
+    bind:change="onChange"
+    bind:finish="onFinish"
+  />
+</van-popup>

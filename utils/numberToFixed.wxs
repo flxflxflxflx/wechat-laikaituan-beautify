@@ -23,6 +23,28 @@ var filter = {
   },
   stringTrim: function (value) {
     return value.trim()
+  },
+  // 小数点前
+  pointBefore: function (x) {
+    var price = x.toString()
+    if (price && price.indexOf(".") != -1) {
+      return price.substring(0, price.indexOf("."))
+    } else {
+      return price;
+    }
+
+  },
+  // 小数点跟小数点后
+  pointAfter: function (x) {
+    if (typeof (x) == 'string') {
+      var x = parseFloat(x)
+    }
+    var price = x.toFixed(2).toString()
+    if (price && price.indexOf(".") != -1) {
+      return price.substring(price.indexOf("."), price.length)
+    } else {
+      return ".00";
+    }
   }
 }
 // 导出对外暴露的属性
@@ -30,5 +52,7 @@ module.exports = {
   numberToFixed: filter.numberToFixed,
   stringTrim: filter.stringTrim,
   toFixed: filter.toFixed,
-  toFixed2: filter.toFixed2
+  toFixed2: filter.toFixed2,
+  pointBefore: filter.pointBefore,
+  pointAfter: filter.pointAfter
 }

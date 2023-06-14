@@ -18,8 +18,13 @@ Page({
     area_show: false,
     fieldValue: '',
     cascaderValue: '',
-    options: [],
+    options: [{
+      text: '浙江省',
+      value: '330000',
+      children: [],
+    }],
     href: app.globalData.apiUrl + "/uploads/",
+    href2:app.globalData.apiUrl,
     // 开团的商品id
     openingProductId: [],
     productInfo: [],
@@ -81,8 +86,26 @@ Page({
     // 提交订单加载
     submitOrderIsLoading: false,
     topLift: wx.getSystemInfoSync()['statusBarHeight'],
-    isShowNav: false
+    isShowNav: false,
+    showShare: false,
+    // 保存二级标题信息
+    twoTitleInfomation: [],
+    // 头像
+    avatar: "",
+    nickName: '',
+    phone: ''
   },
+
+  getUserInfo(event) {
+    console.log(event.detail);
+  },
+
+  onUserClose() {
+    this.setData({
+      showShare: false
+    });
+  }, 
+
 
   backHome() {
     wx.reLaunch({
@@ -90,11 +113,7 @@ Page({
     })
   },
 
-  onClick() {
-    this.setData({
-      area_show: true,
-    });
-  },
+
 
   onAddressChange(e) {
     this.setData({
@@ -633,6 +652,10 @@ Page({
             }, function (e) {
               console.log(e);
             })
+            // 进行分享
+            that.setData({
+              showShare: true
+            })
           },
           fail() {
             that.setData({
@@ -646,15 +669,114 @@ Page({
 
 
   },
-  // 支付商品
+  onClick() {
+    this.addressDataHandle(areaList.province_list, 0);
+    this.setData({
+      area_show: true,
+    });
+  },
+  onChange(e) {
+    const {
+      value
+    } = e.detail;
+    if (e.detail.tabIndex == 0) {
+      this.addressDataHandle(areaList.city_list, 1, e.detail.value)
+    } else if (e.detail.tabIndex = 1) {
+      this.setData({
+        twoTitleInfomation: e.detail.value
+      })
+      this.addressDataHandle(areaList.county_list, 2, e.detail.value)
+    }
+  },
+
+  // 地址数据处理  
+  addressDataHandle(area, index, code = null) {
+    // 地址数据
+    let addressData = function (isEnd = false) {
+      let list = Object.entries(area).map(item => {
+        if (isEnd) {
+          return {
+            ['text']: item[1],
+            ['value']: item[0]
+          }
+        } else {
+          return {
+            ['text']: item[1],
+            ['value']: item[0],
+            ['children']: []
+          }
+        }
+      })
+      return list
+    }
+
+    if (index == 0) {
+      let list = addressData()
+      this.setData({
+        options: list
+      })
+    } else if (index == 1) {
+      let list = addressData()
+
+      // 进行过滤
+      let ll = list.filter(function (current, index, arr) {
+        if (current.value.substr(0, 2) == code.substr(0, 2)) {
+          return current;
+        }
+      })
+
+      let options = this.data.options
+
+      for (let i = 0; i < options.length; i++) {
+        if (options[i].value == code) {
+          options[i].children = ll;
+          let ooo = [options[i]]
+          // this.setData({
+          //   ['options[' + i + '].children']: ll,
+          // })
+          this.setData({
+            options: ooo
+          })
+          break;
+        }
+      }
+    } else if (index == 2) {
+      let list = addressData(true)
+      // 进行过滤
+      let ll = list.filter(function (current, index, arr) {
+        if (current.value.substr(0, 4) == code.substr(0, 4)) {
+          return current;
+        }
+      })
+      let options = this.data.options[0].children
+      for (let i = 0; i < options.length; i++) {
+        if (options[i].value == code) {
+          let ooo = [options[i]];
+          ooo[0].children = ll;
+          let ccc = this.data.options[0].children = ooo
+          this.setData({
+            options: ccc
+          })
+          break;
+        }
+      }
+    }
+  },
+  clicktab(e) {
+    let {
+      tabIndex
+    } = e.detail
+    if (tabIndex == 0) {
+      this.addressDataHandle(areaList.province_list, 0);
+    } else if (tabIndex == 1) {
+      this.addressDataHandle(areaList.city_list, 1, this.data.twoTitleInfomation)
+    }
+  },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad(options) {
-    this.setData({
-      options: useCascaderAreaData()
-    })
     app.setWatcher(this);
 
     // 向后台请求角色权限
@@ -709,6 +831,20 @@ Page({
         groupbuyInfo: res.data.openingInfo,
         extraCosts: res.data.openingInfo.delivery_fee,
         basesInfo: res.data.basesInfo
+      })
+    })
+
+    // 获取用户信息
+    tr("/getUserInfo").then(function (res) {
+      let {
+        nickname,
+        phone,
+        avatar
+      } = res.data
+      that.setData({
+        nickName: nickname,
+        phone,
+        avatar
       })
     })
 
@@ -872,11 +1008,23 @@ Page({
   onReachBottom() {
 
   },
-
   /**
    * 用户点击右上角分享
    */
   onShareAppMessage() {
-
+    wx.showShareMenu({
+      withShareTicket: true,
+      menu: ['shareappmessage', 'shareTimeline']
+    })
+    let title = ''
+    this.data.dataList.forEach(function (item) {
+      title += item.product.title + "\n"
+    })
+    return {
+      // title: wx.getStorageSync('nick_name') + "团长的商品组合",
+      title: title,
+      path: "/pages/roleLogin/childView/commodityPurchase/commodityPurchase?selectListData=" + openingProductId,
+      imageUrl: ""
+    }
   }
 })

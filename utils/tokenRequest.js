@@ -38,11 +38,6 @@ export default (url, data = {}, method = 'post') => {
         }
         if (res.statusCode == 408) {
           console.log(res);
-          wx.showToast({
-            title: 'toke刷新401',
-            icon: "none",
-            mask: true
-          })
           if (res.data.msg == "token过期，请重新登录") {
             wx.redirectTo({
               url: '/pages/index/index',

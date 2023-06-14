@@ -6,14 +6,14 @@
     <view class="tab-item {{currentTab==2 ? 'on' : ''}}" data-current="2" bindtap="swichNav">详情</view>
   </view> -->
   <view style="position: fixed;width: 100%;z-index: 999999;">
-  <van-tabs color="var(--TONGYI)" active="{{currtabTab}}" wx:if="{{isnavShow}}" bind:click="swichNav">
-    <van-tab title="商品"></van-tab>
-    <van-tab title="评价"></van-tab>
-    <van-tab title="详情"></van-tab>
-  </van-tabs>
-</view>
-  <scroll-view  bindscroll="scrollViewScroll" 	scroll-with-animation style="height: {{screenHeight-44}}px;" scroll-y="true" scroll-into-view="{{toView}}">
-    <view  class="continue">
+    <van-tabs color="var(--TONGYI)" active="{{currtabTab}}" wx:if="{{isnavShow}}" bind:click="swichNav">
+      <van-tab title="商品"></van-tab>
+      <van-tab title="评价"></van-tab>
+      <van-tab title="详情"></van-tab>
+    </van-tabs>
+  </view>
+  <scroll-view bindscroll="scrollViewScroll" scroll-with-animation style="height: {{screenHeight-44}}px;" scroll-y="true" scroll-into-view="{{toView}}">
+    <view class="continue">
       <view id="toView0" class="greyBox toview">
         <swiper indicator-dots current="0" style="height: 510px;">
           <swiper-item wx:if="{{productInfo.dvideo}}">
@@ -84,12 +84,16 @@
           {{productInfo.details?productInfo.details:''}}
         </view>
         <!-- 商品图片 -->
-        <view style="text-align: center;margin-top: 10rpx;">
+        <view style="text-align: center; display: flex; flex-direction: column;">
           <block wx:for="{{productInfo.dimgslist}}" wx:key="index">
             <image src="{{href}}{{item}}" style="width: 100%;" mode="widthFix"></image>
           </block>
         </view>
       </view>
+      <!-- <van-submit-bar button-text="选择数量" bind:submit="onClickButton" tip="{{ true }}">
+        <van-tag type="primary">dd</van-tag>
+        <view>文件的规范</view>
+      </van-submit-bar> -->
     </view>
   </scroll-view>
 

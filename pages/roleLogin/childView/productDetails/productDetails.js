@@ -84,7 +84,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad(options) {
-    console.log(options);
+    console.log(options.page);
 
     this.setData({
       //获取屏幕可用高度

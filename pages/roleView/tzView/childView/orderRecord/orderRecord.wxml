@@ -21,11 +21,11 @@
       <van-checkbox label-class="baoyou_label" data-item="{{index}}" custom-class="baoyou" value="{{item.distributionfee}}" bind:change="onChange">包邮</van-checkbox>
     </view>
   </view> -->
-  <van-card num="2" tag="付立翔" price="{{filter.toFixed(item.payment)}}" title="{{item.ordernum}}" thumb="{{href+item.avatar}}">
+  <van-card  tag="{{item.nickname}}" price-class="vanPrice" price="{{filter.toFixed(item.payment)}}" title="{{item.ordernum}}" thumb="{{href+item.avatar}}">
     <view slot="desc">
       <block wx:for="{{item.productInfo}}" wx:for-item="ite" wx:key="id">
         <view> 重量: {{ite.number*ite.weight}}{{ite.specification}}</view>
-        <view> 商品购买: {{ite.number}}*{{ite.category}}</view>
+        <view> 购买数量: {{ite.number}}*{{ite.category}}</view>
       </block>
     </view>
     <view slot="footer">

@@ -25,7 +25,8 @@
     "pages/roleView/myView/myView",
     "pages/roleView/myView/asset",
     "pages/roleView/myView/order-list/index",
-    "pages/roleView/tzView/childView/orderRecord/orderRecord"
+    "pages/roleView/tzView/childView/orderRecord/orderRecord",
+    "pages/aa/aa"
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -79,7 +80,8 @@
     "van-skeleton": "@vant/weapp/skeleton/index",
     "van-row": "@vant/weapp/row/index",
     "van-col": "@vant/weapp/col/index",
-    "van-nav-bar": "@vant/weapp/nav-bar/index"
+    "van-nav-bar": "@vant/weapp/nav-bar/index",
+    "van-share-sheet": "@vant/weapp/share-sheet/index"
   },
   "sitemapLocation": "sitemap.json"
 }

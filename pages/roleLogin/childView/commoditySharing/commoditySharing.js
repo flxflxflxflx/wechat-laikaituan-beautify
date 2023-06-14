@@ -63,11 +63,12 @@ Page({
     // 运费金额
     freightAmount: 0,
     // 是否自行配送
-    isSelfDelivery: false,
+    isSelfDelivery: true,
     AddressColumns: ['杭州', '宁波', '温州', '嘉兴', '湖州'],
     addressShow: false,
     // 评论
-    CommentInformation: []
+    CommentInformation: [],
+    toPriceRetioh: ''
   },
   addressShow() {
     this.setData({
@@ -407,10 +408,10 @@ Page({
       console.log(productInfo, "dddddddd");
       if (productInfo.supplyprice != null) {
         // 商品开团价格下限
-        let priceXiaxian = ((productInfo.supplyprice) * (110 / 100))
+        let priceXiaxian = Big((Big(productInfo.supplyprice).times(Big(that.data.toPriceRetioh).div(100))).toFixed(2, 1)).toNumber()
         if (res.content < priceXiaxian) {
           wx.showToast({
-            title: '开团价格不得低于供应价110%',
+            title: '开团价格不得低于' + Big(priceXiaxian).toFixed(2,1),
             icon: "none"
           })
         } else {
@@ -421,7 +422,7 @@ Page({
               dataList[index]["openingPrice"] = Big(res.content).toFixed(2, 1)
               // 设置赚的价格
               let arg1 = Big(dataList[index]["supplyprice"])
-              dataList[index]["incomePrice"] = Big(Big(res.content).toFixed(2, 1)).minus(arg1).toNumber()
+              dataList[index]["incomePrice"] = Big(Big(res.content).toFixed(2, 1)).minus(arg1).toFixed(2,1)
               // 设置供应价
               break
             }
@@ -612,6 +613,13 @@ Page({
         AddressColumns: res.data
       })
     })
+
+    // 获取开团比例
+    tr("/getLoPriceRetio").then(function (res) {
+      that.setData({
+        toPriceRetioh: res.data
+      })
+    })
   },
 
   /**
@@ -660,7 +668,7 @@ Page({
   onShareAppMessage: async function () {
     wx.showShareMenu({
       withShareTicket: true,
-      menu: ['shareAppMessage', 'shareTimeline']
+      menu: ['shareappmessage', 'shareTimeline']
     })
 
     // 商品列表
@@ -674,6 +682,7 @@ Page({
         }
       }
     }
+
 
     let openingId = '';
     // 是否包邮
@@ -710,9 +719,14 @@ Page({
       openingId = res.data.data
     })
 
+    let title = ''
+    productList.forEach(function (item) {
+      title += item.title + "\n"
+    })
+
     return {
       // title: wx.getStorageSync('nick_name') + "团长的商品组合",
-      title: "莱开团微商开团工具",
+      title: title,
       path: "/pages/roleLogin/childView/commodityPurchase/commodityPurchase?selectListData=" + openingId,
       imageUrl: ""
     }

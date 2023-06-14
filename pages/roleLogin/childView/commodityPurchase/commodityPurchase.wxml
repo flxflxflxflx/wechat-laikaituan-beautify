@@ -1,15 +1,10 @@
 <wxs module="filter" src="/utils/numberToFixed.wxs"></wxs>
-<van-nav-bar
-  title="购买商品"
-  fixed
-  bind:click-left="backHome"
-  wx:if="{{false}}"
->
-<view slot="left">
-  <van-icon name="wap-home" color="var(--IgnoreMessage)" size="20px"  />
-</view>
+<van-nav-bar title="购买商品" fixed bind:click-left="backHome" wx:if="{{false}}">
+  <view slot="left">
+    <van-icon name="wap-home" color="var(--IgnoreMessage)" size="20px" />
+  </view>
 </van-nav-bar>
-<scroll-view wx:if="{{!isCutOrder}}"  scroll-y="true" style="height: calc(100% - {{groupbuyInfo.own_addr == null?150:60}}px  - {{tabbarHeight}}px);" lower-threshold='50' bindscrolltolower="searchScrollLower">
+<scroll-view wx:if="{{!isCutOrder}}" scroll-y="true" style="height: calc(100% - {{groupbuyInfo.own_addr == null?150:60}}px  - {{tabbarHeight}}px);" lower-threshold='50' bindscrolltolower="searchScrollLower">
   <view class='list' style="padding-top: {{topLift+40}}px;">
     <checkbox-group bindchange="">
       <block wx:for='{{dataList}}' wx:key='index' wx:for-item="item">
@@ -134,8 +129,6 @@
     <view style="clear: both;"></view>
   </view>
 
-
-
   <view wx:if="{{groupbuyInfo.own_addr == null?true:false}}" style="font-size: 14px;">
     <!-- <view>自备提货点 :</view> -->
     <!-- <view style="margin-left: 20rpx;"> -->
@@ -150,7 +143,7 @@
     </view> -->
     <van-field value="{{ fieldValue }}" is-link readonly label="地区" placeholder="请选择所在地区" bind:tap="onClick" />
     <van-popup show="{{ area_show }}" round position="top">
-      <van-cascader wx:if="{{ area_show }}" value="{{ cascaderValue }}" title="请选择所在地区" options="{{ options }}" bind:close="onClose" bind:finish="onFinish" />
+      <van-cascader wx:if="{{ area_show }}" value="{{ cascaderValue }}" title="请选择所在地区" options="{{ options }}" bind:close="onClose" bind:click-tab="clicktab" bind:change="onChange" bind:finish="onFinish" />
     </van-popup>
     <van-cell-group>
       <van-field value="{{ address }}" bind:change="onAddressChange" label="详细地址" type="textarea" placeholder="请输入详细地址" border="{{ false }}" />
@@ -189,3 +182,29 @@
   </view>
 </mp-half-screen-dialog>
 <mp-tabbar class="tabbar" style="position:fixed;bottom:0;width:100%;left:0;right:0;z-index: 9999;" list="{{list}}" bindchange="tabChange"></mp-tabbar>
+
+<!-- 分享弹窗 -->
+<van-dialog show-confirm-button="{{false}}" use-slot show="{{ showShare }}" show-cancel-button confirm-button-open-type="getUserInfo" bind:close="onUserClose" bind:getuserinfo="getUserInfo">
+  <view class="containerFen">
+    <view class="yuan">
+      <van-icon name="success" size="35px" class="duihao" color="white" />
+    </view>
+    <view class="gentuan"><text>恭喜跟团成功</text></view>
+    <view class="containerFen_box3">
+      <van-image width="30" height="30" src="{{href2}}{{avatar}}" />
+      <!-- <image src="{{href2}}{{avatar}}" style="height: 30px;width: 30px;" mode=""/> -->
+      <view> {{nickName}}</view>
+      <view>{{phone}}</view>
+    </view>
+    <view class="containerFen_box4">
+      转发到群聊,通知团长你已下单,尽快发货
+    </view>
+    <view style="margin-top:10px;padding: 10px;">
+      <van-button  open-type="share" color="var(--TONGYI)" type="primary" block>分享到群聊</van-button>
+    </view>
+  </view>
+
+
+</van-dialog>
+
+<!-- <van-share-sheet show="{{ showShare }}" options="{{ options2 }}" bind:select="onSheetSelect" bind:close="onSheetClose" /> -->

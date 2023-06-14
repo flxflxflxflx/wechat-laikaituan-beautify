@@ -28,9 +28,11 @@
   border-radius: 50%;
 
 }
-.two_box>view{
+
+.two_box>view {
   font-size: 15px;
 }
+
 .two_box {
   display: flex;
   flex-direction: column;
@@ -50,4 +52,12 @@
 
 .baoyou_label {
   margin-left: -8px !important;
+}
+
+.van-tag {
+  background-color: var(--TONGYI) !important;
+}
+
+.vanPrice {
+  color: var(--TONGYI) !important;
 }
