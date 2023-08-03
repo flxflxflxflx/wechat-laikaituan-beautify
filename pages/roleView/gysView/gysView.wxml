@@ -139,8 +139,8 @@
   </view>
   <!-- 确认发布 -->
   <view class="qrfb">
-    <button type="primary" bindtap="onApplyForHellpBuying">申请帮买</button>
-    <button type="primary" bindtap="onSubmit">确认发布</button>
+    <button type="primary" style="width:35%;"  bindtap="onApplyForHellpBuying">申请帮买</button>
+    <button type="primary" style="width:35%;" bindtap="onSubmit">确认发布</button>
   </view>
 </view>
 <!-- 确认发布 -->

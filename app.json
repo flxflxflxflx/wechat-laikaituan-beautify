@@ -81,7 +81,9 @@
     "van-row": "@vant/weapp/row/index",
     "van-col": "@vant/weapp/col/index",
     "van-nav-bar": "@vant/weapp/nav-bar/index",
-    "van-share-sheet": "@vant/weapp/share-sheet/index"
+    "van-share-sheet": "@vant/weapp/share-sheet/index",
+    "van-toast": "@vant/weapp/toast/index",
+    "van-tree-select": "@vant/weapp/tree-select/index"
   },
   "sitemapLocation": "sitemap.json"
 }

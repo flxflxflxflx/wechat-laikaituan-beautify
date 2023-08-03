@@ -1,4 +1,5 @@
 import tr from "../../../utils/tokenRequest"
+import Dialog from '@vant/weapp/dialog/dialog';
 // pages/roleView/myView/asset.js
 Page({
 
@@ -13,17 +14,75 @@ Page({
     // 余额
     account: 0,
     withdrawalRecords: [],
+    butons: [{
+        text: '取消'
+      },
+      {
+        text: '确认'
+      }
+    ],
+    realName: '',
+    isShow: false
+  },
+  onRealNameChange(event) {
+    this.setData({
+      realName: event.detail
+    })
+  },
+
+  // 填写真实姓名
+  async getRealName(e) {
+    switch (e.detail.index) {
+      case 0:
+        this.setData({
+          isShow: false
+        })
+        break;
+      case 1:
+        console.log(this.data.realName);
+        if (this.data.realName == '') {
+          wx.showToast({
+            title: '请填写用户名',
+            icon: "none"
+          })
+
+        } else {
+          this.setData({
+            isShow: false
+          })
+          this.wechatCashWithdrawal()
+        }
+        break;
+
+      default:
+        break;
+    }
+  },
+
+  tixian() {
+    this.setData({
+      isShow: true
+    })
   },
 
   // 提现到余额
-  wechatCashWithdrawal(e) {
+  wechatCashWithdrawal() {
     let that = this
     tr("/TzWechatCashWithdraw", {
-      account: that.data.account
+      account: that.data.account,
+      realName: that.data.realName
     }).then(function (res) {
       if (res.data.code == 100) {
         that.getAccount()
         that.getWithdrawalRecords()
+      } else if (res.data.code == 400) {
+        that.getAccount()
+        that.getWithdrawalRecords()
+        Dialog.alert({
+          message: res.data.message,
+        }).then(() => {
+          // on close
+        });
       }
     })
   },
@@ -32,6 +91,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad(options) {
+
     let that = this
     this.getAccount()
     this.getWithdrawalRecords()

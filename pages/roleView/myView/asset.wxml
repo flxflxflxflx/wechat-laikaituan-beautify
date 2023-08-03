@@ -6,7 +6,7 @@
 
 </view>
 <view class='btn-view'>
-  <form bindsubmit="wechatCashWithdrawal" report-submit="true">
+  <form bindsubmit="tixian" report-submit="true">
     <button class='btn' type="default" size="mini" form-type="submit" hover-class="btn-hover" plain="true">
       提现
     </button>
@@ -20,22 +20,25 @@
     提现记录
   </view>
   <block wx:for="{{withdrawalRecords}}" wx:key="id">
-    <van-cell-group  custom-class="cellGroup" inset>
-      <van-cell custom-class="custClass">
+    <van-cell-group custom-class="cellGroup" inset>
+      <van-cell center="true" custom-class="custClass">
         <view slot="title" class="custText">
           {{item.money}}元
+          <block wx:if="{{item.status == 0}}">
+            <van-tag plain type="warning">提现中</van-tag>
+          </block>
+          <block wx:if="{{item.status == 1}}">
+            <van-tag plain type="primary">提现成功</van-tag>
+          </block>
+          <block wx:if="{{item.status == 2}}">
+            <van-tag plain type="danger">提现失败</van-tag>
+          </block>
         </view>
         <view>
           <view class="withdrawal_examine">
-            <!-- <block wx:if="{{item.status == 0}}">
-                <view>审核中</view>
-              </block>
-              <block wx:if="{{item.status == 1}}">
-                <view>审核成功</view>
-              </block>
-              <block wx:if="{{item.status == 2}}">
-                <view>审核失败</view>
-              </block> -->
+            <block wx:if="{{item.failureReason}}">
+              <view>{{item.failureReason}}</view>
+            </block>
             <view class="custText">{{item.wddate}}</view>
           </view>
         </view>
@@ -68,3 +71,8 @@
     </block>
   </view> -->
 </view>
+<mp-dialog show="{{isShow}}" bindbuttontap="getRealName" buttons="{{butons}}">
+  <van-field value="{{ realName }}" placeholder="请输入真实姓名" border="{{ false }}" bind:change="onRealNameChange" />
+</mp-dialog>
+
+<van-dialog id="van-dialog" />

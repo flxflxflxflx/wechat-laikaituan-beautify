@@ -50,6 +50,34 @@
           "query": "",
           "launchMode": "default",
           "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "pages/roleLogin/childView/commodityPurchase/commodityPurchase",
+          "query": "selectListData=33",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "pages/roleAudit/roleForm/roleForm",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "pages/roleLogin/childView/commodityPurchase/commodityPurchase",
+          "query": "selectListData=34",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "pages/roleLogin/childView/commodityPurchase/commodityPurchase",
+          "query": "selectListData=46",
+          "launchMode": "default",
+          "scene": null
         }
       ]
     }

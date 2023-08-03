@@ -13,6 +13,13 @@ button {
   margin-bottom: 5px;
 }
 
+.van-sidebar-item--selected{
+  border-color: var(--TONGYI) !important;
+}
+
+.active{
+}
+
 .vanTitle {
   font-size: 14px;
   color: rgb(104, 104, 104);

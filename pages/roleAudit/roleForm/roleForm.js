@@ -2,12 +2,21 @@
 import tr from "../../../utils/tokenRequest"
 const app = getApp()
 var timer;
+
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
+    show: false,
+    options: [],
+    fieldValue: '',
+    fieldNames: {
+      text: 'title',
+      value: 'id',
+    },
+    cascaderValue: '',
     stepList: [{
       name: '申请'
     }, {
@@ -35,8 +44,38 @@ Page({
     // 用户备用电话
     mobile: '',
     // 界面是否可以操作
-    isOperation: true
+    isOperation: true,
   },
+
+  onClick() {
+    this.setData({
+      show: true,
+    });
+  },
+
+  onClose() {
+    this.setData({
+      show: false,
+    });
+  },
+
+  onFinish(e) {
+    console.log(e);
+    const {
+      selectedOptions,
+      value
+    } = e.detail;
+    const fieldValue = selectedOptions
+      .map((option) => option.text || option.name || option.title)
+      .join('/');
+    this.setData({
+      fieldValue,
+      cascaderValue: value,
+      show: false
+    })
+  },
+
+
   GYSuploadFile(e) {
     this.setData({
       'permissionsImages.gysImage': e.detail
@@ -98,6 +137,15 @@ Page({
       })
       return;
     }
+
+    // 判断申请区域是否填写
+    if (!this.data.cascaderValue || this.data.cascaderValue == '') {
+      wx.showToast({
+        title: '请填写申请区域',
+      })
+      return;
+    }
+
     // 图片转成base64格式
     let resultBase64 = this.pictureToDase64();
     wx.showLoading({
@@ -109,19 +157,20 @@ Page({
       // 发送申请权限材料
       tr("/applyPermission", {
         mobile: that.data.mobile,
-        resultBase64
+        resultBase64,
+        cascaderValue: that.data.cascaderValue
       }).then(function (res) {
         wx.hideLoading()
         wx.showToast({
           title: res.data.msg,
           mask: true,
           success() {
-            setTimeout(function () {
-              // 跳转到首页
-              wx.redirectTo({
-                url: '../../roleLogin/roleLogin',
-              })
-            }, 2500)
+            // setTimeout(function () {
+            //   // 跳转到首页
+            //   wx.redirectTo({
+            //     url: '../../roleLogin/roleLogin',
+            //   })
+            // }, 2500)
           }
         })
         // 申请成功 刷新页面
@@ -239,8 +288,18 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad(options) {
-    // 向后台请求角色没有申请的权限
+    wx.hideHomeButton()
+
     let that = this
+    // 获取申请区域
+    tr("/applicationArea").then(function (res) {
+      console.log(res.data);
+      that.setData({
+        options: res.data
+      })
+    })
+    // 向后台请求角色没有申请的权限
+
     tr("/getUserNotPermissions").then(function (res) {
       // 判断是否有权限,没有权限提示跳转到权限申请页面
       that.setData({
@@ -252,6 +311,8 @@ Page({
         icon: "error"
       })
     })
+
+
 
     // 请求备用电话
     tr("/getUserPermissionsImage", {
@@ -275,7 +336,6 @@ Page({
 
     // 请求有没有审核状态
     tr("/getAuditStatus").then(function (res) {
-
       // 审核中界面不能操作
       if (res.data.status == 2 || res.data.status == 3) {
         that.setData({
@@ -286,6 +346,23 @@ Page({
           // 设置审核变审核成功
           isAuditSuccess: true
         })
+        if (res.data.status == 3) {
+          tr("/getUserPermissions").then(function (res) {
+            // 判断是否有权限 
+            that.setData({
+              isPermissionsNull: res.data.isPermissionsNull
+            })
+            let {
+              isPermissionsNull,
+            } = that.data;
+            if (!isPermissionsNull) {
+              wx.redirectTo({
+                url: '/pages/roleLogin/roleLogin',
+              })
+            }
+          })
+
+        }
       } else if (res.data.status == 4) {
         // 审核没有通过
         that.setData({

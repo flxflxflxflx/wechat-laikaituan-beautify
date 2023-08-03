@@ -4,7 +4,8 @@
     <van-icon name="wap-home" color="var(--IgnoreMessage)" size="20px" />
   </view>
 </van-nav-bar>
-<scroll-view wx:if="{{!isCutOrder}}" scroll-y="true" style="height: calc(100% - {{groupbuyInfo.own_addr == null?150:60}}px  - {{tabbarHeight}}px);" lower-threshold='50' bindscrolltolower="searchScrollLower">
+<!-- <scroll-view wx:if="{{!isCutOrder}}" scroll-y="true" style="height: calc(100% - {{groupbuyInfo.own_addr == null?150:60}}px  - {{tabbarHeight}}px);" lower-threshold='50' bindscrolltolower="searchScrollLower"> -->
+<scroll-view wx:if="{{!isCutOrder}}" scroll-y="true" style="height: calc(100% - {{groupbuyInfo.own_addr == null?60:60}}px  - {{tabbarHeight}}px);" lower-threshold='50' bindscrolltolower="searchScrollLower">
   <view class='list' style="padding-top: {{topLift+40}}px;">
     <checkbox-group bindchange="">
       <block wx:for='{{dataList}}' wx:key='index' wx:for-item="item">
@@ -128,8 +129,8 @@
   <view>
     <view style="clear: both;"></view>
   </view>
-
-  <view wx:if="{{groupbuyInfo.own_addr == null?true:false}}" style="font-size: 14px;">
+  <!-- wx:if="{{groupbuyInfo.own_addr == null?true:false}}" -->
+  <view style="font-size: 14px;display: none;">
     <!-- <view>自备提货点 :</view> -->
     <!-- <view style="margin-left: 20rpx;"> -->
     <!-- <picker mode="multiSelector" bindchange="bindMultiPickerChange" bindcolumnchange="bindMultiPickerColumnChange" value="{{multiIndex}}" range="{{multiObjArray}}" range-key="{{'title'}}">
@@ -200,7 +201,7 @@
       转发到群聊,通知团长你已下单,尽快发货
     </view>
     <view style="margin-top:10px;padding: 10px;">
-      <van-button  open-type="share" color="var(--TONGYI)" type="primary" block>分享到群聊</van-button>
+      <van-button open-type="share" color="var(--TONGYI)" type="primary" block>分享到群聊</van-button>
     </view>
   </view>
 

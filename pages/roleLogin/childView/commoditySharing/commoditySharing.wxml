@@ -35,7 +35,7 @@
     <checkbox-group bindchange="">
       <block wx:for='{{dataList}}' wx:key='index' wx:for-item="item">
 
-        <van-card price-class="vanPrice" title-class="vanTitle" custom-class="vanCand" catchtap="onListbtn" data-item="{{item}}" price="{{filter.toFixed(item.supplyprice)}}" title="{{item.title}}" thumb="{{imghref}}{{item.simg}}">
+        <van-card price-class="vanPrice" title-class="vanTitle" custom-class="vanCand" catchtap="onListbtn" data-item="{{item}}" price="{{isfenxiang?filter.toFixed(item.supplyprice):''}}" title="{{item.title}}" thumb="{{imghref}}{{item.simg}}">
           <view slot="desc">
             <view class="product_add">
               <van-tag plain custom-class="vanTag" type="primary">{{item.scorenum}}+评分</van-tag>
@@ -50,7 +50,7 @@
             </view>
           </view>
           <view slot="footer" style="position: relative;">
-            <view wx:if="{{item.recommendedprice}}" style="position: absolute;top: -30px;right: 10px;">建议价格:<text style="font-size: 14px;font-weight: 600;color: var(--TONGYI);">￥{{filter.pointBefore(item.recommendedprice)}}</text><text style="font-size: 12px;font-weight: 600;color: var(--TONGYI);">{{filter.pointAfter(item.recommendedprice)}}</text></view>
+            <view wx:if="{{item.recommendedprice&&isfenxiang}}" style="position: absolute;top: -30px;right: 10px;">建议价格:<text style="font-size: 14px;font-weight: 600;color: var(--TONGYI);">￥{{filter.pointBefore(item.recommendedprice)}}</text><text style="font-size: 12px;font-weight: 600;color: var(--TONGYI);">{{filter.pointAfter(item.recommendedprice)}}</text></view>
             <view class="delete" catchtap="stop">
               <button size="mini" data-item="{{item}}" bindtap="setPrice">设置价格</button>
             </view>
@@ -59,7 +59,7 @@
             <!-- 是否包分配 -->
             <view class="product_isfenpei">
 
-              <view wx:if="{{item.openingPrice}}">
+              <view wx:if="{{item.openingPrice&&isfenxiang}}">
                 <text style="font-size: 14px;">赚</text>
                 <text style="color: #f71313;">￥<text style="font-size:16px;font-weight:600;">{{filter.pointBefore(item.incomePrice)}}</text>
                   <text style="font-size:12px;font-weight:600;">{{filter.pointAfter(item.incomePrice)}}</text>
@@ -183,7 +183,7 @@
   </view> -->
     <van-tabs color="var(--TONGYI)" wx:if="{{isnavShow}}" bind:click="swichNav">
       <van-tab title="商品"></van-tab>
-      <van-tab title="评价"></van-tab>
+      <!-- <van-tab title="评价"></van-tab> -->
       <van-tab title="详情"></van-tab>
     </van-tabs>
     <scroll-view bindscroll="scrollViewScroll" style="height: {{screenHeight}}px;" scroll-y="true" scroll-into-view="{{toView}}">
@@ -191,11 +191,14 @@
         <view class="greyBox">
           <swiper indicator-dots current="0" style="height: 510px;">
             <swiper-item wx:if="{{productInfo.dvideo}}">
-              <video show-mute-btn play-btn-position="center" style="width: 100%;height: 100%;" autoplay show-fullscreen-btn show-bottom-progress src="{{href}}{{productInfo.dvideo}}"></video>
+              <video show-mute-btn play-btn-position="center" style="width: 100%;height: 100%;" muted autoplay show-fullscreen-btn show-bottom-progress src="{{href}}/{{productInfo.dvideo}}"></video>
             </swiper-item>
-            <swiper-item wx:for="{{productInfo.dimgslist}}" wx:key="index" style="text-align: center;">
+            <swiper-item>
+            <image  src="{{href}}/{{productInfo.simg}}" style="height: 510px;width: 100%;" mode="aspectFit"></image>
+          </swiper-item>
+            <!-- <swiper-item wx:for="{{productInfo.dimgslist}}" wx:key="index" style="text-align: center;">
               <image src="{{href}}{{item}}" style="height: 510px;width: 100%;" mode="aspectFit"></image>
-            </swiper-item>
+            </swiper-item> -->
           </swiper>
           <view class="bottom_box">
             <view class="price_box">
@@ -217,7 +220,7 @@
           </view>
         </view>
         <!-- 评价 -->
-        <view id="toView1" class="appraise">
+        <!-- <view id="toView1" class="appraise">
           <view class="appraise_header">
             <view>商品评价({{productInfo.scorenum}})</view>
             <view bindtap="viewCount">查看全部 ></view>
@@ -242,16 +245,14 @@
             </view>
           </block>
 
-        </view>
-        <!-- 详情 -->
-        <view id="toView2" class="appraise">
+        </view> -->
+        <view id="toView1" class="appraise">
           <view class="appraise_header">
             <view>商品详情</view>
           </view>
-          <view style="font-size: var(--TEXT_TITLE);margin-top: 10rpx;">
+          <view wx:if="{{productInfo.details}}" style="font-size: var(--TEXT_TITLE);margin-top: 10rpx;">
             {{productInfo.details}}
           </view>
-          <!-- 商品图片 -->
           <view style="text-align: center;display: flex;flex-direction: column;">
             <block wx:for="{{productInfo.dimgslist}}" wx:key="index">
               <image src="{{href}}{{item}}" style="width: 100%;" mode="widthFix"></image>

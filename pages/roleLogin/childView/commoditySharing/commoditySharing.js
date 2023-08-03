@@ -68,7 +68,9 @@ Page({
     addressShow: false,
     // 评论
     CommentInformation: [],
-    toPriceRetioh: ''
+    toPriceRetioh: '',
+    // 分享隐藏
+    isfenxiang:true
   },
   addressShow() {
     this.setData({
@@ -295,48 +297,48 @@ Page({
   /**
    * 下拉触底
    */
-  searchScrollLower() {
-    wx.showLoading({
-      title: '加载中...',
-    })
-    let that = this
-    pageNum++
-    if (!this.data.searchMsg == '') {
-      tr("/searchProducts", {
-        query: that.data.searchMsg,
-        pageNum: pageNum * 10
-      }).then(function (res) {
-        if (res.data.data.length > 0) {
-          that.setData({
-            dataList: that.data.dataList.concat(res.data.data) //合并数据
-          })
-        } else {
-          wx.showToast({
-            title: '没有数据了',
-            icon: 'none'
-          })
-        }
-        wx.hideLoading()
+  // searchScrollLower() {
+  //   wx.showLoading({
+  //     title: '加载中...',
+  //   })
+  //   let that = this
+  //   pageNum++
+  //   if (!this.data.searchMsg == '') {
+  //     tr("/searchProducts", {
+  //       query: that.data.searchMsg,
+  //       pageNum: pageNum * 10
+  //     }).then(function (res) {
+  //       if (res.data.data.length > 0) {
+  //         that.setData({
+  //           dataList: that.data.dataList.concat(res.data.data) //合并数据
+  //         })
+  //       } else {
+  //         wx.showToast({
+  //           title: '没有数据了',
+  //           icon: 'none'
+  //         })
+  //       }
+  //       wx.hideLoading()
 
-      })
-    } else {
-      tr("/getApprovedProducts", {
-        pageNum: pageNum * 10
-      }).then(function (res) {
-        if (res.data.data.length > 0) {
-          that.setData({
-            dataList: that.data.dataList.concat(res.data.data) //合并数据
-          })
-        } else {
-          wx.showToast({
-            title: '没有数据了',
-            icon: "none"
-          })
-        }
-        wx.hideLoading()
-      })
-    }
-  },
+  //     })
+  //   } else {
+  //     tr("/getApprovedProducts", {
+  //       pageNum: pageNum * 10
+  //     }).then(function (res) {
+  //       if (res.data.data.length > 0) {
+  //         that.setData({
+  //           dataList: that.data.dataList.concat(res.data.data) //合并数据
+  //         })
+  //       } else {
+  //         wx.showToast({
+  //           title: '没有数据了',
+  //           icon: "none"
+  //         })
+  //       }
+  //       wx.hideLoading()
+  //     })
+  //   }
+  // },
 
   /**
    * 半屏弹窗按钮点击
@@ -666,6 +668,9 @@ Page({
 
   //用户点击右上角分享给好友，要现在分享到好友这个设置menu的两个参数，才可以实现分享到朋友圈
   onShareAppMessage: async function () {
+    this.setData({
+      isfenxiang:false
+    })
     wx.showShareMenu({
       withShareTicket: true,
       menu: ['shareappmessage', 'shareTimeline']
@@ -723,6 +728,12 @@ Page({
     productList.forEach(function (item) {
       title += item.title + "\n"
     })
+    let that =this
+    setTimeout(() => {
+      that.setData({
+        isfenxiang:true
+      })
+    }, 1000);
 
     return {
       // title: wx.getStorageSync('nick_name') + "团长的商品组合",

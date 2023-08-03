@@ -98,6 +98,7 @@ Page({
     tr("/getProductInfoId", {
       id: options.productid
     }).then(function (res) {
+      console.log("zhefsjflsaf",res);
       let productInfo = res.data.result
       that.setData({
         productInfo,

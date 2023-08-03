@@ -261,7 +261,7 @@ Page({
       });
 
       // 发布商品信息
-      tr("/publishCommodities", {
+      tr("/ApplyBuying", {
         // 商品标题 
         productTitle,
         // 商品属性描述
@@ -289,7 +289,7 @@ Page({
       }).then(function (res) {
         console.log(res);
         if (src != '') {
-          if (!that.submitDvideo(src, res.data.id)) {
+          if (!that.applySubmitDvideo(src, res.data.id)) {
             wx.showToast({
               title: '视频发布失败',
               icon: 'error'
@@ -768,6 +768,34 @@ Page({
     await wx.uploadFile({
       //请求后台的路径
       url: app.globalData.apiUrl + '/uploadFile',
+      header: { //请求头
+        "Content-Type": "application/json",
+        "Authorization": wx.getStorageSync('access_token'),
+      },
+      formData: {
+        id
+      },
+      //小程序本地的路径
+      filePath: src,
+      //后台获取我们图片的key
+      name: 'dvideo',
+      success: function (res) {
+        //上传成功
+        return true;
+      },
+      fail: function (res) {
+        return false;
+      },
+    })
+  },
+
+    /**
+   * 提交申请帮买商品视频
+   */
+  async applySubmitDvideo(src, id) {
+    await wx.uploadFile({
+      //请求后台的路径
+      url: app.globalData.apiUrl + '/applyUploadFile',
       header: { //请求头
         "Content-Type": "application/json",
         "Authorization": wx.getStorageSync('access_token'),

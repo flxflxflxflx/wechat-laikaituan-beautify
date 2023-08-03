@@ -14,7 +14,7 @@ var filter = {
     if (value == null) {
       number = ''
     } else {
-      number = value.toFixed(2)
+      number = (value*1).toFixed(2)
     }
     return number
   },

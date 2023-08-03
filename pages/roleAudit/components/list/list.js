@@ -79,23 +79,28 @@ Component({
    */
   methods: {
     deleteImg(e) {
-      wx.showModal({
-        title: '提示',
-        content: '这是一个模态弹窗',
-        success (res) {
-          if (res.confirm) {
-            console.log('用户点击确定')
-          } else if (res.cancel) {
-            console.log('用户点击取消')
-          }
-        }
+      console.log(e);
+      let that = this
+      let result = that.data.files
+      that.setData({
+        files: result.splice(e.detail.index + 1, 1)
       })
-      // let result = this.data.files
-      // this.setData({
-      //   files: result.splice(e.detail + 1, 1)
+      that.triggerEvent("updeteFile", that.data.files)
+      // wx.showModal({
+      //   title: '提示',
+      //   content: '是否删除',
+      //   success (res) {
+      //     if (res.confirm) {
+          
+      //     } else if (res.cancel) {
+      //       console.log("dddddddddddd");
+      //       console.log(that.data.files);
+      //       // that.triggerEvent("updeteFile", that.data.files)
+      //       return
+      //     }
+      //   }
       // })
-      // this.triggerEvent("updeteFile", this.data.files)
-
+    
     },
     chooseImage() {
       console.log("fasfas");

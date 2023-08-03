@@ -30,28 +30,41 @@
   <mp-form-page title="" subtitle="">
     <mp-form id="form" rules="{{rules}}" models="{{formData}}">
       <!-- 供应商资格申请 -->
-      <list wx:for="{{permissions}}" mark="{{item.mark}}" wx:key="id" bind:updeteFile="{{item.mark}}uploadFile"  tips="{{item.condition}}" title="{{item.title}}">
+      <list wx:for="{{permissions}}" mark="{{item.mark}}" wx:key="id" bind:updeteFile="{{item.mark}}uploadFile" tips="{{item.condition}}" title="{{item.title}}">
         <text slot="sqName" style="font-size: 14px;">{{item.title}}资格申请</text>
       </list>
       <mp-cells>
         <mp-cell>
-          <!-- 说明区域 -->
-          <view class="common">
-            <text style="font-size: 14px;opacity: 0.5;">请上传相应照片,资格审批大概需要1-3个工作日,请保持电话畅通,以方便我们的工作人员与您保持联系</text>
-          </view>
+
           <view>
             <!-- start 联系电话 -->
-            <view class="mobile" style="margin-top: 25rpx;">
-              <sapn class="title" style="font-size: 14px;">备用电话:</sapn><input style="font-size: 14px;border-bottom: 1px solid rgb(233, 233, 233);" value="{{mobile}}" class="mobile-weui-input" type="number" bindblur="mobileInput" maxlength="11" placeholder="请输入电话号码！" />
+            <view class="mobile" style="margin-top: 25rpx;display: flex;justify-content: center;align-items: center;">
+              <sapn class="title" style="font-size: 14px;">备用电话:</sapn>
+              <input style="font-size: 14px;border: 1px solid;margin-left: 5px;" value="{{mobile}}" class="mobile-weui-input" type="number" bindblur="mobileInput" maxlength="11" placeholder="请输入电话号码！" />
             </view>
             <!-- end 联系电话 -->
+            <!-- start 申请区域 -->
+            <view style="margin-top: 25rpx;display: flex;justify-content: center;align-items: center;">
+              <sapn class="title" style="font-size: 14px;">申请区域:</sapn>
+              <van-field value="{{ fieldValue }}" is-link readonly  placeholder="请选择所在地区" bind:tap="onClick" />
+              <van-popup show="{{ show }}" round position="bottom">
+                <van-cascader wx:if="{{ show }}"  field-names="{{ fieldNames }}" value="{{ cascaderValue }}" title="请选择所在地区" options="{{ options }}" bind:close="onClose" bind:finish="onFinish" />
+              </van-popup>
+            </view>
+            <!-- end 申请区域 -->
+          </view>
+          <!-- 说明区域 -->
+          <view class="common">
+            <text style="font-size: 14px;opacity: 0.5;">资格审批预计需要5个工作日,请保持电话畅通，以方便我们的工作人员与您取得联系。</text>
           </view>
         </mp-cell>
       </mp-cells>
     </mp-form>
 
+
     <view slot="button">
-      <button class="weui-btn" type="primary" bindtap="submitForm">申请</button>
+      <button class="weui-btn appalyBtn" type="primary" bindtap="submitForm">申请</button>
     </view>
   </mp-form-page>
 </view>
+

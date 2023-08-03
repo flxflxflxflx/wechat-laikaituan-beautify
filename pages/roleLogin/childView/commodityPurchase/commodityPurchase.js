@@ -24,7 +24,7 @@ Page({
       children: [],
     }],
     href: app.globalData.apiUrl + "/uploads/",
-    href2:app.globalData.apiUrl,
+    href2: app.globalData.apiUrl,
     // 开团的商品id
     openingProductId: [],
     productInfo: [],
@@ -104,7 +104,7 @@ Page({
     this.setData({
       showShare: false
     });
-  }, 
+  },
 
 
   backHome() {
@@ -527,19 +527,19 @@ Page({
       return
     }
 
-    if (this.data.groupbuyInfo.own_addr == null && this.data.fieldValue.trim() == "") {
-      wx.showToast({
-        title: '请选择地区',
-        icon: "error"
-      })
-      return
-    } else if (this.data.groupbuyInfo.own_addr == null && this.data.address.trim() == "") {
-      wx.showToast({
-        title: '请输入详细地址',
-        icon: "error"
-      })
-      return
-    }
+    // if (this.data.groupbuyInfo.own_addr == null && this.data.fieldValue.trim() == "") {
+    //   wx.showToast({
+    //     title: '请选择地区',
+    //     icon: "error"
+    //   })
+    //   return
+    // } else if (this.data.groupbuyInfo.own_addr == null && this.data.address.trim() == "") {
+    //   wx.showToast({
+    //     title: '请输入详细地址',
+    //     icon: "error"
+    //   })
+    //   return
+    // }
     wx.showLoading({
       title: '加载中...',
       mask: true
@@ -791,67 +791,71 @@ Page({
         //   })
         // }, 1500);
       }
-    })
 
-    this.setData({
-      openingProductId: options.selectListData
-    });
+      that.setData({
+        openingProductId: options.selectListData
+      });
 
-    wx.showLoading({
-      title: '加载中...',
-    })
-    // 获取商品
-    tr("/getOpeningProducts", {
-      groupbuy_id: that.data.openingProductId
-    }).then(function (res) {
-      wx.hideLoading()
-      if (res.data.code == 409) {
-        // 订单已经截单
+      wx.showLoading({
+        title: '加载中...',
+      })
+      // 获取商品
+      tr("/getOpeningProducts", {
+        groupbuy_id: that.data.openingProductId
+      }).then(function (res) {
+        wx.hideLoading()
+        if (res.data.code == 409) {
+          // 订单已经截单
+          that.setData({
+            isCutOrder: true
+          })
+        } else {
+          res.data.data.map((item) => {
+            console.log(item);
+            item["num"] = 0
+            item["selling_price"] =  Big(item["selling_price"]).plus(Big(item.product["help_sell_price"])).toNumber()
+            item["minusStatus"] = "disable"
+          });
+          that.setData({
+            dataList: res.data.data,
+            isCutOrder: false
+          });
+        }
+      })
+
+      // 获取开团信息和基础配送费和基础配送数量
+      tr("/getOpeingInfo", {
+        groupbuy_id: that.data.openingProductId
+      }).then(function (res) {
+        console.log(res.data);
         that.setData({
-          isCutOrder: true
+          groupbuyInfo: res.data.openingInfo,
+          extraCosts: res.data.openingInfo.delivery_fee,
+          basesInfo: res.data.basesInfo
         })
-      } else {
-        res.data.data.map((item) => {
-          item["num"] = 0
-          item["minusStatus"] = "disable"
-        });
+      })
+
+      // 获取用户信息
+      tr("/getUserInfo").then(function (res) {
+        let {
+          nickname,
+          phone,
+          avatar
+        } = res.data
         that.setData({
-          dataList: res.data.data,
-          isCutOrder: false
-        });
-      }
-    })
-
-    // 获取开团信息和基础配送费和基础配送数量
-    tr("/getOpeingInfo", {
-      groupbuy_id: that.data.openingProductId
-    }).then(function (res) {
-      console.log(res.data);
-      that.setData({
-        groupbuyInfo: res.data.openingInfo,
-        extraCosts: res.data.openingInfo.delivery_fee,
-        basesInfo: res.data.basesInfo
+          nickName: nickname,
+          phone,
+          avatar
+        })
       })
     })
 
-    // 获取用户信息
-    tr("/getUserInfo").then(function (res) {
-      let {
-        nickname,
-        phone,
-        avatar
-      } = res.data
-      that.setData({
-        nickName: nickname,
-        phone,
-        avatar
-      })
-    })
 
   },
 
   // 判断是否有支付权限，是否注册
   isLogin(url, options, data = {}, method = 'post') {
+    let that = this
     return new Promise((resolve, reject) => {
       //如果不能处在token，返回登录页面
       if (!wx.getStorageSync('access_token')) {
@@ -879,7 +883,11 @@ Page({
         success: function (res) {
           if (typeof res.header.Authorization != 'undefined') { //如果有token返回，将最新的token存入缓存
             console.log("token刷新了");
+            console.log(res.header.Authorization);
             wx.setStorageSync('access_token', res.header.Authorization);
+            wx.redirectTo({
+              url: '/pages/roleLogin/childView/commodityPurchase/commodityPurchase?selectListData=' + options.selectListData,
+            })
             return;
           }
           if (res.statusCode == 401) {
@@ -889,6 +897,7 @@ Page({
               mask: true
             })
             if (res.data.msg == "token过期，请重新登录") {
+              console.log("token过期,请重新登录");
               wx.redirectTo({
                 url: '/pages/index/index?isXFZ=true&selectListData=' + options.selectListData,
               })
@@ -972,13 +981,13 @@ Page({
   onShow() {
     let that = this
     // 如果有没有团长权限隐藏回到首页
-    tr("/getUserPermissions").then(function (res) {
-      if (!res.data.isPermissionsNull) {
-        that.setData({
-          isShowNav: true
-        })
-      }
-    })
+    // tr("/getUserPermissions").then(function (res) {
+    //   if (!res.data.isPermissionsNull) {
+    //     that.setData({
+    //       isShowNav: true
+    //     })
+    //   }
+    // })
   },
 
   /**

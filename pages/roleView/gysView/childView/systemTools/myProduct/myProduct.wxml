@@ -1,7 +1,6 @@
 <wxs module="filter" src="/utils/numberToFixed.wxs"></wxs>
 <view class='list' style="padding-bottom:{{bottomLift}}px">
   <block wx:for='{{dataList}}' wx:key='id' wx:for-item="item">
-
     <van-card price-class="vanPrice" title-class="vanTitle" custom-class="vanCand" catchtap="onRoute" data-id="{{item.id}}" price="{{filter.toFixed( item.supplyprice)}}" title="{{item.title}}" thumb="{{imghref}}{{item.simg}}">
       <view slot="desc">
         <view class="product_add">

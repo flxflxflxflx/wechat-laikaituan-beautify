@@ -72,7 +72,14 @@ Page({
     currentTab: 0,
     toView: "default",
     isnavShow: false,
-    bottomLift: app.globalData.bottomLift
+    bottomLift: app.globalData.bottomLift,
+    // 是否显示遮罩层
+    isShowZZC: true,
+    // 分组展示的数据
+    items: [{ // 导航名称
+      text: '全部商品',
+    }, ],
+    selectItemsId: ''
   },
 
   tabChange(e) {
@@ -211,7 +218,9 @@ Page({
     pageNum = 0
     let that = this
     if (msg.trim() == '') {
-      await tr("/getApprovedProducts").then(function (res) {
+      await tr("/getApprovedProducts", {
+        categoryId: that.data.selectItemsId
+      }).then(function (res) {
         that.setData({
           dataList: res.data.data
         });
@@ -239,6 +248,7 @@ Page({
     console.log(msg);
     await tr("/searchProducts", {
       query: msg,
+      categoryId: that.data.selectItemsId,
       pageNum
     }).then(function (res) {
       searchResult = res.data.data
@@ -298,7 +308,8 @@ Page({
     pageNum = 0
     // 获取审核通过的商品列表
     tr("/getApprovedProducts", {
-      pageNum
+      pageNum,
+      categoryId: that.data.selectItemsId
     }).then(function (res) {
       let dataList = res.data.data
       let item = that.data.selectListData
@@ -329,6 +340,7 @@ Page({
     if (!this.data.searchMsg == '') {
       tr("/searchProducts", {
         query: that.data.searchMsg,
+        categoryId: that.data.selectItemsId,
         pageNum: pageNum * 10
       }).then(function (res) {
         if (res.data.data.length > 0) {
@@ -346,7 +358,8 @@ Page({
       })
     } else {
       tr("/getApprovedProducts", {
-        pageNum: pageNum * 10
+        pageNum: pageNum * 10,
+        categoryId: that.data.selectItemsId
       }).then(function (res) {
         if (res.data.data.length > 0) {
           that.setData({
@@ -479,7 +492,7 @@ Page({
     for (let index = 0; index < dataList.length; index++) {
       if (dataList[index].id == item.id) {
         dataList[index]["isCheckShow"] = !dataList[index]["isCheckShow"]
-        console.log(dataList[index]);
+        console.log(dataList[index], "哒哒哒哒哒哒多多多多");
         if (dataList[index]["isCheckShow"]) {
           let selectListData = this.data.selectListData;
           selectListData.push(item.id);
@@ -494,7 +507,7 @@ Page({
             }
           }
           this.setData({
-            selectListData:[...new Set(this.selectListData)]
+            selectListData: [...new Set(this.data.selectListData)]
           })
         }
         break
@@ -514,6 +527,38 @@ Page({
     // 跳转到商品选择完的列表
     wx.navigateTo({
       url: './childView/commoditySharing/commoditySharing?selectListData=' + JSON.stringify(this.data.selectListData),
+    })
+  },
+
+  // 侧边导航点击
+  onClickNav(e) {
+    let that = this
+    pageNum = 0
+    // 获取审核通过的商品列表
+    that.setData({
+      selectItemsId: this.data.items[e.detail.index].id
+    })
+    tr("/getApprovedProducts", {
+      pageNum,
+      categoryId: this.data.items[e.detail.index].id
+    }).then(function (res) {
+      let dataList = res.data.data
+      let item = that.data.selectListData
+      for (let index = 0; index < dataList.length; index++) {
+        for (let y = 0; y < item.length; y++) {
+          if (dataList[index].id == item[y]) {
+            console.log(dataList[index]);
+            dataList[index]["isCheckShow"] = !dataList[index]["isCheckShow"]
+          }
+        }
+      }
+      that.setData({
+        dataList
+      })
+      that.setData({
+        dataList,
+        tz_share_num: res.data.tz_share_num
+      });
     })
   },
 
@@ -547,6 +592,10 @@ Page({
             url: '/pages/roleAudit/roleForm/roleForm',
           })
         }, 1500);
+      } else {
+        that.setData({
+          isShowZZC: false
+        })
       }
     }, function (res) {
       if (res == "没有响应") {
@@ -567,6 +616,22 @@ Page({
     this.setData({
       search: this.search.bind(this)
     })
+
+    // 获取商品分类
+    tr("/getProductCategory").then(function (res) {
+      let result = [];
+      for (let item of res.data) {
+        let i = {}
+        i["text"] = item.title
+        i["id"] = item.id
+        result.push(i)
+      }
+      that.setData({
+        items: that.data.items.concat(result)
+      })
+    })
+
+
     // 获取审核通过的商品列表
     tr("/getApprovedProducts", {
       pageNum
