@@ -42,7 +42,7 @@
               </block>
             </view>
             <view class="sale_box">
-              销量: 0 件
+              销量: {{productInfo.salenum}} 件
             </view>
           </view>
 

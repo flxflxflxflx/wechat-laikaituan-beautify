@@ -30,7 +30,7 @@
                 <!-- 是否包分配 -->
                 <view class="product_isfenpei">
                   <van-tag wx:if="{{item.is_public == 0||item.is_my_product==1}}" mark type="primary">我的</van-tag>
-                  <van-tag mark wx:if="{{item.is_public}}" type="warning">公共库</van-tag>
+                  <van-tag mark wx:if="{{item.is_public}}" type="warning">平台商品</van-tag>
                 </view>
               </view>
             </van-card>
@@ -51,7 +51,7 @@
               <view>{{item.share}}+分享</view>
             </view>
             <view class="product_isfenpei">
-              <van-tag wx:if="{{item.is_public}}" color="#f2826a" plain>公共库</van-tag>
+              <van-tag wx:if="{{item.is_public}}" color="#f2826a" plain>平台商品</van-tag>
               <van-tag text-color="#7232dd" style="margin-left: 10rpx;" wx:if="{{item.is_public == 0||item.is_my_product==1}}" plain>我的</van-tag>
             </view>
             <view wx:if="{{item.openingPrice}}"><text style="font-size: 30rpx;">赚</text><text style="color: #f71313;">￥<text style="font-size: 40rpx;">{{item.incomePrice}}</text></text></view>

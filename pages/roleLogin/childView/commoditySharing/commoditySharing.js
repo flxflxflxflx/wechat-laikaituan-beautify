@@ -70,7 +70,7 @@ Page({
     CommentInformation: [],
     toPriceRetioh: '',
     // 分享隐藏
-    isfenxiang:true
+    isfenxiang: true
   },
   addressShow() {
     this.setData({
@@ -407,13 +407,12 @@ Page({
         return
       }
       let productInfo = that.data.productInfo
-      console.log(productInfo, "dddddddd");
       if (productInfo.supplyprice != null) {
         // 商品开团价格下限
         let priceXiaxian = Big((Big(productInfo.supplyprice).times(Big(that.data.toPriceRetioh).div(100))).toFixed(2, 1)).toNumber()
-        if (res.content < priceXiaxian) {
+        if (res.content <= priceXiaxian) {
           wx.showToast({
-            title: '开团价格不得低于' + Big(priceXiaxian).toFixed(2,1),
+            title: '开团价格不得低于' + Big(priceXiaxian).toFixed(2, 1),
             icon: "none"
           })
         } else {
@@ -424,7 +423,7 @@ Page({
               dataList[index]["openingPrice"] = Big(res.content).toFixed(2, 1)
               // 设置赚的价格
               let arg1 = Big(dataList[index]["supplyprice"])
-              dataList[index]["incomePrice"] = Big(Big(res.content).toFixed(2, 1)).minus(arg1).toFixed(2,1)
+              dataList[index]["incomePrice"] = Big(Big(res.content).toFixed(2, 1)).minus(arg1).toFixed(2, 1)
               // 设置供应价
               break
             }
@@ -669,7 +668,7 @@ Page({
   //用户点击右上角分享给好友，要现在分享到好友这个设置menu的两个参数，才可以实现分享到朋友圈
   onShareAppMessage: async function () {
     this.setData({
-      isfenxiang:false
+      isfenxiang: false
     })
     wx.showShareMenu({
       withShareTicket: true,
@@ -728,10 +727,10 @@ Page({
     productList.forEach(function (item) {
       title += item.title + "\n"
     })
-    let that =this
+    let that = this
     setTimeout(() => {
       that.setData({
-        isfenxiang:true
+        isfenxiang: true
       })
     }, 1000);
 

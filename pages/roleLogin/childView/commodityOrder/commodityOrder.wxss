@@ -292,3 +292,54 @@ page {
 .van-tabs__line {
   background-color: var(--TONGYI) !important;
 }
+
+
+
+/* 底部功能区 */
+.footer {
+  height: 150px;
+  padding-left: 30rpx;
+  padding-right: 30rpx;
+}
+
+.yuan {
+  height: 43px;
+  width: 43px;
+  background-color: var(--TONGYI);
+  border-radius: 50%;
+  position: relative;
+  margin: 0 auto;
+}
+
+.yuan>.duihao {
+  position: absolute;
+  left: 4px;
+  top: 5px;
+}
+
+.containerFen {
+  padding: 10px;
+}
+
+.gentuan {
+  margin-top: 5px;
+  text-align: center;
+  font-weight: 600;
+}
+
+.containerFen_box3 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.containerFen_box3>view {
+  margin-left: 3px;
+  font-size: 14px;
+}
+
+.containerFen_box4 {
+  font-size: 14px;
+  text-align: center;
+  color: var(--IgnoreMessage);
+}

@@ -24,7 +24,7 @@
       <view slot="tags">
         <view class="product_isfenpei">
           <van-tag wx:if="{{item.is_public == 0||item.is_my_product==1}}" mark type="primary">我的</van-tag>
-          <van-tag mark wx:if="{{item.is_public}}" type="warning">公共库</van-tag>
+          <van-tag mark wx:if="{{item.is_public}}" type="warning">平台商品</van-tag>
         </view>
       </view>
     </van-card>

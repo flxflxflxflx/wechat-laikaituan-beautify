@@ -25,7 +25,7 @@
 
         <view wx:for="{{item.groupbuy}}" wx:key="id" wx:for-item="detail" class="chanpin ">
           <!-- <image class="chanpin-img" src="{{href}}{{detail.product.simg}}"></image> -->
-          <van-image width="50px" height="60px" fit="cover" src="{{href}}{{detail.product.simg}}" />
+          <van-image width="50px" height="60px" fit="cover" src="{{href}}/{{detail.product.simg}}" />
             <view class="chanpin-info">
               <view class="name">{{detail.product.title}}</view>
               <view class="sales">销售：{{detail.product.salenum}} 件 / 库存：{{detail.product.stock}}件

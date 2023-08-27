@@ -13,13 +13,13 @@
   <!-- 已付款 -->
   <swiper-item>
     <scroll-view style="height:calc(100vh - {{bottomLift+topLift+40+110}}px);" class="chanpins" bindscrolltolower="completeScorll" refresher-enabled="{{true}}" refresher-threshold="{{100}}" refresher-default-style="white" refresher-background="var(--TONGYI)" refresher-triggered="{{triggered}}" bindrefresherpulling="onPulling" bindrefresherrefresh="onYRefresh" bindrefresherrestore="onRestore" bindrefresherabort="onAbort" scroll-y="true">
-      <view class="orderDetails" wx:for="{{complete_order}}" wx:key="id">
+      <view class="orderDetails" wx:for-index="idx" wx:for="{{complete_order}}" wx:key="id">
         <view class="curBox">
           <view class="danhao" style="    border-radius: 10px 10px 0 0;">
             <view>单号：{{item.ordernum}} </view>
             <view class="textBox">
               <text wx:if="{{item.refundadmin_id == 1}}" class="Refunded">已退款</text>
-              <text wx:else class="orderStatus">{{item.logistics == 4?"已收货":""}}{{item.logistics==5?"超时收货":""}}</text>
+              <text wx:else class="orderStatus">{{item.logistics == 4?"已收货":""}}{{item.logistics==5?"超时收货":""}}{{item.logistics==6?"有售后":""}}</text>
             </view>
           </view>
           <view wx:for="{{item.order_detail}}" wx:key="index" wx:for-item="detail">
@@ -28,7 +28,7 @@
                 <view class="sales">销售：{{detail.product.salenum}} 件 / 库存：{{detail.product.stock}}件
                 </view>
                 <view>
-                  <text class="productPrice">当前状态：{{item.logistics==0?'消费者下单':""}}{{item.logistics==1?'分拣员分拣':""}}{{item.logistics==2?'配送员配送中':""}}{{item.logistics==3?'提货站到货':""}}{{item.logistics==4&&item.is_comment==0?'已经收货':""}}{{(item.logistics==4||item.logistics==5)&&item.is_comment==1?'已经评价':""}}{{item.logistics==5&&item.is_comment==0?'超时收货':""}}</text>
+                  <text class="productPrice">当前状态：{{item.logistics==0?'消费者下单':""}}{{item.logistics==1?'分拣员分拣':""}}{{item.logistics==2?'配送员配送中':""}}{{item.logistics==3?'提货站到货':""}}{{item.logistics==4&&item.is_comment==0?'已经收货':""}}{{(item.logistics==4||item.logistics==5)&&item.is_comment==1?'已经评价':""}}{{item.logistics==5&&item.is_comment==0?'超时收货':""}}{{item.logistics==6?'有售后':''}}</text>
                 </view>
               </view>
               <view slot="footer">
@@ -54,7 +54,10 @@
             </view>
             <view wx:if="{{item.logistics == 0}}" style="margin-top: 10rpx;margin-left: auto;">
               <button type="primary" style="background-color: var(--TONGYI);" bindtap="takeDelivery" data-data="{{item.ordernum}}" size="mini">收货</button>
-              <!-- <button type="warn" bindtap="refund" data-data="{{item.ordernum}}" size="mini">申请退款</button> -->
+              <button style="margin-left: 10px;" type="warn" bindtap="afterSales" data-data="{{[idx,item]}}" size="mini">有售后</button>
+            </view>
+            <view wx:if="{{item.logistics == 6}}" style="margin-top: 10rpx;margin-left: auto;">
+              <button type="primary" style="background-color: var(--TONGYI);" bindtap="takeDelivery" data-data="{{item.ordernum}}" size="mini">已解决</button>
             </view>
             <!-- <view wx:if="{{item.refundadmin_id !== 1}}" style="float: left; margin-left: 20rpx;margin-top: 10rpx;">
             <button type="warn" bindtap="refund" data-data="{{item.ordernum}}" size="mini">申请退款</button>
@@ -191,5 +194,28 @@
 </swiper>
 
 <mp-tabbar current='1' class="tabbar" style="position:fixed;bottom:0;width:100%;left:0;right:0;z-index: 9999;" list="{{list}}" bindchange="tabChange"></mp-tabbar>
+<!-- 分享弹窗 -->
+<van-dialog show-confirm-button="{{false}}" use-slot show="{{ showShare }}" show-cancel-button confirm-button-open-type="getUserInfo" bind:close="onUserClose" bind:getuserinfo="getUserInfo">
+  <view class="containerFen">
+    <view class="yuan">
+      <van-icon name="success" size="35px" class="duihao" color="white" />
+    </view>
+    <view class="gentuan"><text>恭喜跟团成功</text></view>
+    <view class="containerFen_box3">
+      <van-image width="30" height="30" src="{{href2}}{{avatar}}" />
+      <!-- <image src="{{href2}}{{avatar}}" style="height: 30px;width: 30px;" mode=""/> -->
+      <view> {{nickName}}</view>
+      <view>{{phone}}</view>
+    </view>
+    <view class="containerFen_box4">
+      转发到群聊,通知团长你已下单,尽快发货
+    </view>
+    <view style="margin-top:10px;padding: 10px;">
+      <van-button open-type="share" color="var(--TONGYI)" type="primary" block>分享到群聊</van-button>
+    </view>
+  </view>
 
-<van-share-sheet show="{{ showShare }}" options="{{ options2 }}" bind:select="onSheetSelect" bind:close="onSheetClose" />
+
+</van-dialog>
+
+<!-- <van-share-sheet show="{{ showShare }}" options="{{ options2 }}" bind:select="onSheetSelect" bind:close="onSheetClose" /> -->

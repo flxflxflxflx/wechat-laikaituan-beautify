@@ -44,6 +44,7 @@ Page({
     canceled: [], // 已取消
     complete_order: [], // 已完成
     href: app.globalData.apiUrl + "/uploads/",
+    href2: app.globalData.apiUrl,
     // 定时器数组
     countdownArr: [],
     tabbarHeight: 0,
@@ -64,7 +65,40 @@ Page({
         icon: 'link',
       }
     ],
-    groupbuyId: 0
+    groupbuyId: 0,
+    // 头像
+    avatar: "",
+    nickName: '',
+    phone: ''
+  },
+
+  getUserInfo(event) {
+    console.log(event.detail);
+  },
+
+  // 点击有售后
+  afterSales(e) {
+    let that = this;
+    let idx = e.currentTarget.dataset.data[0];
+    let item = e.currentTarget.dataset.data[1];
+    console.log(idx, item)
+    tr("/afterSales", {
+      ordernum: item.ordernum
+    }).then(function (res) {
+      item.logistics = 6
+      that.setData({
+        ["complete_order[" + idx + "]"]: item
+      }) 
+      wx.showToast({
+        title: '设置成功',
+      })
+    })
+  },
+
+  onUserClose() {
+    this.setData({
+      showShare: false
+    });
   },
 
 
@@ -121,7 +155,6 @@ Page({
   evaluate(e) {
     wx.navigateTo({
       url: '/pages/roleLogin/childView/commodityOrder/evaluate/evaluate?ordernum=' + e.target.dataset.data,
-
     })
   },
 
@@ -503,6 +536,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad(options) {
+    let that = this
     // 页面渲染完成
     this.getDeviceInfo()
     this.orderShow()
@@ -513,6 +547,19 @@ Page({
     cancelPage = 0
     // 开团id
     selectListData = options.selectListData
+    // 获取用户信息
+    tr("/getUserInfo").then(function (res) {
+      let {
+        nickname,
+        phone,
+        avatar
+      } = res.data
+      that.setData({
+        nickName: nickname,
+        phone,
+        avatar
+      })
+    })
   },
 
   // 去付款 
