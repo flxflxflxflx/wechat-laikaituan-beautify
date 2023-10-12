@@ -178,7 +178,7 @@ Page({
         break;
       case 1:
         wx.redirectTo({
-          url: '../commodityOrder/commodityOrder?selectListData=' + this.data.openingProductId+"&isspecial=0",
+          url: '../commodityOrder/commodityOrder?selectListData=' + this.data.openingProductId+"&isspecial=1",
         })
         break;
       case 2:
@@ -246,20 +246,20 @@ Page({
         totalQuantity += dataList[index].num
         totalAmount = Big(totalAmount).plus(Big(dataList[index].num).times(Big(dataList[index].selling_price))).toNumber();
         // 设置总重量
-        let specification_id = dataList[index].product.specification_id;
-        let weight = dataList[index].product.weight
+        let specification_id = dataList[index].specification_id;
+        let weight = dataList[index].weight
         switch (specification_id) {
           case 1:
-            weight = dataList[index].product.weight
+            weight = dataList[index].weight
             break;
           case 2:
-            weight = Big(dataList[index].product.weight).times(Big(500)).toNumber()
+            weight = Big(dataList[index].weight).times(Big(500)).toNumber()
             break;
           case 3:
-            weight = Big(dataList[index].product.weight).times(Big(1000)).toNumber()
+            weight = Big(dataList[index].weight).times(Big(1000)).toNumber()
             break;
           case 4:
-            weight = Big(dataList[index].product.weight).times(Big(10000)).toNumber()
+            weight = Big(dataList[index].weight).times(Big(10000)).toNumber()
             break;
 
           default:
@@ -292,58 +292,60 @@ Page({
         dataList[index].minusStatus = dataList[index].num > 0 ? 'normal' : 'disable';
         productPriceSetting = dataList[index]
       }
-      if (dataList[index].num >= 0 && !isNaN(dataList[index].num) && dataList[index].num !== '' && dataList[index].num <= dataList[index].product.stock) {
+      if (dataList[index].num >= 0 && !isNaN(dataList[index].num) && dataList[index].num !== '' && dataList[index].num <= dataList[index].stock) {
         // 设置总数
         totalQuantity += dataList[index].num
         // 设置总金额
         totalAmount = Big(totalAmount).plus(Big(dataList[index].num).times(Big(dataList[index].selling_price))).toNumber();
         // 设置总重量
-        let specification_id = dataList[index].product.specification_id;
-        let weight = dataList[index].product.weight
+        let specification_id = dataList[index].specification_id;
+        let weight = dataList[index].weight
+        // TODO: 按照数据库的重量计算
         switch (specification_id) {
           case 1:
-            weight = dataList[index].product.weight
+            weight = dataList[index].weight
             break;
           case 2:
-            console.log(dataList[index].product);
-            weight = Big(dataList[index].product.weight).times(Big(500)).toNumber()
+            console.log(dataList[index]);
+            weight = Big(dataList[index].weight).times(Big(500)).toNumber()
             break;
           case 3:
-            weight = Big(dataList[index].product.weight).times(Big(1000)).toNumber()
+            weight = Big(dataList[index].weight).times(Big(1000)).toNumber()
             break;
           case 4:
-            weight = Big(dataList[index].product.weight).times(Big(10000)).toNumber()
+            weight = Big(dataList[index].weight).times(Big(10000)).toNumber()
             break;
 
           default:
+            weight = 0
             break;
         }
         totalWeigth = Big(totalWeigth).plus(Big(dataList[index].num).times(Big(weight))).toNumber();
       } else {
         // 判断增加有没有超过库存
-        dataList[index].num = dataList[index].product.stock
+        dataList[index].num = dataList[index].stock
         productPriceSetting = dataList[index]
         wx.showToast({
-          title: '库存仅有' + dataList[index].product.stock,
+          title: '库存仅有' + dataList[index].stock,
           icon: 'none'
         })
         totalQuantity += dataList[index].num
         totalAmount = Big(totalAmount).plus(Big(dataList[index].num).times(Big(dataList[index].selling_price))).toNumber();
         // 设置总重量
-        let specification_id = dataList[index].product.specification_id;
-        let weight = dataList[index].product.weight
+        let specification_id = dataList[index].specification_id;
+        let weight = dataList[index].weight
         switch (specification_id) {
           case 1:
-            weight = dataList[index].product.weight
+            weight = dataList[index].weight
             break;
           case 2:
-            weight = Big(dataList[index].product.weight).times(Big(500)).toNumber()
+            weight = Big(dataList[index].weight).times(Big(500)).toNumber()
             break;
           case 3:
-            weight = Big(dataList[index].product.weight).times(Big(1000)).toNumber()
+            weight = Big(dataList[index].weight).times(Big(1000)).toNumber()
             break;
           case 4:
-            weight = Big(dataList[index].product.weight).times(Big(10000)).toNumber()
+            weight = Big(dataList[index].weight).times(Big(10000)).toNumber()
             break;
 
           default:
@@ -376,25 +378,25 @@ Page({
         dataList[index].minusStatus = dataList[index].num > 0 ? 'normal' : 'disable';
         productPriceSetting = dataList[index]
       }
-      if (dataList[index].num >= 0 && !isNaN(dataList[index].num) && dataList[index].num !== '' && dataList[index].num <= dataList[index].product.stock) {
+      if (dataList[index].num >= 0 && !isNaN(dataList[index].num) && dataList[index].num !== '' && dataList[index].num <= dataList[index].stock) {
         // 设置总数
         totalQuantity += dataList[index].num
         totalAmount = Big(totalAmount).plus(Big(dataList[index].num).times(Big(dataList[index].selling_price))).toNumber();
         // 设置总重量
-        let specification_id = dataList[index].product.specification_id;
-        let weight = dataList[index].product.weight
+        let specification_id = dataList[index].specification_id;
+        let weight = dataList[index].weight
         switch (specification_id) {
           case 1:
-            weight = dataList[index].product.weight
+            weight = dataList[index].weight
             break;
           case 2:
-            weight = Big(dataList[index].product.weight).times(Big(500)).toNumber()
+            weight = Big(dataList[index].weight).times(Big(500)).toNumber()
             break;
           case 3:
-            weight = Big(dataList[index].product.weight).times(Big(1000)).toNumber()
+            weight = Big(dataList[index].weight).times(Big(1000)).toNumber()
             break;
           case 4:
-            weight = Big(dataList[index].product.weight).times(Big(10000)).toNumber()
+            weight = Big(dataList[index].weight).times(Big(10000)).toNumber()
             break;
 
           default:
@@ -407,30 +409,30 @@ Page({
         productPriceSetting = dataList[index]
       } else {
         // 判断增加有没有超过库存
-        dataList[index].num = dataList[index].product.stock
+        dataList[index].num = dataList[index].stock
         productPriceSetting = dataList[index]
         wx.showToast({
-          title: '库存仅有' + dataList[index].product.stock,
+          title: '库存仅有' + dataList[index].stock,
           icon: 'none'
         })
         // 设置总数
         totalQuantity += dataList[index].num
         totalAmount = Big(totalAmount).plus(Big(dataList[index].num).times(Big(dataList[index].selling_price))).toNumber();
         // 设置总重量
-        let specification_id = dataList[index].product.specification_id;
-        let weight = dataList[index].product.weight
+        let specification_id = dataList[index].specification_id;
+        let weight = dataList[index].weight
         switch (specification_id) {
           case 1:
-            weight = dataList[index].product.weight
+            weight = dataList[index].weight
             break;
           case 2:
-            weight = Big(dataList[index].product.weight).times(Big(500)).toNumber()
+            weight = Big(dataList[index].weight).times(Big(500)).toNumber()
             break;
           case 3:
-            weight = Big(dataList[index].product.weight).times(Big(1000)).toNumber()
+            weight = Big(dataList[index].weight).times(Big(1000)).toNumber()
             break;
           case 4:
-            weight = Big(dataList[index].product.weight).times(Big(10000)).toNumber()
+            weight = Big(dataList[index].weight).times(Big(10000)).toNumber()
             break;
 
           default:
@@ -482,12 +484,12 @@ Page({
 
     let that = this
     let item = e.currentTarget.dataset.item
-
+    
     tr("/visualizzaVolume", {
-      productId: item.product.id
+      productId: item.id
     })
     wx.navigateTo({
-      url: '../../childView/productDetails/productDetails?productid=' + item.product.id + "&selling_price=" + item.selling_price + "&page=productBuy",
+      url: '../../childView/productDetails/productDetails?productid=' + item.id + "&selling_price=" + item.selling_price + "&page=productBuy",
     })
 
     // that.setData({
@@ -556,8 +558,8 @@ Page({
     for (let index = 0; index < dataList.length; index++) {
       if (dataList[index].num > 0) {
         dataList[index]["extraCosts"] = this.data.extraCosts // 设置手续费
-        if (dataList[index]["product"]["stock"] - dataList[index]["num"] >= 0) {
-          dataList[index].product.stock = dataList[index]["product"]["stock"] - dataList[index]["num"]
+        if (dataList[index]["stock"] - dataList[index]["num"] >= 0) {
+          dataList[index].stock = dataList[index]["stock"] - dataList[index]["num"]
         } else {
           wx.showToast({
             title: '库存不足',
@@ -598,7 +600,7 @@ Page({
     // openid 
     let that = this
     // 生成订单号
-    tr("/generateOrderNumber", {
+    tr("/generatePurchaseOrderNumber", {
       payProducts,
       price: that.data.totalAmount,
       nums: that.data.totalQuantity,
@@ -610,7 +612,6 @@ Page({
       tr("/pay", {
         ordernum: res.data.ordersn
       }).then(function (res) {
-
         that.setData({
           submitOrderIsLoading: false
         })
@@ -777,11 +778,12 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad(options) {
+    let selectListData = JSON.parse(options.selectListData)
     app.setWatcher(this);
 
     // 向后台请求角色权限
     let that = this
-    this.isLogin('/getUserPermissions', options).then(function (res) {
+    this.isLogin('/getUserPermissions').then(function (res) {
       let isPermissionsNull = res.data.isPermissionsNull
       if (isPermissionsNull) {
         console.log("没有团长权限");
@@ -800,20 +802,21 @@ Page({
         title: '加载中...',
       })
       // 获取商品
-      tr("/getOpeningProducts", {
-        groupbuy_id: that.data.openingProductId
+      tr("/procurementOfGoods", {
+        selectListData
       }).then(function (res) {
         wx.hideLoading()
         if (res.data.code == 409) {
           // 订单已经截单
           that.setData({
-            isCutOrder: true
+            isCutOrder: false
           })
         } else {
           res.data.data.map((item) => {
             console.log(item);
             item["num"] = 0
-            item["selling_price"] =  Big(item["selling_price"]).plus(Big(item.product["help_sell_price"])).toNumber()
+            // item["selling_price"] =  Big(item["selling_price"]).plus(Big(item.product["help_sell_price"])).toNumber()
+            item["selling_price"] =  item.supplyprice
             item["minusStatus"] = "disable"
           });
           that.setData({
@@ -829,8 +832,8 @@ Page({
       }).then(function (res) {
         console.log(res.data);
         that.setData({
-          groupbuyInfo: res.data.openingInfo,
-          extraCosts: res.data.openingInfo.delivery_fee,
+          // groupbuyInfo: res.data.openingInfo,
+          // extraCosts: res.data.openingInfo.delivery_fee,
           basesInfo: res.data.basesInfo
         })
       })

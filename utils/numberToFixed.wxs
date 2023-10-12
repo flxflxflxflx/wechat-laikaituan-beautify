@@ -14,7 +14,7 @@ var filter = {
     if (value == null) {
       number = ''
     } else {
-      number = (value*1).toFixed(2)
+      number = (value * 1).toFixed(2)
     }
     return number
   },
@@ -22,7 +22,7 @@ var filter = {
     return parseInt(value.toFixed(2).replace(".", ""))
   },
   stringTrim: function (value) {
-    return value.trim()
+    return value.toString().trim()
   },
   // 小数点前
   pointBefore: function (x) {
@@ -45,6 +45,35 @@ var filter = {
     } else {
       return ".00";
     }
+  },
+  formatTime:function(string) {
+    var publishTime = parseInt(string), //必须对传入的字符串做格式化，否则getDate将无法转换数据
+      date = getDate(publishTime), //转化为标准时间格式：Thu Sep 06 2018 18:47:00 GMT+0800 (中国标准时间）
+      Y = date.getFullYear(),
+      M = date.getMonth() + 1,
+      D = date.getDate(),
+      H = date.getHours(),
+      m = date.getMinutes(),
+      s = date.getSeconds();
+    // 获取date 中的 年 月 日 时 分 秒
+    // 对 月 日 时 分 秒 小于10时, 加0显示 例如: 09-09 09:01
+    if (M < 10) {
+      M = '0' + M;
+    }
+    if (D < 10) {
+      D = '0' + D;
+    }
+    if (H < 10) {
+      H = '0' + H;
+    }
+    if (m < 10) {
+      m = '0' + m;
+    }
+    if (s < 10) {
+      s = '0' + s;
+    }
+
+    return Y + '-' + M + '-' + D + ' ' + H + ':' + m
   }
 }
 // 导出对外暴露的属性
@@ -54,5 +83,6 @@ module.exports = {
   toFixed: filter.toFixed,
   toFixed2: filter.toFixed2,
   pointBefore: filter.pointBefore,
-  pointAfter: filter.pointAfter
+  pointAfter: filter.pointAfter,
+  timestampToTime: filter.formatTime
 }

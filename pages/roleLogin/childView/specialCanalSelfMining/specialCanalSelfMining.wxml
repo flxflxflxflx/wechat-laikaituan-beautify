@@ -1,0 +1,211 @@
+<wxs module="filter" src="/utils/numberToFixed.wxs"></wxs>
+<van-nav-bar title="购买商品" fixed bind:click-left="backHome" wx:if="{{false}}">
+  <view slot="left">
+    <van-icon name="wap-home" color="var(--IgnoreMessage)" size="20px" />
+  </view>
+</van-nav-bar>
+<!-- <scroll-view wx:if="{{!isCutOrder}}" scroll-y="true" style="height: calc(100% - {{groupbuyInfo.own_addr == null?150:60}}px  - {{tabbarHeight}}px);" lower-threshold='50' bindscrolltolower="searchScrollLower"> -->
+<scroll-view wx:if="{{!isCutOrder}}" scroll-y="true" style="height: calc(100% - {{groupbuyInfo.own_addr == null?60:60}}px  - {{tabbarHeight}}px);" lower-threshold='50' bindscrolltolower="searchScrollLower">
+  <view class='list' >
+    <checkbox-group bindchange="">
+      <block wx:for='{{dataList}}' wx:key='index' wx:for-item="item">
+        <!-- 商品 -->
+        <van-card price-class="vanPrice" title-class="vanTitle" custom-class="vanCand" catchtap="onListbtn" data-item="{{item}}" num="{{item.num}}" price="{{filter.toFixed(item.selling_price)}}" title="{{item.title}}" thumb="{{href}}{{item.simg}}">
+          <view slot="desc">
+            <view class="product_add">
+              <van-tag plain custom-class="vanTag" type="primary">{{item.scorenum}}+评分</van-tag>
+              <van-tag plain custom-class="vanTag" type="success">{{item.views}}+浏览</van-tag>
+              <van-tag plain custom-class="vanTag" type="danger">{{item.salenum}}+销售</van-tag>
+              <van-tag plain custom-class="vanTag" type="warning">{{item.share}}+分享</van-tag>
+            </view>
+          </view>
+          <view slot="footer" catchtap="stop">
+            <van-stepper bind:change="bindManual" value="{{item.num}}" bind:minus="bindMinus" bind:plus="bindPlus" data-value="{{item.id}}" integer min="0" max="{{item.stock}}" />
+          </view>
+        </van-card>
+        <view style="height: 2px;"></view>
+        <!-- 旧商品 -->
+        <!-- <view class="list_item" catchtap="onListbtn" data-item="{{item}}">
+          <view class='img'>
+            <image src="{{href}}{{item.product.simg}}" mode="aspectFit" />
+          </view>
+
+          <view class='info'>
+            <view class='title'>{{item.product.title}}</view>
+            <view class="product_add">
+              <view>{{item.product.scorenum}}+评分</view>
+              <view>{{item.product.views}}+浏览</view>
+              <view>{{item.product.salenum}}+销售</view>
+              <view>{{item.product.share}}+分享</view>
+            </view>
+
+            <view class="product_footer">
+              <view class='price'>
+                <text style="font-size: 25rpx;">销售价</text><text style="color: #f71313;">￥<text style="font-size: 35rpx;">{{item.selling_price}}</text></text>
+              </view>
+
+              <view class="add" catchtap="stop">
+                <view class='stepper'>
+                  <text class='{{item.minusStatus}}' type='number' data-value="{{item.id}}" bindtap='bindMinus'>-</text>
+                  <input type="number" bindinput='bindManual' data-value="{{item.id}}" value='{{item.num}}'></input>
+                  <text bindtap='bindPlus' data-value="{{item.id}}">+</text>
+                </view>
+              </view>
+            </view>
+          </view>
+          <view class='clear'></view>
+        </view> -->
+      </block>
+    </checkbox-group>
+  </view>
+</scroll-view>
+
+<!-- 截单 -->
+<view wx:if="{{isCutOrder}}" style="background-color: rgb(233, 233, 233);width: 100%;height: 100%;text-align: center;display: flex;justify-content: center;align-items: center;">
+  <viwe>已经截单</viwe>
+</view>
+
+
+<!-- 商品详情 -->
+<mp-half-screen-dialog extClass="mp-half-screen-dialog" bindbuttontap="buttontap" show="{{show}}" maskClosable="{{true}}" title="商品详情" subTitle="" buttons="{{buttons}}">
+  <view slot="desc">
+    <view wx:if="{{isnavShow}}" class="swiper-tab">
+      <view class="tab-item {{currentTab==0 ? 'on' : ''}}" data-current="0" bindtap="swichNav">商品</view>
+      <view class="tab-item {{currentTab==1 ? 'on' : ''}}" data-current="1" bindtap="swichNav">评价</view>
+      <view class="tab-item {{currentTab==2 ? 'on' : ''}}" data-current="2" bindtap="swichNav">详情</view>
+    </view>
+    <scroll-view bindscroll="scrollViewScroll" style="height:50vh;" scroll-y="true" scroll-into-view="{{toView}}">
+      <view id="toView0" class="continue">
+        <view class="greyBox">
+          <swiper indicator-dots current="0" style="height:400rpx" next-margin="10px">
+            <swiper-item wx:if="{{productInfo.dvideo}}">
+              <video show-mute-btn play-btn-position="center" style="width: 100%;height: 100%;" autoplay show-fullscreen-btn show-bottom-progress src="{{href}}{{productInfo.dvideo}}"></video>
+            </swiper-item>
+            <swiper-item wx:for="{{productInfo.dimgslist}}" wx:key="index" style="text-align: center;">
+              <image src="{{href}}{{item}}" style="height:100%;" mode="heightFix"></image>
+            </swiper-item>
+          </swiper>
+          <view>
+            <view style="display:flex;justify-content: center;" class="priceBox">
+              <view style="font-size: 25rpx;">供应价<text style="color: #f79213;">￥<text style="font-size: 40rpx;">{{filter.numberToFixed(productInfo.supplyprice + productInfo.supplyprice * productInfo.charges_fee / 100)}}</text></text></view>
+              <view style="margin-left: 30rpx;font-size: 25rpx;">建议价<text style="color: #f79213;">￥<text style="font-size: 40rpx;">{{productInfo.recommendedprice}}</text></text></view>
+              <view wx:if="{{productInfo.openingPrice}}" style="margin-left: 30rpx;font-size: 25rpx;">开团价<text style="color: #f71313;">￥<text style="font-size: 40rpx;">{{productInfo.openingPrice}}</text></text></view>
+            </view>
+            <view style="margin-top: 10rpx;">
+              <text style="font-size: 30rpx;font-weight: 600;">{{productInfo.title}}</text>
+            </view>
+          </view>
+        </view>
+        <!-- 评价 -->
+        <view id="toView1" class="appraise">
+          <view class="appraise_header">
+            <view>宝贝评价({{productInfo.scorenum}})</view>
+            <view bindtap="viewCount">查看全部 ></view>
+          </view>
+        </view>
+        <!-- 详情 -->
+        <view id="toView2" class="appraise">
+          <view class="appraise_header">
+            <view>商品详情</view>
+          </view>
+          <view style="font-size: 25rpx;margin-top: 10rpx;">
+            {{productInfo.details}}
+          </view>
+          <!-- 商品图片 -->
+          <view style="text-align: center;margin-top: 10rpx;">
+            <block wx:for="{{productInfo.dimgslist}}" wx:key="index">
+              <image src="{{href}}{{item}}" style="width: 100%;" mode="widthFix"></image>
+            </block>
+          </view>
+        </view>
+      </view>
+    </scroll-view>
+  </view>
+</mp-half-screen-dialog>
+
+<!-- 底部功能区 -->
+
+<view wx:if="{{!isCutOrder}}" class="footer">
+  <view>
+    <view style="clear: both;"></view>
+  </view>
+  <!-- wx:if="{{groupbuyInfo.own_addr == null?true:false}}" -->
+  <view style="font-size: 14px;display: none;">
+    <!-- <view>自备提货点 :</view> -->
+    <!-- <view style="margin-left: 20rpx;"> -->
+    <!-- <picker mode="multiSelector" bindchange="bindMultiPickerChange" bindcolumnchange="bindMultiPickerColumnChange" value="{{multiIndex}}" range="{{multiObjArray}}" range-key="{{'title'}}">
+        <view class="picker">
+          <text style="width:180rpx">自备提货点 :</text>
+          {{multiObjArray[0][multiIndex[0]].title}}，
+          {{multiObjArray[0][multiIndex[0]].station[multiIndex[1]].title}}
+        </view>
+      </picker> -->
+    <!-- <input type="text" value="{{selfProvidedPickupPoint}}" bindinput="selfProvidedPickupPoint" placeholder="请输入自备提货点" />
+    </view> -->
+    <van-field value="{{ fieldValue }}" is-link readonly label="地区" placeholder="请选择所在地区" bind:tap="onClick" />
+    <van-popup show="{{ area_show }}" round position="top">
+      <van-cascader wx:if="{{ area_show }}" value="{{ cascaderValue }}" title="请选择所在地区" options="{{ options }}" bind:close="onClose" bind:click-tab="clicktab" bind:change="onChange" bind:finish="onFinish" />
+    </van-popup>
+    <van-cell-group>
+      <van-field value="{{ address }}" bind:change="onAddressChange" label="详细地址" type="textarea" placeholder="请输入详细地址" border="{{ false }}" />
+    </van-cell-group>
+  </view>
+  <view style="margin-top: 10rpx;">
+    <van-submit-bar suffix-label="包含配送费{{extraCosts}}元" button-class="button" custom-class="van-submit-bar" loading="{{submitOrderIsLoading}}" price="{{ filter.toFixed2(totalAmount+extraCosts) }}" button-text="提交订单" bind:submit="paymentCollection">
+    </van-submit-bar>
+  </view>
+</view>
+
+<!-- 购买弹窗 -->
+<mp-half-screen-dialog extClass="mp-half-screen-dialog" bindbuttontap="buttontap" show="{{isBuyDialogShow}}" maskClosable="{{true}}">
+  <view slot="desc">
+    <view>
+      <text style="color: red;font-size: 25rpx;">￥<text style="font-size: 40rpx;">{{productPriceSetting.selling_price}}</text></text>
+    </view>
+    <view>
+      库存:<text style="color: var(--globalBackground);opacity: 0.5;">{{productPriceSetting.product.stock}}</text>件
+    </view>
+    <view style="height: 0.5px;background-color: grey;opacity:0.5;margin-top: 10rpx;"></view>
+    <!-- 数量 -->
+    <view style="margin-top: 20rpx;display: flex;justify-content: space-between;align-items: center;">
+      <view style="font-size: 30rpx;font-weight: 700;">
+        数量
+      </view>
+      <!-- 加减 -->
+      <view>
+        <view class='stepper'>
+          <text class='{{productPriceSetting.minusStatus}}' type='number' data-value="{{productPriceSetting.id}}" bindtap='bindMinus'>-</text>
+          <input type="number" bindinput='bindManual' data-value="{{productPriceSetting.id}}" value='{{productPriceSetting.num}}'></input>
+          <text bindtap='bindPlus' data-value="{{productPriceSetting.id}}">+</text>
+        </view>
+      </view>
+    </view>
+  </view>
+</mp-half-screen-dialog>
+<mp-tabbar class="tabbar" style="position:fixed;bottom:0;width:100%;left:0;right:0;z-index: 9999;" list="{{list}}" bindchange="tabChange"></mp-tabbar>
+
+<!-- 分享弹窗 -->
+<van-dialog show-confirm-button="{{false}}" use-slot show="{{ showShare }}" show-cancel-button confirm-button-open-type="getUserInfo" bind:close="onUserClose" bind:getuserinfo="getUserInfo">
+  <view class="containerFen">
+    <view class="yuan">
+      <van-icon name="success" size="35px" class="duihao" color="white" />
+    </view>
+    <view class="gentuan"><text>恭喜跟团成功</text></view>
+    <view class="containerFen_box3">
+      <van-image width="30" height="30" src="{{href2}}{{avatar}}" />
+      <!-- <image src="{{href2}}{{avatar}}" style="height: 30px;width: 30px;" mode=""/> -->
+      <view> {{nickName}}</view>
+      <view>{{phone}}</view>
+    </view>
+    <view class="containerFen_box4">
+      转发到群聊,通知团长你已下单,尽快发货
+    </view>
+    <view style="margin-top:10px;padding: 10px;">
+      <van-button open-type="share" color="var(--TONGYI)" type="primary" block>分享到群聊</van-button>
+    </view>
+  </view>
+
+
+</van-dialog>
+
+<!-- <van-share-sheet show="{{ showShare }}" options="{{ options2 }}" bind:select="onSheetSelect" bind:close="onSheetClose" /> -->

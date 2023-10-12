@@ -75,7 +75,8 @@
 
 <!-- 分享 -->
 <view class="shareBtn" style="bottom:{{bottomLift+65}}px" wx:if="{{isShare}}">
-  <button bindtap="onShare" type="primary">分享({{selectListData.length}})</button>
+  <van-button custom-class="vanButton" style="width:50%" color="rgb(101, 196, 170)" bindtap="onShare" type="primary">分享({{selectListData.length}})</van-button>
+  <van-button custom-class="vanButton" style="width:50%" color="rgb(101, 185, 180)" bindtap="selfHarvesting" type="primary">自采({{selectListData.length}})</van-button>
 </view>
 
 <!--商品详情-->

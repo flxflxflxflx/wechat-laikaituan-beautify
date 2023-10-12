@@ -50,7 +50,8 @@
             </view>
           </view>
           <view slot="footer" style="position: relative;">
-            <view wx:if="{{item.recommendedprice&&isfenxiang}}" style="position: absolute;top: -30px;right: 10px;">建议价格:<text style="font-size: 14px;font-weight: 600;color: var(--TONGYI);">￥{{filter.pointBefore(item.recommendedprice)}}</text><text style="font-size: 12px;font-weight: 600;color: var(--TONGYI);">{{filter.pointAfter(item.recommendedprice)}}</text></view>
+            <!-- 隐藏建议价格 -->
+            <view wx:if="{{item.recommendedprice&&isfenxiang}}" style="position: absolute;top: -30px;right: 10px;display: none;">建议价格:<text style="font-size: 14px;font-weight: 600;color: var(--TONGYI);">￥{{filter.pointBefore(item.recommendedprice)}}</text><text style="font-size: 12px;font-weight: 600;color: var(--TONGYI);">{{filter.pointAfter(item.recommendedprice)}}</text></view>
             <view class="delete" catchtap="stop">
               <button size="mini" data-item="{{item}}" bindtap="setPrice">设置价格</button>
             </view>
@@ -194,8 +195,8 @@
               <video show-mute-btn play-btn-position="center" style="width: 100%;height: 100%;" muted autoplay show-fullscreen-btn show-bottom-progress src="{{href}}/{{productInfo.dvideo}}"></video>
             </swiper-item>
             <swiper-item>
-            <image  src="{{href}}/{{productInfo.simg}}" style="height: 510px;width: 100%;" mode="aspectFit"></image>
-          </swiper-item>
+              <image src="{{href}}/{{productInfo.simg}}" style="height: 510px;width: 100%;" mode="aspectFit"></image>
+            </swiper-item>
             <!-- <swiper-item wx:for="{{productInfo.dimgslist}}" wx:key="index" style="text-align: center;">
               <image src="{{href}}{{item}}" style="height: 510px;width: 100%;" mode="aspectFit"></image>
             </swiper-item> -->
@@ -273,19 +274,28 @@
     <mp-toptips msg="{{error}}" type="error" show="{{error}}"></mp-toptips>
     <view class="page">
       <view class="page__bd">
-        <van-cell center title="截单时间" is-link>
-          <picker data-field="deadline" mode="time" value="{{date}}" start="00:00" end="21:00" bindchange="bindDateChange">
+        <van-cell bind:tap="timeClick" center title="截单时间" is-link>
+          <!-- <picker data-field="deadline" mode="time" value="{{date}}" start="00:00" end="21:00" bindchange="bindDateChange">
             <view class="weui-input">{{date}}</view>
-          </picker>
+          </picker> -->
+          <block wx:if="{{date == ''}}">
+            请选择时间
+          </block>
+          <block wx:else>
+            {{filter.timestampToTime(date)}}
+          </block>
+          <!-- 请选择时间 -->
         </van-cell>
         <!-- 这个自行配送已经去掉了,以后收货地址都要消费者来填写 -->
-        <van-cell wx:if="{{false}}" center title="自行配送">
+        <!-- <van-cell wx:if="{{true}}" center title="自行配送">
           <van-switch checked="{{isSelfDelivery}}" bind:change="isSelfDelivery" active-color="var(--TONGYI)" inactive-color="#fff" />
-        </van-cell>
+        </van-cell> -->
+
         <van-cell wx:if="{{!isSelfDelivery}}" required bindtap="addressShow" title="提货地址" is-link value="{{filter.stringTrim(deliveryaddress)==''?'请选择':deliveryaddress }}" />
         <van-popup show="{{ addressShow }}" position="bottom" custom-style="height: 400px;" bind:close="onAddressClose">
           <van-picker show-toolbar title="提货地址选择" columns="{{ AddressColumns }}" bind:cancel="onAddressCancel" bind:confirm="onAddressConfirm" />
         </van-popup>
+        <van-cell custom-class="vancell" title="接货时间">{{receivingTime}}</van-cell>
         <!-- <van-cell center title="包邮">
           <van-switch checked="{{isFreeShipping}}" bind:change="isFreeShipping" active-color="var(--TONGYI)" inactive-color="#fff" />
         </van-cell> -->
@@ -302,3 +312,8 @@
     <button wx:else open-type="share" type="primary">分享</button>
   </view>
 </mp-half-screen-dialog>
+
+
+<van-popup show="{{ showPopup }}" position="bottom" custom-style="z-index:99999;" bind:close="onClose">
+  <van-datetime-picker cancel-button-text="" bind:cancel="a" bind:confirm="cancel" type="datetime" value="{{ date }}" min-date="{{ minDate }}"   bind:input="onInput" />
+</van-popup>

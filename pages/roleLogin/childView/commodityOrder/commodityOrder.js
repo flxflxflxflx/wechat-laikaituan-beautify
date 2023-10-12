@@ -16,6 +16,7 @@ Page({
    * 页面的初始数据
    */
   data: {
+    isspecial: false,
     currtab: 0,
     swipertab: [{
       name: '已付款',
@@ -88,7 +89,7 @@ Page({
       item.logistics = 6
       that.setData({
         ["complete_order[" + idx + "]"]: item
-      }) 
+      })
       wx.showToast({
         title: '设置成功',
       })
@@ -115,7 +116,7 @@ Page({
   },
 
   onSheetSelect(event) {
-    console.log(event);
+    console.log(event, "7777");
     if (event.detail.name == "复制链接") {
       // 获取短链接   
       tr("/getShortLink", {
@@ -514,9 +515,15 @@ Page({
   tabChange(e) {
     switch (e.detail.index) {
       case 0:
-        wx.redirectTo({
-          url: '../commodityPurchase/commodityPurchase?selectListData=' + selectListData,
-        })
+        if (this.data.isspecial) {
+          wx.redirectTo({
+            url: '../specialCanalSelfMining/specialCanalSelfMining?selectListData=' + JSON.stringify(selectListData),
+          })
+        } else {
+          wx.redirectTo({
+            url: '../commodityPurchase/commodityPurchase?selectListData=' + selectListData,
+          })
+        }
         break;
       case 1:
 
@@ -546,7 +553,15 @@ Page({
     // 已取消页
     cancelPage = 0
     // 开团id
-    selectListData = options.selectListData
+    console.log(options.isspecial, "888")
+    if (options.isspecial == 1) {
+      selectListData = JSON.parse(options.selectListData)
+      this.data.isspecial = true
+    } else {
+      selectListData = options.selectListData
+      this.data.isspecial = false
+
+    }
     // 获取用户信息
     tr("/getUserInfo").then(function (res) {
       let {

@@ -102,6 +102,14 @@ Page({
     }
   },
 
+  // 自采
+  selfHarvesting() {
+    console.log(this.data.selectListData)
+    // 跳转到商品选择完的列表
+    wx.navigateTo({
+      url: "/pages/roleLogin/childView/specialCanalSelfMining/specialCanalSelfMining?selectListData="+ JSON.stringify(this.data.selectListData),
+    })
+  },
 
   jumpGYS() {
     sub([app.globalData.TEMPALE_ID]).then(function (res) {

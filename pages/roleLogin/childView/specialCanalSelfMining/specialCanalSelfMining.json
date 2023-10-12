@@ -1,0 +1,11 @@
+{
+  "navigationBarTitleText": "特渠自采",
+  "usingComponents": {
+    "mp-searchbar": "/weui-miniprogram/searchbar/searchbar",
+    "mp-half-screen-dialog": "/weui-miniprogram/half-screen-dialog/half-screen-dialog",
+    "mp-cells": "/weui-miniprogram/cells/cells",
+    "mp-cell": "/weui-miniprogram/cell/cell",
+    "mp-toptips": "/weui-miniprogram/toptips/toptips",
+    "mp-tabbar": "/weui-miniprogram/tabbar/tabbar"
+  }
+}

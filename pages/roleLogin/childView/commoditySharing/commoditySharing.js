@@ -19,6 +19,8 @@ Page({
     imghref: app.globalData.apiUrl + "/uploads/",
     // 团长开团商品数量限制
     tz_share_num: 4,
+    // 地址列表
+    addressList:[],
     show: false,
     buttons: [{
         type: 'default',
@@ -47,7 +49,6 @@ Page({
     /**
      * 分享
      */
-    date: "21:00",
     pickUpPoint: false,
     // 交货地址
     deliveryaddress: '',
@@ -63,14 +64,96 @@ Page({
     // 运费金额
     freightAmount: 0,
     // 是否自行配送
-    isSelfDelivery: true,
+    isSelfDelivery: false,
     AddressColumns: ['杭州', '宁波', '温州', '嘉兴', '湖州'],
     addressShow: false,
     // 评论
     CommentInformation: [],
     toPriceRetioh: '',
     // 分享隐藏
-    isfenxiang: true
+    isfenxiang: true,
+    // 最小时间
+    minDate: "",
+    // 最大时间
+    maxDate: "",
+    // 当前时间
+    date: "",
+    maxHour: "",
+    showPopup: false,
+    // 接货时间
+    receivingTime: ""
+    // a(type, options) {
+    //   if (type === 'hour') {
+    //     let date = wx.getStorageSync("tz_statement_time").split(":");
+    //     return options.filter((option) => option <= date[0]-1);
+    //   }
+
+    //   return options;
+    // },
+  },
+  // 判断时间是否小于截止时间
+  formatTime(string) {
+    var publishTime = parseInt(string), //必须对传入的字符串做格式化，否则getDate将无法转换数据
+      date = new Date(publishTime), //转化为标准时间格式：Thu Sep 06 2018 18:47:00 GMT+0800 (中国标准时间）
+      Y = date.getFullYear(),
+      M = date.getMonth() + 1,
+      D = date.getDate(),
+      H = date.getHours(),
+      m = date.getMinutes(),
+      s = date.getSeconds();
+    // 获取date 中的 年 月 日 时 分 秒
+    // 对 月 日 时 分 秒 小于10时, 加0显示 例如: 09-09 09:01
+    if (M < 10) {
+      M = '0' + M;
+    }
+    if (D < 10) {
+      D = '0' + D;
+    }
+    if (H < 10) {
+      H = '0' + H;
+    }
+    if (m < 10) {
+      m = '0' + m;
+    }
+    if (s < 10) {
+      s = '0' + s;
+    }
+    let tz_statement_time = wx.getStorageSync("tz_statement_time").split(":");
+    if (H > parseInt(tz_statement_time[0])) {
+      return false
+    } else if (H == tz_statement_time[0]) {
+      if (m != '00') {
+        return false
+      }
+    }
+    return true
+  },
+  timeClick() {
+    this.setData({
+      showPopup: true
+    })
+  },
+  a(){
+    console.log("ddd")
+  },
+  cancel(e) {
+    this.setData({
+      date: e.detail
+    })
+    let isTime = this.formatTime(this.data.date)
+    if (isTime == true) {
+      this.setData({
+        showPopup: false
+      })
+    } else {
+      wx.showToast({
+        title: '截单时间需要小于' + wx.getStorageSync("tz_statement_time"),
+        icon: "none"
+      })
+    }
+  },
+  onInput(e) {
+  
   },
   addressShow() {
     this.setData({
@@ -83,9 +166,11 @@ Page({
     })
   },
   onAddressConfirm(e) {
+    let selectItem = this.data.addressList.filter(a=>{return a.address == e.detail.value});
     this.setData({
       deliveryaddress: e.detail.value,
-      addressShow: false
+      addressShow: false,
+      receivingTime: selectItem.length!=0?selectItem[0].time_interval:""
     })
   },
 
@@ -608,11 +693,16 @@ Page({
       });
     })
 
-    // 获取地址
+    // 获取地址和截单时间
     tr("/getAddressColumns").then(function (res) {
+      wx.setStorageSync('tz_statement_time', res.data.tz_statement_time);
+      let address = res.data.address.map(e=>e.address)
       that.setData({
-        AddressColumns: res.data
+        AddressColumns: address,
+        addressList:res.data.address,
+        minDate: new Date().getTime(),
       })
+      console.log(that.data.AddressColumns[0].address)
     })
 
     // 获取开团比例
@@ -667,6 +757,7 @@ Page({
 
   //用户点击右上角分享给好友，要现在分享到好友这个设置menu的两个参数，才可以实现分享到朋友圈
   onShareAppMessage: async function () {
+    let that = this
     this.setData({
       isfenxiang: false
     })
@@ -727,7 +818,6 @@ Page({
     productList.forEach(function (item) {
       title += item.title + "\n"
     })
-    let that = this
     setTimeout(() => {
       that.setData({
         isfenxiang: true

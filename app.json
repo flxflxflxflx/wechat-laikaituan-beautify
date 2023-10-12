@@ -26,7 +26,8 @@
     "pages/roleView/myView/asset",
     "pages/roleView/myView/order-list/index",
     "pages/roleView/tzView/childView/orderRecord/orderRecord",
-    "pages/aa/aa"
+    "pages/aa/aa",
+    "pages/roleLogin/childView/specialCanalSelfMining/specialCanalSelfMining"
   ],
   "window": {
     "backgroundTextStyle": "light",
