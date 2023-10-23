@@ -5,40 +5,42 @@
 <van-search bind:clear="clear" bind:change="search" placeholder="请输入搜索关键词" />
 <!-- 内容 -->
 <!-- 侧边导航 -->
-<van-tree-select main-active-class="active" items="{{ items }}" height=" calc(100% - {{114+bottomLift}}px);" main-active-index="{{ mainActiveIndex }}" active-id="{{ activeId }}"   bind:click-nav="onClickNav" bind:click-item="onClickItem">
-  <view slot="content">
-    <scroll-view scroll-y="true" style="height: calc(100vh - {{114+bottomLift}}px);width: calc(100vw - 85px);" lower-threshold='50' bindscrolltolower="searchScrollLower">
-      <view class='list'>
-        <checkbox-group bindchange="">
-          <block wx:for='{{dataList}}' wx:key='index' wx:for-item="item">
-            <!-- 商品 -->
-            <van-card price-class="vanPrice" title-class="vanTitle" custom-class="vanCand" catchtap="onListbtn" data-item="{{item}}" price="{{filter.toFixed(item.supplyprice)}}" title="{{item.title}}" thumb="{{imghref}}{{item.simg}}">
-              <view slot="desc">
-                <view class="product_add">
-                  <!-- <van-tag plain custom-class="vanTag" type="primary">{{item.scorenum}}+评分</van-tag>
+<view style="position: relative;">
+  <van-tree-select main-active-class="active" items="{{ items }}" height=" calc(100% - {{114+bottomLift}}px);" main-active-index="{{ mainActiveIndex }}" active-id="{{ activeId }}" bind:click-nav="onClickNav" bind:click-item="onClickItem">
+    <view slot="content">
+      <scroll-view scroll-y="true" style="height: calc(100vh - {{114+bottomLift}}px);width: calc(100vw - 85px);" lower-threshold='50' bindscrolltolower="searchScrollLower">
+        <view class='list'>
+
+          <checkbox-group bindchange="">
+            <block wx:for='{{dataList}}' wx:key='index' wx:for-item="item">
+              <!-- 商品 -->
+              <van-card price-class="vanPrice" title-class="vanTitle" custom-class="vanCand" catchtap="onListbtn" data-item="{{item}}" price="{{filter.toFixed(item.supplyprice)}}" title="{{item.title}}" thumb="{{imghref}}{{item.simg}}">
+                <view slot="desc">
+                  <view class="product_add">
+                    <!-- <van-tag plain custom-class="vanTag" type="primary">{{item.scorenum}}+评分</van-tag>
               <van-tag plain custom-class="vanTag" type="success">{{item.views}}+浏览</van-tag>
               <van-tag plain custom-class="vanTag" type="danger">{{item.salenum}}+销售</van-tag>
               <van-tag plain custom-class="vanTag" type="warning">{{item.share}}+分享</van-tag> -->
+                  </view>
                 </view>
-              </view>
-              <view slot="footer">
-                <view class="delete" catchtap="stop">
-                  <checkbox checked="{{item.isCheckShow}}" bindtap="selectList" data-data="{{item}}" value="{{item.id}}" />
+                <view slot="footer">
+                  <view class="delete" catchtap="stop">
+                    <checkbox checked="{{item.isCheckShow}}" bindtap="selectList" data-data="{{item}}" value="{{item.id}}" />
+                  </view>
                 </view>
-              </view>
-              <view slot="tags">
-                <!-- 是否包分配 -->
-                <view class="product_isfenpei">
-                  <van-tag wx:if="{{item.is_public == 0||item.is_my_product==1}}" mark type="primary">我的</van-tag>
-                  <van-tag mark wx:if="{{item.is_public}}" type="warning">平台商品</van-tag>
+                <view slot="tags">
+                  <!-- 是否包分配 -->
+                  <view class="product_isfenpei">
+                    <van-tag wx:if="{{item.is_public == 0||item.is_my_product==1}}" mark type="primary">我的</van-tag>
+                    <van-tag mark wx:if="{{item.is_public}}" type="warning">平台商品</van-tag>
+                  </view>
                 </view>
-              </view>
-            </van-card>
-            <view style="height: 2px;"></view>
+              </van-card>
+              <view style="height: 2px;"></view>
 
 
 
-            <!-- <view class="list_item" catchtap="onListbtn" data-item="{{item}}">
+              <!-- <view class="list_item" catchtap="onListbtn" data-item="{{item}}">
           <view class='img'>
             <image src="{{imghref}}{{item.simg}}" mode="aspectFit" />
           </view>
@@ -64,13 +66,15 @@
           </view>
           <view class='clear'></view>
         </view> -->
-          </block>
-        </checkbox-group>
-      </view>
-      <view style="height: 46px;"></view>
-    </scroll-view>
-  </view>
-</van-tree-select>
+            </block>
+          </checkbox-group>
+        </view>
+        <view style="height: 46px;"></view>
+      </scroll-view>
+    </view>
+  </van-tree-select>
+  <view class="myProduct" bind:tap="getMyProductLists">我的商品</view>
+</view>
 
 
 <!-- 分享 -->

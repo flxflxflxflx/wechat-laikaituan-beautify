@@ -107,7 +107,7 @@ Page({
     console.log(this.data.selectListData)
     // 跳转到商品选择完的列表
     wx.navigateTo({
-      url: "/pages/roleLogin/childView/specialCanalSelfMining/specialCanalSelfMining?selectListData="+ JSON.stringify(this.data.selectListData),
+      url: "/pages/roleLogin/childView/specialCanalSelfMining/specialCanalSelfMining?selectListData=" + JSON.stringify(this.data.selectListData),
     })
   },
 
@@ -561,15 +561,42 @@ Page({
         }
       }
       that.setData({
-        dataList
-      })
-      that.setData({
         dataList,
         tz_share_num: res.data.tz_share_num
       });
     })
   },
 
+  // 获取我的商品
+  getMyProductLists() {
+    console.log("dd")
+    let that = this
+    pageNum = 0
+    // 获取审核通过的商品列表
+    that.setData({
+      selectItemsId: -1,
+      mainActiveIndex: that.data.mainActiveIndex == -1 ? -2 : -1
+    })
+    tr("/getApprovedProducts", {
+      pageNum,
+      categoryId: -1
+    }).then(function (res) {
+      let dataList = res.data.data
+      let item = that.data.selectListData
+      for (let index = 0; index < dataList.length; index++) {
+        for (let y = 0; y < item.length; y++) {
+          if (dataList[index].id == item[y]) {
+            console.log(dataList[index]);
+            dataList[index]["isCheckShow"] = !dataList[index]["isCheckShow"]
+          }
+        }
+      }
+      that.setData({
+        dataList,
+        tz_share_num: res.data.tz_share_num
+      });
+    })
+  },
 
   /**
    * 生命周期函数--监听页面加载

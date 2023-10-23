@@ -387,3 +387,42 @@ page {
   padding: 0 10px;
   overflow: hidden;
 }
+
+
+.myProduct{
+  position: absolute;
+  bottom: 0;
+  z-index: 9999999999999999999;
+  font-size: 16px;
+  background-color: rgb(255, 255, 255);
+  width: 84px;
+  text-align: center;
+}
+
+.myProduct{
+  color: #000000d9;
+  border: 1px solid #d9d9d9;
+  background-color: transparent;
+  border-radius: 2px;
+  line-height: 1.4;
+  box-shadow: 0 2px #00000004;
+  cursor: pointer;
+  transition: .3s;
+}
+.myProduct:hover{
+  color: var(--primary-color);
+  border-color: currentColor;
+}
+
+.myProduct::after{
+  /*其他样式*/
+  opacity: 0;
+  box-shadow: 0 0 0 6px var(--primary-color);
+  transition: .3s;
+}
+/*点击*/
+.myProduct:active::after{
+  box-shadow: none;
+  opacity: 0.4;
+  transition: 0s; /*取消过渡*/
+}
