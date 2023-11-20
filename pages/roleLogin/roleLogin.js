@@ -1,6 +1,7 @@
 import sub from "../../utils/subscribeMessage"
 import tr from "../../utils/tokenRequest.js"
 import Big from "../../utils/bignumber"
+import Dialog from '@vant/weapp/dialog/dialog';
 const app = getApp()
 // 请求数据
 var pageNum = 0; //页码 
@@ -79,7 +80,9 @@ Page({
     items: [{ // 导航名称
       text: '全部商品',
     }, ],
-    selectItemsId: ''
+    selectItemsId: '',
+    // 我的商品按钮颜色
+    MyProductListColor:"#F7F8FA"
   },
 
   tabChange(e) {
@@ -544,7 +547,8 @@ Page({
     pageNum = 0
     // 获取审核通过的商品列表
     that.setData({
-      selectItemsId: this.data.items[e.detail.index].id
+      selectItemsId: this.data.items[e.detail.index].id,
+      MyProductListColor: "#F7F8FA"
     })
     tr("/getApprovedProducts", {
       pageNum,
@@ -569,6 +573,9 @@ Page({
 
   // 获取我的商品
   getMyProductLists() {
+    this.setData({
+      MyProductListColor:"#fff"
+    })
     console.log("dd")
     let that = this
     pageNum = 0
@@ -602,6 +609,17 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad(options) {
+    // 请求弹窗内容
+    tr("/getDialogContent").then(function(res){
+      Dialog.alert({
+        title: '登录须知',
+        message: res.data.content,
+        theme: 'round-button',
+      }).then(() => {
+        // on close
+      });
+    })
+ 
     wx.showLoading({
       title: '加载中...',
       mask: true

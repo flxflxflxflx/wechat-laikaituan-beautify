@@ -178,7 +178,7 @@ Page({
         break;
       case 1:
         wx.redirectTo({
-          url: '../commodityOrder/commodityOrder?selectListData=' + this.data.openingProductId+"&isspecial=0",
+          url: '../commodityOrder/commodityOrder?selectListData=' + this.data.openingProductId + "&isspecial=0",
         })
         break;
       case 2:
@@ -293,6 +293,16 @@ Page({
         productPriceSetting = dataList[index]
       }
       if (dataList[index].num >= 0 && !isNaN(dataList[index].num) && dataList[index].num !== '' && dataList[index].num <= dataList[index].product.stock) {
+        // 判断是否超过限定
+        if (dataList[index].product.group_number != null && dataList[index].num > dataList[index].product.group_number) {
+          dataList[index].num = dataList[index].product.group_number
+          productPriceSetting = dataList[index]
+          wx.showToast({
+            title: '限购' + dataList[index].product.group_number + "个",
+            icon: 'none'
+          })
+        }
+
         // 设置总数
         totalQuantity += dataList[index].num
         // 设置总金额
@@ -327,6 +337,7 @@ Page({
           title: '库存仅有' + dataList[index].product.stock,
           icon: 'none'
         })
+
         totalQuantity += dataList[index].num
         totalAmount = Big(totalAmount).plus(Big(dataList[index].num).times(Big(dataList[index].selling_price))).toNumber();
         // 设置总重量
@@ -377,6 +388,15 @@ Page({
         productPriceSetting = dataList[index]
       }
       if (dataList[index].num >= 0 && !isNaN(dataList[index].num) && dataList[index].num !== '' && dataList[index].num <= dataList[index].product.stock) {
+        // 判断是否超过限定
+        if (dataList[index].product.group_number != null && dataList[index].num > dataList[index].product.group_number) {
+          dataList[index].num = dataList[index].product.group_number
+          productPriceSetting = dataList[index]
+          wx.showToast({
+            title: '限购' + dataList[index].product.group_number + "个",
+            icon: 'none'
+          })
+        }
         // 设置总数
         totalQuantity += dataList[index].num
         totalAmount = Big(totalAmount).plus(Big(dataList[index].num).times(Big(dataList[index].selling_price))).toNumber();
@@ -813,7 +833,7 @@ Page({
           res.data.data.map((item) => {
             console.log(item);
             item["num"] = 0
-            item["selling_price"] =  Big(item["selling_price"]).plus(Big(item.product["help_sell_price"])).toNumber()
+            item["selling_price"] = Big(item["selling_price"]).plus(Big(item.product["help_sell_price"])).toNumber()
             item["minusStatus"] = "disable"
           });
           that.setData({

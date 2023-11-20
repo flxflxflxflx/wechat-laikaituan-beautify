@@ -73,7 +73,11 @@
       </scroll-view>
     </view>
   </van-tree-select>
-  <view class="myProduct" bind:tap="getMyProductLists">我的商品</view>
+  <view class="myProduct" bind:tap="getMyProductLists" style="background-color: {{MyProductListColor}};">
+  <view class="colorLeft" wx:if="{{MyProductListColor == '#fff'}}"> 
+  </view>
+  我的商品
+  </view>
 </view>
 
 
@@ -175,4 +179,7 @@
     <button wx:else open-type="share" type="primary">分享</button>
   </view>
 </mp-half-screen-dialog>
+
+<!-- 登录须知 -->
+<van-dialog id="van-dialog"  />
 <mp-tabbar style="position:fixed;bottom:0;width:100%;left:0;right:0;z-index: 9999;" list="{{list}}" bindchange="tabChange"></mp-tabbar>
