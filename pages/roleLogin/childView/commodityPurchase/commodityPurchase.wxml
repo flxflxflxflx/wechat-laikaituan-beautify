@@ -5,7 +5,9 @@
   </view>
 </van-nav-bar>
 <!-- <scroll-view wx:if="{{!isCutOrder}}" scroll-y="true" style="height: calc(100% - {{groupbuyInfo.own_addr == null?150:60}}px  - {{tabbarHeight}}px);" lower-threshold='50' bindscrolltolower="searchScrollLower"> -->
-<scroll-view wx:if="{{!isCutOrder}}" scroll-y="true" style="height: calc(100% - {{groupbuyInfo.own_addr == null?60:60}}px  - {{tabbarHeight}}px);" lower-threshold='50' bindscrolltolower="searchScrollLower">
+<scroll-view wx:if="{{!isCutOrder}}" scroll-y="true" style="height: calc(100% - {{isToHome?204:115}}px - {{isAllPT?30:0}}px  - {{tabbarHeight}}px);" lower-threshold='50' bindscrolltolower="searchScrollLower">
+
+  <!-- <scroll-view wx:if="{{!isCutOrder}}" scroll-y="true" style="height: calc(100vh - {{groupbuyInfo.own_addr == null?60:150}}px  - {{tabbarHeight}}px);" lower-threshold='50' bindscrolltolower="searchScrollLower"> -->
   <view class='list' style="padding-top: {{topLift+40}}px;">
     <checkbox-group bindchange="">
       <block wx:for='{{dataList}}' wx:key='index' wx:for-item="item">
@@ -18,9 +20,20 @@
               <van-tag plain custom-class="vanTag" type="danger">{{item.product.salenum}}+销售</van-tag>
               <van-tag plain custom-class="vanTag" type="warning">{{item.product.share}}+分享</van-tag>
             </view>
+
           </view>
           <view slot="footer" catchtap="stop">
             <van-stepper bind:change="bindManual" value="{{item.num}}" bind:minus="bindMinus" bind:plus="bindPlus" data-value="{{item.id}}" integer min="0" max="{{item.product.stock}}" />
+          </view>
+
+          <view slot="tags">
+            <!-- 是否包分配 -->
+            <view class="product_isfenpei">
+              <van-tag wx:if="{{item.product.is_public==0}}" mark type="primary">团长
+                <van-icon name="question" catch:tap="showTitle" />
+              </van-tag>
+              <van-tag mark wx:if="{{item.product.is_public==1}}" type="warning" catch:tap="showptTitle">平台商品</van-tag>
+            </view>
           </view>
         </van-card>
         <view style="height: 2px;"></view>
@@ -130,7 +143,13 @@
     <view style="clear: both;"></view>
   </view>
   <!-- wx:if="{{groupbuyInfo.own_addr == null?true:false}}" -->
-  <view style="font-size: 14px;display: none;">
+  <!-- <view style="font-size: 14px;" wx:if="{{groupbuyInfo.own_addr == null?true:false}}"> -->
+  <van-cell center title="送货上门" wx:if="{{!isAllPT}}" style="position: relative;">
+    <van-switch checked="{{isToHome}}" bind:change="isToHome" active-color="var(--TONGYI)" inactive-color="#fff" />
+    <view wx:if="{{extraCosts==0?true:false}}" style="z-index: 1;background-color: gray;opacity: 0.8;color: red;position: absolute;top: 0;width: 100%;left: 0;text-align: center;height: 100%;line-height: 60px;font-size: 15px;"></view>
+    <text wx:if="{{extraCosts==0?true:false}}" style="z-index: 9;color: red;position: absolute;top: 0;left: calc(50% - 50px);text-align: center;line-height: 60px;font-size: 15px;">不提供配送服务</text>
+  </van-cell>
+  <view style="font-size: 14px;" wx:if="{{isToHome||isAllPT}}">
     <!-- <view>自备提货点 :</view> -->
     <!-- <view style="margin-left: 20rpx;"> -->
     <!-- <picker mode="multiSelector" bindchange="bindMultiPickerChange" bindcolumnchange="bindMultiPickerColumnChange" value="{{multiIndex}}" range="{{multiObjArray}}" range-key="{{'title'}}">
@@ -151,7 +170,7 @@
     </van-cell-group>
   </view>
   <view style="margin-top: 10rpx;">
-    <van-submit-bar suffix-label="包含配送费{{extraCosts}}元" button-class="button" custom-class="van-submit-bar" loading="{{submitOrderIsLoading}}" price="{{ filter.toFixed2(totalAmount+extraCosts) }}" button-text="提交订单" bind:submit="paymentCollection">
+    <van-submit-bar suffix-label="包含配送费{{isToHome?extraCosts:0}}元" button-class="button" custom-class="van-submit-bar" loading="{{submitOrderIsLoading}}" price="{{ filter.toFixed2(totalAmount+ (isToHome?extraCosts:0)) }}" button-text="提交订单" bind:submit="paymentCollection">
     </van-submit-bar>
   </view>
 </view>
@@ -209,3 +228,4 @@
 </van-dialog>
 
 <!-- <van-share-sheet show="{{ showShare }}" options="{{ options2 }}" bind:select="onSheetSelect" bind:close="onSheetClose" /> -->
+<van-toast id="van-toast" />

@@ -6,7 +6,7 @@
 <!-- 内容 -->
 <!-- 侧边导航 -->
 <view style="position: relative;">
-  <van-tree-select main-active-class="active" items="{{ items }}" height=" calc(100% - {{114+bottomLift}}px);" main-active-index="{{ mainActiveIndex }}" active-id="{{ activeId }}" bind:click-nav="onClickNav" bind:click-item="onClickItem">
+  <van-tree-select main-active-class="active" items="{{ items }}" height=" calc(100vh - {{114+bottomLift}}px);" main-active-index="{{ mainActiveIndex }}" active-id="{{ activeId }}" bind:click-nav="onClickNav" bind:click-item="onClickItem">
     <view slot="content">
       <scroll-view scroll-y="true" style="height: calc(100vh - {{114+bottomLift}}px);width: calc(100vw - 85px);" lower-threshold='50' bindscrolltolower="searchScrollLower">
         <view class='list'>
@@ -73,16 +73,16 @@
       </scroll-view>
     </view>
   </van-tree-select>
-  <view class="myProduct" bind:tap="getMyProductLists" style="background-color: {{MyProductListColor}};">
-  <view class="colorLeft" wx:if="{{MyProductListColor == '#fff'}}"> 
+  <!-- <view class="myProduct" bind:tap="getMyProductLists" style="background-color: {{MyProductListColor}};bottom:{{bottomLift+10}}px">
+  <view class="colorLeft"   wx:if="{{MyProductListColor == '#fff'}}"> 
   </view>
   我的商品
-  </view>
+  </view> -->
 </view>
 
 
 <!-- 分享 -->
-<view class="shareBtn" style="bottom:{{bottomLift+65}}px" wx:if="{{isShare}}">
+<view class="shareBtn" style="bottom:{{bottomLift+60}}px" wx:if="{{isShare}}">
   <van-button custom-class="vanButton" style="width:50%" color="rgb(101, 196, 170)" bindtap="onShare" type="primary">分享({{selectListData.length}})</van-button>
   <van-button custom-class="vanButton" style="width:50%" color="rgb(101, 185, 180)" bindtap="selfHarvesting" type="primary">自采({{selectListData.length}})</van-button>
 </view>

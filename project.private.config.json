@@ -5,7 +5,7 @@
     "compileHotReLoad": true,
     "urlCheck": false
   },
-  "libVersion": "2.27.3",
+  "libVersion": "3.0.2",
   "condition": {
     "miniprogram": {
       "list": [
@@ -13,6 +13,20 @@
           "name": "",
           "pathName": "pages/roleLogin/childView/commoditySharing/commoditySharing",
           "query": "selectListData=%5B10%5D",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "pages/roleLogin/childView/commodityPurchase/commodityPurchase",
+          "query": "selectListData=149",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "pages/roleLogin/childView/commoditySharing/commoditySharing",
+          "query": "selectListData=%5B51%5D&isPT=false",
           "launchMode": "default",
           "scene": null
         }

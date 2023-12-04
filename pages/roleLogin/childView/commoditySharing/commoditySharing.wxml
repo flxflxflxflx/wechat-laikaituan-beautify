@@ -274,7 +274,7 @@
     <mp-toptips msg="{{error}}" type="error" show="{{error}}"></mp-toptips>
     <view class="page">
       <view class="page__bd">
-        <van-cell bind:tap="timeClick" center title="截单时间" is-link>
+        <van-cell bind:tap="timeClick" required center title="截单时间" is-link>
           <!-- <picker data-field="deadline" mode="time" value="{{date}}" start="00:00" end="21:00" bindchange="bindDateChange">
             <view class="weui-input">{{date}}</view>
           </picker> -->
@@ -288,32 +288,70 @@
         </van-cell>
         <!-- 这个自行配送已经去掉了,以后收货地址都要消费者来填写 -->
         <!-- <van-cell wx:if="{{true}}" center title="自行配送">
-          <van-switch checked="{{isSelfDelivery}}" bind:change="isSelfDelivery" active-color="var(--TONGYI)" inactive-color="#fff" />
+          <van-switch checked="{{isSelffDelivery}}" bind:change="isSelfDelivery" active-color="var(--TONGYI)" inactive-color="#fff" />
         </van-cell> -->
 
-        <van-cell wx:if="{{!isSelfDelivery}}" required bindtap="addressShow" title="提货地址" is-link value="{{filter.stringTrim(deliveryaddress)==''?'请选择':deliveryaddress }}" />
+        <!-- 根据自行配送的提货地址 -->
+        <!-- <van-cell wx:if="{{!isSelfDelivery}}" required bindtap="addressShow" title="提货地址" is-link value="{{filter.stringTrim(deliveryaddress)==''?'请选择':deliveryaddress }}" /> -->
+        <!-- 判断是否都是平台商品，如果都是平台商品不显示提货地址，不是显示提货地址 -->
+
+        <van-cell wx:if="{{!isAllPT}}" center title="填写提货地址">
+          <van-switch checked="{{isFillAddress}}" bind:change="isFillAddress" active-color="var(--TONGYI)" inactive-color="#fff" />
+        </van-cell>
+
+        <!-- 提货地址 -->
+        <view style="font-size: 14px;" wx:if="{{isFillAddress}}">
+          <van-field required value="{{ fieldValue }}" is-link readonly label="地区" placeholder="请选择所在地区" bind:tap="onClick" />
+          <van-popup show="{{ area_show }}" round position="top">
+            <van-cascader wx:if="{{ area_show }}" value="{{ cascaderValue }}" title="请选择所在地区" options="{{ options }}" bind:close="onClose" bind:click-tab="clicktab" bind:change="onChange" bind:finish="onFinish" />
+          </van-popup>
+          <van-cell-group>
+            <van-field required value="{{ address }}" bind:change="onAddressChange" label="详细地址" type="textarea" placeholder="请输入详细地址" border="{{ false }}" />
+          </van-cell-group>
+        </view>
+        <van-cell wx:if="{{!isAllPT && !isFillAddress}}" required bindtap="hisAddressShow" title="历史提货地址" is-link value="{{filter.stringTrim(hisAddr)==''?'请选择':hisAddr }}" />
+        <van-popup show="{{ hisAddressShow }}" position="bottom" custom-style="height: 400px;" bind:close="onHisAddressClose">
+          <van-picker show-toolbar title="提货地址选择" columns="{{ HisAddressColumns }}" bind:cancel="onHisAddressCancel" bind:confirm="onHisAddressConfirm" />
+        </van-popup>
+        <van-cell wx:if="{{isAllPT}}" required bindtap="addressShow" title="接货点" is-link value="{{filter.stringTrim(deliveryaddress)==''?'请选择':deliveryaddress }}" />
         <van-popup show="{{ addressShow }}" position="bottom" custom-style="height: 400px;" bind:close="onAddressClose">
           <van-picker show-toolbar title="提货地址选择" columns="{{ AddressColumns }}" bind:cancel="onAddressCancel" bind:confirm="onAddressConfirm" />
         </van-popup>
-        <van-cell custom-class="vancell" title="接货时间">{{receivingTime}}</van-cell>
+        <van-cell custom-class="vancell" wx:if="{{isAllPT }}" title="接货时间">{{receivingTime}}</van-cell>
+
+        <!-- <van-cell custom-class="vancell" wx:if="{{!isAllPT && !isFillAddress}}" title="接货时间">{{receivingTime}}</van-cell> -->
+        <!-- <van-cell required wx:if="{{!isAllPT && isFillAddress}}" is-link title="接货时间" bind:tap="showPopup">
+          {{filter.timestampToTime(currentDate)}}
+        </van-cell> -->
+        <van-popup show="{{ dataShow }}" position="bottom">
+          <van-datetime-picker bind:cancel="dateCancel" type="datetime" value="{{ currentDate }}" bind:confirm="dateCancel" bind:input="onDateInput" />
+        </van-popup>
+
+
         <!-- <van-cell center title="包邮">
           <van-switch checked="{{isFreeShipping}}" bind:change="isFreeShipping" active-color="var(--TONGYI)" inactive-color="#fff" />
         </van-cell> -->
-        <van-cell wx:if="{{!isFreeShipping}}" required title="运费金额">
+        <!-- <van-cell wx:if="{{!isFreeShipping}}" required title="运费金额">
+          <input model:value="{{freightAmount}}" type="number" data-field="freightAmount" class="weui-input" placeholder="请输入运费金额" />
+        </van-cell> -->
+        <van-cell wx:if="{{!isAllPT}}" required title="运费金额">
           <input model:value="{{freightAmount}}" type="number" data-field="freightAmount" class="weui-input" placeholder="请输入运费金额" />
         </van-cell>
       </view>
     </view>
   </view>
   <view slot="footer">
-    <button bindtap="falseShare" data-id="1" wx:if="{{(filter.stringTrim( deliveryaddress) == ''&&!isSelfDelivery)}}" type="primary">分享</button>
+    <button bindtap="falseShare" data-id="1" wx:if="{{isAllPT && (filter.stringTrim( deliveryaddress) == ''&&!isSelfDelivery)}}" type="primary">分享</button>
+    <button bindtap="falseShare" data-id="5" wx:elif="{{!isAllPT && !isFillAddress && (filter.stringTrim(hisAddr) == '')}}" type="primary">分享</button>
     <button wx:elif=""></button>
-    <button bindtap="falseShare" data-id="2" wx:elif="{{filter.stringTrim(freightAmount)==''&&!isFreeShipping}}" type="primary">分享</button>
+    <button bindtap="falseShare" data-id="2" wx:elif="{{!isAllPT &&(filter.stringTrim(freightAmount==0?'0':freightAmount)==''&&!isFreeShipping)}}" type="primary">分享</button>
+    <button bindtap="falseShare" data-id="3" wx:elif="{{!isAllPT && isFillAddress &&  !isAddressFill}}" type="primary">分享</button>
+    <button bindtap="falseShare" data-id="4" wx:elif="{{date == ''}}" type="primary">分享</button>
     <button wx:else open-type="share" type="primary">分享</button>
   </view>
 </mp-half-screen-dialog>
 
 
 <van-popup show="{{ showPopup }}" position="bottom" custom-style="z-index:99999;" bind:close="onClose">
-  <van-datetime-picker cancel-button-text="" bind:cancel="a" bind:confirm="cancel" type="datetime" value="{{ date }}" min-date="{{ minDate }}"   bind:input="onInput" />
+  <van-datetime-picker cancel-button-text="" bind:cancel="a" bind:confirm="cancel" type="datetime" value="{{ date }}" min-date="{{ minDate }}" bind:input="onInput" />
 </van-popup>

@@ -179,10 +179,10 @@ navigator {
   width: calc(100% - 15rpx);
 }
 
-
 /* 商品分配标签 */
 .product_isfenpei {
   display: flex;
+  flex-wrap: wrap;
 }
 
 .product_isfenpei .isdelivery {

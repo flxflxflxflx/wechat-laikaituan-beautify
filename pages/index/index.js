@@ -191,6 +191,8 @@ Page({
               console.log(e);
               console.log('storage数据写入失败！');
             };
+            // 是第一次登录
+            wx.setStorageSync('isFirstLogin', true)
           }, function (err) {
             wx.showToast({
               title: '请检查网络',

@@ -1,6 +1,7 @@
 import Big from "../../../../utils/bignumber"
 import tr from "../../../../utils/tokenRequest"
 import sub from "../../../../utils/subscribeMessage"
+import Toast from '@vant/weapp/toast/toast';
 import {
   useCascaderAreaData,
   areaList
@@ -13,11 +14,13 @@ Page({
    * 页面的初始数据
    */
   data: {
+    isAllPT:false,
     dataList: [],
     areaList,
     area_show: false,
     fieldValue: '',
     cascaderValue: '',
+    isToHome: false,
     options: [{
       text: '浙江省',
       value: '330000',
@@ -94,6 +97,25 @@ Page({
     avatar: "",
     nickName: '',
     phone: ''
+  },
+  isToHome() {
+    this.setData({
+      isToHome: !this.data.isToHome,
+    })
+  },
+  showTitle() {
+    // Toast('我是提示文案，建议不超过十五字~');
+    wx.showToast({
+      title: '由团长提供配送及售后服务',
+      icon: "none"
+    })
+  },
+
+  showptTitle() {
+    wx.showToast({
+      title: '由平台提供快递配送及售后服务',
+      icon: "none"
+    })
   },
 
   getUserInfo(event) {
@@ -365,6 +387,9 @@ Page({
     }
     // 设置配送费
 
+    // 显示地址
+    this.isShowAddr(dataList);
+
     this.setData({
       dataList,
       totalAmount,
@@ -470,6 +495,19 @@ Page({
   },
 
   /**
+   * 判断是否需要显示地址
+   */
+  isShowAddr(dataList) {
+    console.log(dataList, "fkdjlkfjaslf")
+    // dataList.forEach(e=>{
+    //   if(e.num>0&&e.product.is_public === 1){
+
+    //   }
+    // })
+    console.log(this.data.groupbuyInfo.own_addr)
+  },
+
+  /**
    * 商品详情--选项卡
    */
   scrollViewScroll(e) {
@@ -546,7 +584,28 @@ Page({
       })
       return
     }
+    // 地区
+    let fieldValue = this.data.fieldValue
+    // 详细地址
+    let address = this.data.address
+    // if (this.data.groupbuyInfo.own_addr == null) {
+    if (this.data.isToHome) {
+      if (fieldValue == '' || fieldValue == null) {
+        wx.showToast({
+          title: '请添加地区',
+          icon: "error"
+        })
+        return
+      }
 
+      if (address == '' || address == null) {
+        wx.showToast({
+          title: '请填写详细地址',
+          icon: "error"
+        })
+        return
+      }
+    }
     // if (this.data.groupbuyInfo.own_addr == null && this.data.fieldValue.trim() == "") {
     //   wx.showToast({
     //     title: '请选择地区',
@@ -573,6 +632,7 @@ Page({
     // 商品列表
     let dataList = this.data.dataList
 
+
     for (let index = 0; index < dataList.length; index++) {
       if (dataList[index].num > 0) {
         dataList[index]["extraCosts"] = this.data.extraCosts // 设置手续费
@@ -594,9 +654,13 @@ Page({
     })
 
     if (payProducts.length > 0) {
-
-      // 请求后台生成订单号
-      this.generateOrderNumber(payProducts, null)
+      if (this.data.isToHome||this.data.isAllPT) {
+        // 请求后台生成订单号
+        this.generateOrderNumber(payProducts, this.data.fieldValue + "/" + this.data.address)
+      } else {
+        // 请求后台生成订单号
+        this.generateOrderNumber(payProducts, null)
+      }
     }
 
     // 完善商品购买信息
@@ -797,6 +861,9 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad(options) {
+    this.setData({
+      isAllPT: options.isAllPT == "true"?true:false
+    })
     app.setWatcher(this);
 
     // 向后台请求角色权限

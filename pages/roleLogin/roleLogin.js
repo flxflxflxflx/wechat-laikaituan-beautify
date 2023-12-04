@@ -82,7 +82,7 @@ Page({
     }, ],
     selectItemsId: '',
     // 我的商品按钮颜色
-    MyProductListColor:"#F7F8FA"
+    MyProductListColor: "#F7F8FA"
   },
 
   tabChange(e) {
@@ -500,10 +500,10 @@ Page({
     let item = e.currentTarget.dataset.data
     let dataList = this.data.dataList
 
+
     for (let index = 0; index < dataList.length; index++) {
       if (dataList[index].id == item.id) {
         dataList[index]["isCheckShow"] = !dataList[index]["isCheckShow"]
-        console.log(dataList[index], "哒哒哒哒哒哒多多多多");
         if (dataList[index]["isCheckShow"]) {
           let selectListData = this.data.selectListData;
           selectListData.push(item.id);
@@ -529,26 +529,84 @@ Page({
     })
     console.log(this.data.selectListData);
 
+
+    // 检查是否全部都是平台商品，如果全部都是平台商品或者全部都是团长商品才能通过
+    if (this.data.selectListData.length != 0) {
+      // 选中的is_pulic的值
+      let isPulic = this.data.dataList.filter(e => e.id == this.data.selectListData[0])[0].is_public
+      // 当前是否展示
+      let curIsCheckShow = this.data.dataList.filter(e => e.id == item.id)[0].isCheckShow
+      console.log(isPulic, "ddd")
+      let isExec = false;
+      for (let index = 0; index < this.data.selectListData.length; index++) {
+        // 当前是否公共
+        let curIsPulic = this.data.dataList.filter(e => e.id == this.data.selectListData[index])[0].is_public
+
+        console.log(curIsCheckShow, "dfjajsflas")
+        if (this.data.selectListData[index] == item.id) {
+          console.log("dkjflasjflj")
+          if (curIsCheckShow !== true) {
+            continue;
+          }
+        }
+        if (isPulic !== curIsPulic) {
+          isExec = true;
+        }
+      }
+
+      if (isExec == true) {
+        wx.showToast({
+          title: '只能选择同一种类型的商品',
+          icon: "none"
+        })
+        this.setData({
+          isShare: false
+        })
+        return;
+      }
+      this.setData({
+        isShare: true
+      })
+    }
+
     this.checkboxChange()
   },
 
   // 分享
   shareButtontap() {},
   onShare() {
+    // 判断商品是否都是平台商品
+    let isPT = true;
+    this.data.selectListData.forEach(e => {
+      this.data.dataList.forEach(b => {
+        if (b.id == e) {
+          if (b.is_public == 0 || b.is_my_product == 1) {
+            isPT = false;
+          }
+        }
+      })
+    })
+    console.log(isPT, "ddfjsljf");
     // 跳转到商品选择完的列表
     wx.navigateTo({
-      url: './childView/commoditySharing/commoditySharing?selectListData=' + JSON.stringify(this.data.selectListData),
+      url: './childView/commoditySharing/commoditySharing?selectListData=' + JSON.stringify(this.data.selectListData) + "&isPT=" + isPT,
     })
   },
 
   // 侧边导航点击
   onClickNav(e) {
+    if (this.data.items[e.detail.index].id === -2) {
+      this.setData({
+        selectItemsId: this.data.items[e.detail.index].id,
+      })
+      this.getMyProductLists();
+      return;
+    }
     let that = this
     pageNum = 0
     // 获取审核通过的商品列表
     that.setData({
       selectItemsId: this.data.items[e.detail.index].id,
-      MyProductListColor: "#F7F8FA"
     })
     tr("/getApprovedProducts", {
       pageNum,
@@ -573,9 +631,7 @@ Page({
 
   // 获取我的商品
   getMyProductLists() {
-    this.setData({
-      MyProductListColor:"#fff"
-    })
+
     console.log("dd")
     let that = this
     pageNum = 0
@@ -609,17 +665,25 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad(options) {
-    // 请求弹窗内容
-    tr("/getDialogContent").then(function(res){
-      Dialog.alert({
-        title: '登录须知',
-        message: res.data.content,
-        theme: 'round-button',
-      }).then(() => {
-        // on close
-      });
-    })
- 
+
+    // 判断是否是第一次登录，如果是第一次登录，弹出登录须知
+    if (wx.getStorageSync('isFirstLogin') == true) {
+      // 请求弹窗内容
+      tr("/getDialogContent").then(function (res) {
+        Dialog.alert({
+          title: '登录须知',
+          message: res.data.content,
+          theme: 'round-button',
+        }).then(() => {
+          // on close
+        });
+        wx.setStorageSync('isFirstLogin', false)
+      })
+    } else {
+      console.log("不是第一次登录")
+    }
+
+
     wx.showLoading({
       title: '加载中...',
       mask: true

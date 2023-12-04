@@ -2,14 +2,36 @@
 import sub from "../../../../utils/subscribeMessage"
 import Big from "../../../../utils/bignumber"
 import tr from "../../../../utils/tokenRequest"
+import Toast from '@vant/weapp/toast/toast';
+import {
+  useCascaderAreaData,
+  areaList
+} from '../../../../utils/area-data/dist/index.cjs';
 const app = getApp()
 // 请求数据
 var pageNum = 0; //页码
+
 Page({
   /**
    * 页面的初始数据
    */
   data: {
+    HisAddressColumns: [],
+    hisAddressShow: false,
+    isAddressFill: false,
+    dataShow: false,
+    isFillAddress: false,
+    areaList: [],
+    area_show: false,
+    fieldValue: '',
+    cascaderValue: '',
+    address: '',
+    options: [{
+      text: '浙江省',
+      value: '330000',
+      children: [],
+    }],
+    currentDate: new Date().getTime(),
     // 商品列表
     dataList: [],
     // 选择的列表
@@ -20,7 +42,7 @@ Page({
     // 团长开团商品数量限制
     tz_share_num: 4,
     // 地址列表
-    addressList:[],
+    addressList: [],
     show: false,
     buttons: [{
         type: 'default',
@@ -52,6 +74,8 @@ Page({
     pickUpPoint: false,
     // 交货地址
     deliveryaddress: '',
+    // 历史提货地址
+    hisAddr: "",
     // 选择列表
     selectListData: [],
     currentTab: 0,
@@ -81,7 +105,9 @@ Page({
     maxHour: "",
     showPopup: false,
     // 接货时间
-    receivingTime: ""
+    receivingTime: "",
+    // 是否都是平台的商品
+    isAllPT: true,
     // a(type, options) {
     //   if (type === 'hour') {
     //     let date = wx.getStorageSync("tz_statement_time").split(":");
@@ -90,6 +116,166 @@ Page({
 
     //   return options;
     // },
+  },
+
+  onClick() {
+    this.addressDataHandle(areaList.province_list, 0);
+    this.setData({
+      area_show: true,
+    });
+  },
+  onFinish(e) {
+    const {
+      selectedOptions,
+      value
+    } = e.detail;
+    const fieldValue = selectedOptions
+      .map((option) => option.text || option.name)
+      .join('/');
+    this.setData({
+      fieldValue,
+      cascaderValue: value,
+      area_show: false
+    })
+    // 判断地区与详细地址是否有值
+    this.isAddressFill()
+  },
+  onAddressChange(e) {
+    this.setData({
+      address: e.detail
+    })
+    // 判断地区与详细地址是否有值
+    this.isAddressFill()
+  },
+  isAddressFill() {
+    let {
+      fieldValue,
+      address
+    } = this.data
+    console.log(fieldValue, address, "4444444444444")
+    if (fieldValue.trim() != '' && fieldValue != null && address.trim() != '' && address != null) {
+      this.setData({
+        isAddressFill: true
+      })
+      console.log(this.data.isAddressFill)
+      console.log(this.data.isAllPT, "isAllPT", fieldValue, address)
+    } else {
+      this.setData({
+        isAddressFill: false
+      })
+    }
+  },
+  onClose() {
+    this.setData({
+      area_show: false,
+    });
+  },
+
+  onChange(e) {
+    const {
+      value
+    } = e.detail;
+    if (e.detail.tabIndex == 0) {
+      this.addressDataHandle(areaList.city_list, 1, e.detail.value)
+    } else if (e.detail.tabIndex = 1) {
+      this.setData({
+        twoTitleInfomation: e.detail.value
+      })
+      this.addressDataHandle(areaList.county_list, 2, e.detail.value)
+    }
+  },
+  onDateInput(event) {
+    this.setData({
+      currentDate: event.detail,
+    });
+  },
+  // 地址数据处理  
+  addressDataHandle(area, index, code = null) {
+    // 地址数据
+    let addressData = function (isEnd = false) {
+      let list = Object.entries(area).map(item => {
+        if (isEnd) {
+          return {
+            ['text']: item[1],
+            ['value']: item[0]
+          }
+        } else {
+          return {
+            ['text']: item[1],
+            ['value']: item[0],
+            ['children']: []
+          }
+        }
+      })
+      return list
+    }
+
+    if (index == 0) {
+      let list = addressData()
+      this.setData({
+        options: list
+      })
+    } else if (index == 1) {
+      let list = addressData()
+
+      // 进行过滤
+      let ll = list.filter(function (current, index, arr) {
+        if (current.value.substr(0, 2) == code.substr(0, 2)) {
+          return current;
+        }
+      })
+
+      let options = this.data.options
+
+      for (let i = 0; i < options.length; i++) {
+        if (options[i].value == code) {
+          options[i].children = ll;
+          let ooo = [options[i]]
+          // this.setData({
+          //   ['options[' + i + '].children']: ll,
+          // })
+          this.setData({
+            options: ooo
+          })
+          break;
+        }
+      }
+    } else if (index == 2) {
+      let list = addressData(true)
+      // 进行过滤
+      let ll = list.filter(function (current, index, arr) {
+        if (current.value.substr(0, 4) == code.substr(0, 4)) {
+          return current;
+        }
+      })
+      let options = this.data.options[0].children
+      for (let i = 0; i < options.length; i++) {
+        if (options[i].value == code) {
+          let ooo = [options[i]];
+          ooo[0].children = ll;
+          let ccc = this.data.options[0].children = ooo
+          this.setData({
+            options: ccc
+          })
+          break;
+        }
+      }
+    }
+  },
+  clicktab(e) {
+    let {
+      tabIndex
+    } = e.detail
+    if (tabIndex == 0) {
+      this.addressDataHandle(areaList.province_list, 0);
+    } else if (tabIndex == 1) {
+      this.addressDataHandle(areaList.city_list, 1, this.data.twoTitleInfomation)
+    }
+  },
+  dateCancel() {
+    this.setData({
+      dataShow: false
+    });
   },
   // 判断时间是否小于截止时间
   formatTime(string) {
@@ -133,7 +319,7 @@ Page({
       showPopup: true
     })
   },
-  a(){
+  a() {
     console.log("ddd")
   },
   cancel(e) {
@@ -152,12 +338,14 @@ Page({
       })
     }
   },
-  onInput(e) {
-  
-  },
   addressShow() {
     this.setData({
       addressShow: true
+    })
+  },
+  hisAddressShow() {
+    this.setData({
+      hisAddressShow: true
     })
   },
   onAddressClose() {
@@ -165,28 +353,43 @@ Page({
       addressShow: false
     })
   },
+  onHisAddressClose() {
+    this.setData({
+      hisAddressShow: false
+    })
+  },
+  showPopup() {
+    this.setData({
+      dataShow: true
+    });
+  },
   onAddressConfirm(e) {
-    let selectItem = this.data.addressList.filter(a=>{return a.address == e.detail.value});
+    let selectItem = this.data.addressList.filter(a => {
+      return a.address == e.detail.value
+    });
     this.setData({
       deliveryaddress: e.detail.value,
       addressShow: false,
-      receivingTime: selectItem.length!=0?selectItem[0].time_interval:""
+      receivingTime: selectItem.length != 0 ? selectItem[0].time_interval : ""
     })
   },
-
+  onHisAddressConfirm(e) {
+    this.setData({
+      hisAddr: e.detail.value,
+      hisAddressShow: false,
+    })
+    console.log(this.data.hisAddr,"历史")
+  },
   onAddressCancel() {
     this.setData({
       addressShow: false
     })
   },
 
-  onChange(event) {
-    const {
-      picker,
-      value,
-      index
-    } = event.detail;
-    Toast(`当前值：${value}, 当前索引：${index}`);
+  onHisAddressCancel() {
+    this.setData({
+      hisAddressShow: false
+    })
   },
 
   // 是否包邮
@@ -206,6 +409,16 @@ Page({
       isSelfDelivery: detail
     })
   },
+
+
+  // 是否填写提货地址
+  isFillAddress({
+    detail
+  }) {
+    this.setData({
+      isFillAddress: detail
+    })
+  },
   viewCount() {
     wx.navigateTo({
       url: '../../childView/commodityEvaluation/commodityEvaluation?id=' + this.data.productInfo.id,
@@ -217,11 +430,28 @@ Page({
     let id = e.currentTarget.dataset.id;
     if (id == 1) {
       wx.showToast({
-        title: '请填写收货地址',
+        title: '请填写提货地址',
+        icon: "error"
       })
     } else if (id == 2) {
       wx.showToast({
         title: '请填写运费金额',
+        icon: "error"
+      })
+    } else if (id == 3) {
+      wx.showToast({
+        title: '请填写地区地址',
+        icon: "error"
+      })
+    } else if (id == 4) {
+      wx.showToast({
+        title: '请填写截单时间',
+        icon: "error"
+      })
+    } else if (id == 5) {
+      wx.showToast({
+        title: '请添加提货地址',
+        icon: "error"
       })
     }
   },
@@ -658,6 +888,7 @@ Page({
   // 分享
   shareButtontap() {},
   async onShare() {
+    console.log("djflksjdfjs")
     await sub([app.globalData.OPENING_DEAD]).then(function (res) {
       // 调用订阅消息
       // tr("/sendMessage").then(function(res){
@@ -675,12 +906,17 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad(options) {
+    console.log(typeof options.isPT, "fdlsfjsal")
     this.setData({
       //获取屏幕可用高度
-      screenHeight: wx.getSystemInfoSync().windowHeight - 330
+      screenHeight: wx.getSystemInfoSync().windowHeight - 330,
+      // 是否都是平台的商品
+      isAllPT: options.isPT == 'true' ? true : false
     })
     // 选择的商品
     let selectListData = JSON.parse(options.selectListData);
+
+
     let that = this
     pageNum = 0
 
@@ -696,14 +932,23 @@ Page({
     // 获取地址和截单时间
     tr("/getAddressColumns").then(function (res) {
       wx.setStorageSync('tz_statement_time', res.data.tz_statement_time);
-      let address = res.data.address.map(e=>e.address)
+      let address = res.data.address.map(e => e.address)
       that.setData({
         AddressColumns: address,
-        addressList:res.data.address,
+        addressList: res.data.address,
         minDate: new Date().getTime(),
       })
       console.log(that.data.AddressColumns[0].address)
     })
+
+    // 获取历史地址列表
+    tr("/getHisAddressLists").then(function (res) {
+      let address = res.data.map(e => e.address)
+      that.setData({
+        HisAddressColumns: address,
+      })
+    })
+
 
     // 获取开团比例
     tr("/getLoPriceRetio").then(function (res) {
@@ -761,6 +1006,7 @@ Page({
     this.setData({
       isfenxiang: false
     })
+
     wx.showShareMenu({
       withShareTicket: true,
       menu: ['shareappmessage', 'shareTimeline']
@@ -786,6 +1032,12 @@ Page({
       isFreeShipping,
       isSelfDelivery,
       deliveryaddress,
+      isAllPT,
+      isAddressFill,
+      fieldValue,
+      address,
+      isFillAddress,
+      hisAddr
     } = this.data;
     // 如果不包邮设置邮费为零
     if (isFreeShipping) {
@@ -794,6 +1046,22 @@ Page({
     if (isSelfDelivery) {
       deliveryaddress = ''
     }
+
+    // 是否是新填写的地址
+    let isNewAddr = false;
+    if (!isAllPT) {
+      if (isFillAddress) {
+        if (isAddressFill) {
+          deliveryaddress = fieldValue + '/' + address
+          isNewAddr = true;
+        }
+      } else {
+        if (hisAddr != '') {
+          deliveryaddress = hisAddr
+        }
+      }
+    }
+
     // 填写开团信息
     await tr("/commodityOpening", {
       // 商品组合名称
@@ -809,7 +1077,9 @@ Page({
       // 配送费
       freightAmount,
       // 开团的商品列表
-      productList
+      productList,
+      // 是否是新的地址
+      isNewAddr
     }).then(function (res) {
       openingId = res.data.data
     })
@@ -827,7 +1097,7 @@ Page({
     return {
       // title: wx.getStorageSync('nick_name') + "团长的商品组合",
       title: title,
-      path: "/pages/roleLogin/childView/commodityPurchase/commodityPurchase?selectListData=" + openingId,
+      path: "/pages/roleLogin/childView/commodityPurchase/commodityPurchase?selectListData=" + openingId+"&isAllPT="+isAllPT,
       imageUrl: ""
     }
   },
