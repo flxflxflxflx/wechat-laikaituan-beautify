@@ -5,8 +5,7 @@
   </view>
 </van-nav-bar>
 <!-- <scroll-view wx:if="{{!isCutOrder}}" scroll-y="true" style="height: calc(100% - {{groupbuyInfo.own_addr == null?150:60}}px  - {{tabbarHeight}}px);" lower-threshold='50' bindscrolltolower="searchScrollLower"> -->
-<scroll-view wx:if="{{!isCutOrder}}" scroll-y="true" style="height: calc(100% - {{isToHome?204:115}}px - {{isAllPT?30:0}}px  - {{tabbarHeight}}px);" lower-threshold='50' bindscrolltolower="searchScrollLower">
-
+<scroll-view wx:if="{{!isCutOrder}}" scroll-y="true" style="height: calc(100% - {{isToHome?218:115}}px - {{isAllPT?45:0}}px - {{isAllPT&&hisAddr!=''&&isFillAddress==false?24:0}}px - {{isFillAddress?45:0}}px - {{hisAddr==''?0:24}}px - {{hisAddr!=''&&(isFillAddress!=false||isToHome==false)?-24:0}}px - {{tabbarHeight}}px);" lower-threshold='50' bindscrolltolower="searchScrollLower">
   <!-- <scroll-view wx:if="{{!isCutOrder}}" scroll-y="true" style="height: calc(100vh - {{groupbuyInfo.own_addr == null?60:150}}px  - {{tabbarHeight}}px);" lower-threshold='50' bindscrolltolower="searchScrollLower"> -->
   <view class='list' style="padding-top: {{topLift+40}}px;">
     <checkbox-group bindchange="">
@@ -161,13 +160,21 @@
       </picker> -->
     <!-- <input type="text" value="{{selfProvidedPickupPoint}}" bindinput="selfProvidedPickupPoint" placeholder="请输入自备提货点" />
     </view> -->
-    <van-field value="{{ fieldValue }}" is-link readonly label="地区" placeholder="请选择所在地区" bind:tap="onClick" />
+    <van-cell center title="填写地址">
+      <van-switch checked="{{isFillAddress}}" bind:change="isFillAddress" active-color="var(--TONGYI)" inactive-color="#fff" />
+    </van-cell>
+    <van-field required wx:if="{{isFillAddress}}" value="{{ fieldValue }}" is-link readonly label="地区" placeholder="请选择所在地区" bind:tap="onClick" />
     <van-popup show="{{ area_show }}" round position="top">
       <van-cascader wx:if="{{ area_show }}" value="{{ cascaderValue }}" title="请选择所在地区" options="{{ options }}" bind:close="onClose" bind:click-tab="clicktab" bind:change="onChange" bind:finish="onFinish" />
     </van-popup>
-    <van-cell-group>
-      <van-field value="{{ address }}" bind:change="onAddressChange" label="详细地址" type="textarea" placeholder="请输入详细地址" border="{{ false }}" />
+    <van-cell-group wx:if="{{isFillAddress}}">
+      <van-field required value="{{ address }}" bind:change="onAddressChange" label="详细地址" type="textarea" placeholder="请输入详细地址" border="{{ false }}" />
     </van-cell-group>
+    <van-cell wx:if="{{!isFillAddress}}" required bindtap="hisAddressShow" title="历史提货地址" is-link value="{{filter.stringTrim(hisAddr)==''?'请选择':hisAddr }}" />
+    <van-popup show="{{ hisAddressShow }}" position="bottom" custom-style="height: 400px;" bind:close="onHisAddressClose">
+      <van-picker show-toolbar title="提货地址选择" columns="{{ HisAddressColumns }}" bind:cancel="onHisAddressCancel" bind:confirm="onHisAddressConfirm" />
+    </van-popup>
+
   </view>
   <view style="margin-top: 10rpx;">
     <van-submit-bar suffix-label="包含配送费{{isToHome?extraCosts:0}}元" button-class="button" custom-class="van-submit-bar" loading="{{submitOrderIsLoading}}" price="{{ filter.toFixed2(totalAmount+ (isToHome?extraCosts:0)) }}" button-text="提交订单" bind:submit="paymentCollection">

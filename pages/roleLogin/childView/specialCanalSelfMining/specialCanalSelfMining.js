@@ -178,7 +178,7 @@ Page({
         break;
       case 1:
         wx.redirectTo({
-          url: '../commodityOrder/commodityOrder?selectListData=' + this.data.openingProductId+"&isspecial=1",
+          url: '../commodityOrder/commodityOrder?selectListData=' + this.data.openingProductId + "&isspecial=1",
         })
         break;
       case 2:
@@ -484,14 +484,20 @@ Page({
 
     let that = this
     let item = e.currentTarget.dataset.item
-    
+
     tr("/visualizzaVolume", {
       productId: item.id
     })
-    wx.navigateTo({
-      url: '../../childView/productDetails/productDetails?productid=' + item.id + "&selling_price=" + item.selling_price + "&page=productBuy",
-    })
 
+    if (item.is_help_sell == 1) {
+      wx.navigateTo({
+        url: '../../childView/productDetails/productDetails?productid=' + item.id + "&selling_price=" + item.selling_price + "&page=productBuy&ispt=1",
+      })
+    } else {
+      wx.navigateTo({
+        url: '../../childView/productDetails/productDetails?productid=' + item.id + "&selling_price=" + item.selling_price + "&page=productBuy",
+      })
+    }
     // that.setData({
     //   productInfo: item.product,
     //   productPriceSetting: item,
@@ -778,7 +784,9 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad(options) {
+    console.log(options, "ddddd")
     let selectListData = JSON.parse(options.selectListData)
+
     app.setWatcher(this);
 
     // 向后台请求角色权限
@@ -816,7 +824,7 @@ Page({
             console.log(item);
             item["num"] = 0
             // item["selling_price"] =  Big(item["selling_price"]).plus(Big(item.product["help_sell_price"])).toNumber()
-            item["selling_price"] =  item.supplyprice
+            item["selling_price"] = item.supplyprice
             item["minusStatus"] = "disable"
           });
           that.setData({
@@ -825,6 +833,8 @@ Page({
           });
         }
       })
+
+
 
       // 获取开团信息和基础配送费和基础配送数量
       tr("/getOpeingInfo", {

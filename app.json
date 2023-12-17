@@ -27,7 +27,8 @@
     "pages/roleView/myView/order-list/index",
     "pages/roleView/tzView/childView/orderRecord/orderRecord",
     "pages/aa/aa",
-    "pages/roleLogin/childView/specialCanalSelfMining/specialCanalSelfMining"
+    "pages/roleLogin/childView/specialCanalSelfMining/specialCanalSelfMining",
+    "pages/roleView/gysView/childView/systemTools/myProduct/childView/productInformationEditingPT/productInformationEditing"
   ],
   "window": {
     "backgroundTextStyle": "light",

@@ -25,8 +25,9 @@ Page({
   // 再次开团
   ReopenTheGroup(e) {
     let result = e.currentTarget.dataset.groupbuy.groupbuy.map((item) => {
-      return item.product.id
+      return item.product
     })
+
     wx.navigateTo({
       url: '/pages/roleLogin/childView/commoditySharing/commoditySharing?selectListData=' + JSON.stringify(result),
     })

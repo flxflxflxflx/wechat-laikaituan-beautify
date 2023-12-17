@@ -1,7 +1,7 @@
 <wxs module="filter" src="/utils/numberToFixed.wxs"></wxs>
 <view class='list' style="padding-bottom:{{bottomLift}}px">
   <block wx:for='{{dataList}}' wx:key='id' wx:for-item="item">
-    <van-card price-class="vanPrice" title-class="vanTitle" custom-class="vanCand" catchtap="onRoute" data-id="{{item.id}}" price="{{filter.toFixed( item.supplyprice)}}" title="{{item.title}}" thumb="{{imghref}}{{item.simg}}">
+    <van-card price-class="vanPrice" title-class="vanTitle" custom-class="vanCand" data-ispt="{{item.is_public}}"  catchtap="onRoute" data-id="{{item.id}}" price="{{filter.toFixed( item.supplyprice)}}" title="{{item.title}}" thumb="{{imghref}}{{item.simg}}">
       <view slot="desc">
         <view class="product_add">
           <van-tag plain custom-class="vanTag" type="primary">{{item.scorenum}}+评分</van-tag>
@@ -18,7 +18,7 @@
         <!-- <view style="opacity:{{item.supplyprice==null?0:1}}" class='price'>供应价:<text style="color: var(--Money);">￥{{item.supplyprice}}</text></view>
         <view style="opacity:{{item.recommendedprice==null?0:1}}" class='price2'>建议价:<text style="color: var(--Money);">￥{{item.recommendedprice}}</text></view> -->
         <view class="delete">
-          <button type="warn" size="mini" data-id="{{item.id}}" catchtap="editProduct">编辑</button>
+          <button type="warn" size="mini" data-id="{{item.id}}" data-ispt="{{item.is_public}}" catchtap="editProduct">编辑</button>
         </view>
       </view>
       <view slot="tags">

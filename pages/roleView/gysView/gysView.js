@@ -52,10 +52,14 @@ Page({
     src: "",
     // 商品库存--输入的值
     commodityInventory: '',
+    // 限购数量--输入的值
+    limiteNum: 0,
     // 供货价--输入的值
     supplyPrice: '',
     // 供应商--建议价格
     recommendedprice: '',
+    // 供应商--最低价格
+    minPrice: "",
     // 上传视频大小限制
     upload_video_size: 30,
     // 错误信息
@@ -117,10 +121,13 @@ Page({
       productSpecificationsCustomIndex,
       // 商品库存--输入的值
       commodityInventory,
+      // 限购数量--输入的值
+      limiteNum,
       // 供货价--输入的值
       supplyPrice,
       // 供应商--建议价格
       recommendedprice,
+      minPrice
     } = this.data;
 
     if (productTitle.length == 0) {
@@ -158,6 +165,10 @@ Page({
     } else if (recommendedprice == "") {
       that.setData({
         error: "请输入建议价格"
+      })
+    } else if (minPrice == "") {
+      that.setData({
+        error: "请输入最低价格"
       })
     } else {
       await sub([app.globalData.TEMPALE_ID]).then(function (res) {
@@ -218,10 +229,13 @@ Page({
         productSpecificationsCustomIndex,
         // 商品库存--输入的值
         commodityInventory,
+        // 限购数量--输入的值
+        limiteNum,
         // 供货价--输入的值
         supplyPrice,
         // 供应商--建议价格
         recommendedprice,
+        minPrice,
       } = this.data;
       wx.showLoading({
         title: '发布中...',
@@ -282,10 +296,13 @@ Page({
         weightNum,
         // 商品库存--输入的值
         commodityInventory,
+        // 限购数量
+        limiteNum,
         // 供货价--输入的值
         supplyPrice,
         // 供应商--建议价格
         recommendedprice,
+        minPrice,
       }).then(function (res) {
         console.log(res);
         if (src != '') {
@@ -618,10 +635,14 @@ Page({
       productSpecificationsCustomIndex,
       // 商品库存--输入的值
       commodityInventory,
+      // 限购数量--输入的值
+      limiteNum,
       // 供货价--输入的值
       supplyPrice,
       // 供应商--建议价格
       recommendedprice,
+      // 供应商--最低价格
+      minPrice
     } = this.data;
 
     if (productTitle.length == 0) {
@@ -651,6 +672,14 @@ Page({
     } else if (commodityInventory == "") {
       that.setData({
         error: "请输入库存"
+      })
+    } else if (minPrice == ""  ) {
+      that.setData({
+        error: "请输入最低价格"
+      })
+    } else if (minPrice < supplyPrice ) {
+      that.setData({
+        error: "最低价格要大于供货价"
       })
     }
     //  else if (supplyPrice == "") {
@@ -728,10 +757,14 @@ Page({
         weightNum,
         // 商品库存--输入的值
         commodityInventory,
+        // 限购数量--输入的值
+        limiteNum,
         // 供货价--输入的值
         supplyPrice,
         // 供应商--建议价格
         recommendedprice,
+        // 供应商--最低价格
+        minPrice
       }).then(function (res) {
         console.log(res);
         if (src != '') {
@@ -789,7 +822,7 @@ Page({
     })
   },
 
-    /**
+  /**
    * 提交申请帮买商品视频
    */
   async applySubmitDvideo(src, id) {

@@ -14,7 +14,11 @@ Page({
    * 页面的初始数据
    */
   data: {
-    isAllPT:false,
+    hisAddr: '',
+    HisAddressColumns: [],
+    hisAddressShow: false,
+    isFillAddress: false,
+    isAllPT: false,
     dataList: [],
     areaList,
     area_show: false,
@@ -98,9 +102,39 @@ Page({
     nickName: '',
     phone: ''
   },
+
+  onHisAddressClose() {
+    this.setData({
+      hisAddressShow: false
+    })
+  },
+  hisAddressShow() {
+    this.setData({
+      hisAddressShow: true
+    })
+  },
+  onHisAddressCancel() {
+    this.setData({
+      hisAddressShow: false
+    })
+  },
+  onHisAddressConfirm(e) {
+    this.setData({
+      hisAddr: e.detail.value,
+      hisAddressShow: false,
+    })
+    console.log(this.data.hisAddr, "历史")
+  },
+
   isToHome() {
     this.setData({
       isToHome: !this.data.isToHome,
+    })
+  },
+
+  isFillAddress() {
+    this.setData({
+      isFillAddress: !this.data.isFillAddress
     })
   },
   showTitle() {
@@ -316,7 +350,7 @@ Page({
       }
       if (dataList[index].num >= 0 && !isNaN(dataList[index].num) && dataList[index].num !== '' && dataList[index].num <= dataList[index].product.stock) {
         // 判断是否超过限定
-        if (dataList[index].product.group_number != null && dataList[index].num > dataList[index].product.group_number) {
+        if (dataList[index].product.group_number != null && dataList[index].product.group_number != '0' && dataList[index].num > dataList[index].product.group_number) {
           dataList[index].num = dataList[index].product.group_number
           productPriceSetting = dataList[index]
           wx.showToast({
@@ -414,7 +448,7 @@ Page({
       }
       if (dataList[index].num >= 0 && !isNaN(dataList[index].num) && dataList[index].num !== '' && dataList[index].num <= dataList[index].product.stock) {
         // 判断是否超过限定
-        if (dataList[index].product.group_number != null && dataList[index].num > dataList[index].product.group_number) {
+        if (dataList[index].product.group_number != null && dataList[index].product.group_number != 0 && dataList[index].num > dataList[index].product.group_number) {
           dataList[index].num = dataList[index].product.group_number
           productPriceSetting = dataList[index]
           wx.showToast({
@@ -542,11 +576,20 @@ Page({
     let item = e.currentTarget.dataset.item
 
     tr("/visualizzaVolume", {
-      productId: item.product.id
+      productId: item.product
     })
-    wx.navigateTo({
-      url: '../../childView/productDetails/productDetails?productid=' + item.product.id + "&selling_price=" + item.selling_price + "&page=productBuy",
-    })
+
+    if (item.product.is_help_sell == 1) {
+      wx.navigateTo({
+        url: '../../childView/productDetails/productDetails?productid=' + item.product.id + "&selling_price=" + item.selling_price + "&page=productBuy&ispt=1",
+      })
+    } else {
+      wx.navigateTo({
+        url: '../../childView/productDetails/productDetails?productid=' + item.product.id + "&selling_price=" + item.selling_price + "&page=productBuy",
+      })
+    }
+
+
 
     // that.setData({
     //   productInfo: item.product,
@@ -588,22 +631,37 @@ Page({
     let fieldValue = this.data.fieldValue
     // 详细地址
     let address = this.data.address
+    // 最终地址
+    let finalAddr = '';
+    // 是否是新地址
+    let isNewAddr = false;
     // if (this.data.groupbuyInfo.own_addr == null) {
-    if (this.data.isToHome) {
+    if (this.data.isToHome && this.data.isFillAddress) {
       if (fieldValue == '' || fieldValue == null) {
         wx.showToast({
           title: '请添加地区',
           icon: "error"
         })
         return
-      }
-
-      if (address == '' || address == null) {
+      } else if (address == '' || address == null) {
         wx.showToast({
           title: '请填写详细地址',
           icon: "error"
         })
         return
+      } else {
+        finalAddr = this.data.fieldValue + "/" + this.data.address
+        isNewAddr = true;
+      }
+    } else if (this.data.isToHome && !this.data.isFillAddress) {
+      if (this.data.hisAddr == '') {
+        wx.showToast({
+          title: '请添加提货地址',
+          icon: "error"
+        })
+        return
+      } else {
+        finalAddr = this.data.hisAddr
       }
     }
     // if (this.data.groupbuyInfo.own_addr == null && this.data.fieldValue.trim() == "") {
@@ -654,12 +712,12 @@ Page({
     })
 
     if (payProducts.length > 0) {
-      if (this.data.isToHome||this.data.isAllPT) {
+      if (this.data.isToHome || this.data.isAllPT) {
         // 请求后台生成订单号
-        this.generateOrderNumber(payProducts, this.data.fieldValue + "/" + this.data.address)
+        this.generateOrderNumber(payProducts, finalAddr, isNewAddr)
       } else {
         // 请求后台生成订单号
-        this.generateOrderNumber(payProducts, null)
+        this.generateOrderNumber(payProducts, null, isNewAddr)
       }
     }
 
@@ -677,18 +735,24 @@ Page({
    * 生成订单号
    * @param  {Object} payProducts 购买商品对象  
    * @param  {number} pickPoint 提货点
+   * @param  {Boolean} isNewAddr 是否是新地址
    */
-  async generateOrderNumber(payProducts, pickPoint) {
+  async generateOrderNumber(payProducts, pickPoint, isNewAddr) {
     // openid 
     let that = this
+    let extraCosts = 0
+    if (that.data.isToHome) {
+      extraCosts = that.data.extraCosts
+    }
     // 生成订单号
     tr("/generateOrderNumber", {
       payProducts,
       price: that.data.totalAmount,
       nums: that.data.totalQuantity,
-      extraCosts: that.data.extraCosts,
+      extraCosts: extraCosts,
       openingProductId: that.data.openingProductId,
-      pickPoint: pickPoint
+      pickPoint: pickPoint,
+      isNewAddr
     }).then(function (res) {
       // 进行支付
       tr("/pay", {
@@ -862,7 +926,7 @@ Page({
    */
   onLoad(options) {
     this.setData({
-      isAllPT: options.isAllPT == "true"?true:false
+      isAllPT: options.isAllPT == "true" ? true : false
     })
     app.setWatcher(this);
 
@@ -921,6 +985,15 @@ Page({
           basesInfo: res.data.basesInfo
         })
       })
+
+      // 获取历史地址列表
+      tr("/getHisAddressLists").then(function (res) {
+        let address = res.data.map(e => e.address)
+        that.setData({
+          HisAddressColumns: address,
+        })
+      })
+
 
       // 获取用户信息
       tr("/getUserInfo").then(function (res) {

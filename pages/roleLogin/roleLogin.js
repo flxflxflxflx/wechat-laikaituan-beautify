@@ -107,10 +107,10 @@ Page({
 
   // 自采
   selfHarvesting() {
-    console.log(this.data.selectListData)
+    let ispt = this.isPt()
     // 跳转到商品选择完的列表
     wx.navigateTo({
-      url: "/pages/roleLogin/childView/specialCanalSelfMining/specialCanalSelfMining?selectListData=" + JSON.stringify(this.data.selectListData),
+      url: "/pages/roleLogin/childView/specialCanalSelfMining/specialCanalSelfMining?selectListData=" + JSON.stringify(this.data.selectListData)+"&ispt="+ispt,
     })
   },
 
@@ -453,9 +453,16 @@ Page({
    * 点击详情页
    */
   onListbtn(e) {
-    wx.navigateTo({
-      url: './childView/productDetails/productDetails?productid=' + e.currentTarget.dataset.item.id,
-    })
+    // 如果是申请帮买的商品跳转到申请帮买商品的页面
+    if (e.currentTarget.dataset.item.is_help_sell == 1) {
+      wx.navigateTo({
+        url: './childView/productDetails/productDetails?productid=' + e.currentTarget.dataset.item.id + "&ispt=" + 1,
+      })
+    } else {
+      wx.navigateTo({
+        url: './childView/productDetails/productDetails?productid=' + e.currentTarget.dataset.item.id + "&ispt=" + 0,
+      })
+    }
     // let that = this
     // // 请求商品信息
     // tr("/getProductInfoId", {
@@ -506,14 +513,14 @@ Page({
         dataList[index]["isCheckShow"] = !dataList[index]["isCheckShow"]
         if (dataList[index]["isCheckShow"]) {
           let selectListData = this.data.selectListData;
-          selectListData.push(item.id);
+          selectListData.push(item);
           this.setData({
             selectListData
           })
         } else {
           let selectListData = this.data.selectListData;
           for (let index = 0; index < selectListData.length; index++) {
-            if (selectListData[index] == item.id) {
+            if (selectListData[index].id == item.id) {
               selectListData.splice(index, 1)
             }
           }
@@ -527,24 +534,19 @@ Page({
     this.setData({
       dataList
     })
-    console.log(this.data.selectListData);
 
 
     // 检查是否全部都是平台商品，如果全部都是平台商品或者全部都是团长商品才能通过
     if (this.data.selectListData.length != 0) {
       // 选中的is_pulic的值
-      let isPulic = this.data.dataList.filter(e => e.id == this.data.selectListData[0])[0].is_public
+      let isPulic = this.data.dataList.filter(e => e.id == this.data.selectListData[0].id)[0].is_public
       // 当前是否展示
       let curIsCheckShow = this.data.dataList.filter(e => e.id == item.id)[0].isCheckShow
-      console.log(isPulic, "ddd")
       let isExec = false;
       for (let index = 0; index < this.data.selectListData.length; index++) {
         // 当前是否公共
-        let curIsPulic = this.data.dataList.filter(e => e.id == this.data.selectListData[index])[0].is_public
-
-        console.log(curIsCheckShow, "dfjajsflas")
-        if (this.data.selectListData[index] == item.id) {
-          console.log("dkjflasjflj")
+        let curIsPulic = this.data.dataList.filter(e => e.id == this.data.selectListData[index].id)[0].is_public
+        if (this.data.selectListData[index].id == item.id) {
           if (curIsCheckShow !== true) {
             continue;
           }
@@ -574,19 +576,20 @@ Page({
 
   // 分享
   shareButtontap() {},
-  onShare() {
+  isPt() {
     // 判断商品是否都是平台商品
     let isPT = true;
     this.data.selectListData.forEach(e => {
-      this.data.dataList.forEach(b => {
-        if (b.id == e) {
-          if (b.is_public == 0 || b.is_my_product == 1) {
-            isPT = false;
-          }
-        }
-      })
+      console.log(e, "这个东西的使用一个计算方法")
+      if (e.is_public == 0 || e.is_my_product == 1) {
+        isPT = false;
+      }
     })
-    console.log(isPT, "ddfjsljf");
+    return isPT
+  },
+  onShare() {
+    console.log(this.data.selectListData)
+    let isPT = this.isPt()
     // 跳转到商品选择完的列表
     wx.navigateTo({
       url: './childView/commoditySharing/commoditySharing?selectListData=' + JSON.stringify(this.data.selectListData) + "&isPT=" + isPT,

@@ -42,7 +42,7 @@ Page({
 
   onRoute(e) {
     wx.navigateTo({
-      url: '/pages/roleLogin/childView/productDetails/productDetails?productid=' + e.currentTarget.dataset.id,
+      url: '/pages/roleLogin/childView/productDetails/productDetails?productid=' + e.currentTarget.dataset.id+"&ispt="+e.currentTarget.dataset.ispt,
     })
   },
 
@@ -81,9 +81,15 @@ Page({
    * 编辑商品
    */
   editProduct(e) {
-    wx.navigateTo({
-      url: '/pages/roleView/gysView/childView/systemTools/myProduct/childView/productInformationEditing/productInformationEditing?id=' + e.currentTarget.dataset.id,
-    })
+    if(e.currentTarget.dataset.ispt == 1){
+      wx.navigateTo({
+        url: '/pages/roleView/gysView/childView/systemTools/myProduct/childView/productInformationEditingPT/productInformationEditing?id=' + e.currentTarget.dataset.id,
+      })
+    }else{
+      wx.navigateTo({
+        url: '/pages/roleView/gysView/childView/systemTools/myProduct/childView/productInformationEditing/productInformationEditing?id=' + e.currentTarget.dataset.id,
+      })
+    }
   },
 
   /**

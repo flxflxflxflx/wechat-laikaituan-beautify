@@ -3,9 +3,10 @@
 App({
   globalData: {
     // apiUrl: 'https://gb.pengyg.com',
-    // apiUrl: "https://tg.freshweel.cn",
+    apiUrl: "https://tg.freshweel.cn",
+    // apiUrl: "http://114.115.232.77:6541",
     // apiUrl: "http://192.168.79.162:8000",
-    apiUrl:"http://127.0.0.1:8000",
+    // apiUrl:"http://127.0.0.1:8000",
     // apiUrl:'https://28g128753p.imdo.co',
     // 到货通知
     PICKUP_TEMPALE_ID: "YcAIXLx8EaPT2Wo0EyBW-OXV_KlV3TF1aizXBhNpQzk",

@@ -137,15 +137,6 @@
       </mp-cell>
       <mp-cell>
         <view class="tileBox">
-          <text class="productTitle">最低价格</text>
-          <text class="uniqueText">*</text>
-        </view>
-        <view slot="footer" style="font-size:14px">
-          <input type="digit" model:value="{{minPrice}}" placeholder="请输入最低价格" name="" id="" />
-        </view>
-      </mp-cell>
-      <mp-cell>
-        <view class="tileBox">
           <text class="productTitle">建议价格</text>
           <text class="uniqueText">*</text>
         </view>

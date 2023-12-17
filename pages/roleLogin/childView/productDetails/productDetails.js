@@ -93,17 +93,30 @@ Page({
       page: options.page
     })
     let that = this
-    // 请求商品信息
-    tr("/getProductInfoId", {
-      id: options.productid
-    }).then(function (res) {
-      console.log("zhefsjflsaf",res);
-      let productInfo = res.data.result
-      that.setData({
-        productInfo,
-        CommentInformation: res.data.CommentInformation
+    if (options.ispt == 1) {
+      // 请求商品信息
+      tr("/getPTProductInfoId", {
+        id: options.productid
+      }).then(function (res) {
+        let productInfo = res.data.result
+        that.setData({
+          productInfo,
+          CommentInformation: res.data.CommentInformation
+        })
       })
-    })
+    } else {
+      // 请求商品信息
+      tr("/getProductInfoId", {
+        id: options.productid
+      }).then(function (res) {
+        let productInfo = res.data.result
+        that.setData({
+          productInfo,
+          CommentInformation: res.data.CommentInformation
+        })
+      })
+    }
+
 
     // 请求评论信息
 

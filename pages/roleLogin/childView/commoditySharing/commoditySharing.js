@@ -378,7 +378,7 @@ Page({
       hisAddr: e.detail.value,
       hisAddressShow: false,
     })
-    console.log(this.data.hisAddr,"历史")
+    console.log(this.data.hisAddr, "历史")
   },
   onAddressCancel() {
     this.setData({
@@ -683,20 +683,36 @@ Page({
   setPrice(e) {
     let that = this
 
-    // 请求商品信息
-    tr("/getProductInfoId", {
-      id: e.currentTarget.dataset.item.id
-    }).then(function (res) {
-      let productInfo = res.data.result
-      if (e.currentTarget.dataset.item.openingPrice) {
-        productInfo["openingPrice"] = e.currentTarget.dataset.item.openingPrice
-      }
-      that.setData({
-        productInfo,
+    if (e.currentTarget.dataset.item.is_help_sell == 1) {
+      // 请求商品信息
+      tr("/getPTProductInfoId", {
+        id: e.currentTarget.dataset.item.id
+      }).then(function (res) {
+        let productInfo = res.data.result
+        if (e.currentTarget.dataset.item.openingPrice) {
+          productInfo["openingPrice"] = e.currentTarget.dataset.item.openingPrice
+        }
+        that.setData({
+          productInfo,
+        })
       })
-    })
+    } else {
+
+      // 请求商品信息
+      tr("/getProductInfoId", {
+        id: e.currentTarget.dataset.item.id
+      }).then(function (res) {
+        let productInfo = res.data.result
+        if (e.currentTarget.dataset.item.openingPrice) {
+          productInfo["openingPrice"] = e.currentTarget.dataset.item.openingPrice
+        }
+        that.setData({
+          productInfo,
+        })
+      })
 
 
+    }
     wx.showModal({
       title: '开团价格',
       editable: true,
@@ -723,8 +739,10 @@ Page({
       }
       let productInfo = that.data.productInfo
       if (productInfo.supplyprice != null) {
-        // 商品开团价格下限
-        let priceXiaxian = Big((Big(productInfo.supplyprice).times(Big(that.data.toPriceRetioh).div(100))).toFixed(2, 1)).toNumber()
+        // 商品开团价格下限 tip:修改为最低价格，不使用百分比
+        // let priceXiaxian = Big((Big(productInfo.supplyprice).times(Big(that.data.toPriceRetioh).div(100))).toFixed(2, 1)).toNumber()
+        let priceXiaxian = productInfo.min_price
+        console.log(productInfo)
         if (res.content <= priceXiaxian) {
           wx.showToast({
             title: '开团价格不得低于' + Big(priceXiaxian).toFixed(2, 1),
@@ -756,23 +774,32 @@ Page({
       } else {
         let result = that.data.productInfo
         let dataList = that.data.dataList
-        for (let index = 0; index < dataList.length; index++) {
-          if (dataList[index].id == result.id) {
-            dataList[index]["openingPrice"] = Big(res.content).toFixed(2, 1)
-            dataList[index]["incomePrice"] = Big(res.content).toFixed(2, 1)
-            // 设置供应价
-            break
+        let priceXiaxian = productInfo.min_price
+        if (res.content <= priceXiaxian) {
+          wx.showToast({
+            title: '开团价格不得低于' + Big(priceXiaxian).toFixed(2, 1),
+            icon: "none"
+          })
+        } else {
+          for (let index = 0; index < dataList.length; index++) {
+            if (dataList[index].id == result.id) {
+              dataList[index]["openingPrice"] = Big(res.content).toFixed(2, 1)
+              dataList[index]["incomePrice"] = Big(res.content).toFixed(2, 1)
+              // 设置供应价
+              break
+            }
           }
+          result['openingPrice'] = Big(res.content).toFixed(2, 1)
+          that.data.selectListData.push(result.id)
+          // 设置开团价格
+          that.setData({
+            productInfo: result,
+            dataList,
+            isShare: true,
+            selectListData: Array.from(new Set(that.data.selectListData))
+          })
         }
-        result['openingPrice'] = Big(res.content).toFixed(2, 1)
-        that.data.selectListData.push(result.id)
-        // 设置开团价格
-        that.setData({
-          productInfo: result,
-          dataList,
-          isShare: true,
-          selectListData: Array.from(new Set(that.data.selectListData))
-        })
+
       }
     } else if (res.cancel) {
       console.log('用户点击取消')
@@ -792,20 +819,38 @@ Page({
     if (e.currentTarget.dataset.item.openingPrice) {
 
     }
-    // 请求商品信息
-    tr("/getProductInfoId", {
-      id: e.currentTarget.dataset.item.id
-    }).then(function (res) {
-      let productInfo = res.data.result
-      if (e.currentTarget.dataset.item.openingPrice) {
-        productInfo["openingPrice"] = e.currentTarget.dataset.item.openingPrice
-      }
-      that.setData({
-        productInfo,
-        show: true,
-        CommentInformation: res.data.CommentInformation
+    if (e.currentTarget.dataset.item.is_help_sell == 1) {
+      // 请求商品信息
+      tr("/getPTProductInfoId", {
+        id: e.currentTarget.dataset.item.id
+      }).then(function (res) {
+        let productInfo = res.data.result
+        if (e.currentTarget.dataset.item.openingPrice) {
+          productInfo["openingPrice"] = e.currentTarget.dataset.item.openingPrice
+        }
+        that.setData({
+          productInfo,
+          show: true,
+          CommentInformation: res.data.CommentInformation
+        })
       })
-    })
+    } else {
+      // 请求商品信息
+      tr("/getProductInfoId", {
+        id: e.currentTarget.dataset.item.id
+      }).then(function (res) {
+        let productInfo = res.data.result
+        if (e.currentTarget.dataset.item.openingPrice) {
+          productInfo["openingPrice"] = e.currentTarget.dataset.item.openingPrice
+        }
+        that.setData({
+          productInfo,
+          show: true,
+          CommentInformation: res.data.CommentInformation
+        })
+      })
+    }
+
   },
 
   /**
@@ -906,7 +951,6 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad(options) {
-    console.log(typeof options.isPT, "fdlsfjsal")
     this.setData({
       //获取屏幕可用高度
       screenHeight: wx.getSystemInfoSync().windowHeight - 330,
@@ -921,14 +965,16 @@ Page({
     pageNum = 0
 
     // 获取选着的商品列表
-    tr("/getSelectOpeningProducts", {
-      selectListData
-    }).then(function (res) {
-      that.setData({
-        dataList: res.data.data
-      });
-    })
-
+    // tr("/getSelectOpeningProducts", {
+    //   selectListData
+    // }).then(function (res) {
+    //   that.setData({
+    //     dataList: selectListData
+    //   });
+    // })
+    that.setData({
+      dataList: selectListData
+    });
     // 获取地址和截单时间
     tr("/getAddressColumns").then(function (res) {
       wx.setStorageSync('tz_statement_time', res.data.tz_statement_time);
@@ -1097,7 +1143,7 @@ Page({
     return {
       // title: wx.getStorageSync('nick_name') + "团长的商品组合",
       title: title,
-      path: "/pages/roleLogin/childView/commodityPurchase/commodityPurchase?selectListData=" + openingId+"&isAllPT="+isAllPT,
+      path: "/pages/roleLogin/childView/commodityPurchase/commodityPurchase?selectListData=" + openingId + "&isAllPT=" + isAllPT,
       imageUrl: ""
     }
   },

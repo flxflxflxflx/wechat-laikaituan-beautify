@@ -39,7 +39,6 @@ Page({
     supplyPrice: '',
     // 供应商--建议价格
     recommendedprice: '',
-    minPrice:'',
     // 服务器url
     href: app.globalData.apiUrl + "/uploads/",
     // 错误提示信息
@@ -352,7 +351,6 @@ Page({
       supplyPrice,
       // 供应商--建议价格
       recommendedprice,
-      minPrice
     } = this.data;
 
     if (productTitle.length == 0) {
@@ -390,15 +388,7 @@ Page({
       that.setData({
         error: "请输入供货价"
       })
-    } else if (minPrice == "") {
-      that.setData({
-        error: "请输入最低价格"
-      })
-    }else if(minPrice < supplyPrice){
-      that.setData({
-        error: "最低价格要大于供货价"
-      })
-    }else if (recommendedprice == "") {
+    } else if (recommendedprice == "") {
       that.setData({
         error: "请输入建议价格"
       })
@@ -442,7 +432,7 @@ Page({
       });
 
       // 更新商品信息
-      tr("/updeteProductInfo", {
+      tr("/updetePTProductInfo", {
         // 商品id
         productId: that.data.productId,
         // 商品标题 
@@ -472,7 +462,6 @@ Page({
         supplyPrice,
         // 供应商--建议价格
         recommendedprice,
-        minPrice
       }).then(function (res) {
         wx.hideLoading();
         wx.showToast({
@@ -492,7 +481,7 @@ Page({
           }
 
         } else {
-          tr("/updeteFile", {
+          tr("/updetePTFile", {
             id: res.data.id,
             dvideo: ''
           })
@@ -521,7 +510,7 @@ Page({
     let that = this
     await wx.uploadFile({
       //请求后台的路径
-      url: that.data.href.replace(/\/uploads/, '') + 'updeteFile',
+      url: that.data.href.replace(/\/uploads/, '') + 'updetePTFile',
       header: { //请求头
         "Content-Type": "application/json",
         "Authorization": wx.getStorageSync('access_token'),
@@ -600,7 +589,7 @@ Page({
       mask: true
     })
     // 获取商品信息
-    await tr("/getProductInfoId", {
+    await tr("/getPTProductInfoId", {
       id: options.id
     }).then(function (res) {
       wx.hideLoading()
@@ -643,8 +632,7 @@ Page({
         // 供货价--输入的值
         supplyPrice: res.data.supplyprice,
         // 供应商--建议价格
-        recommendedprice: res.data.recommendedprice,
-        minPrice:res.data.min_price
+        recommendedprice: res.data.recommendedprice
       })
     })
   },
